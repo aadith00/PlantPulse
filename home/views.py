@@ -7,3 +7,9 @@ def index(request):
 
 def about(request):
     return render(request, 'about.html')
+
+def contact(request):
+    return render(request, 'contact-us.html')
+
+def gallery(request):
+    return render(request, 'gallery.html')
