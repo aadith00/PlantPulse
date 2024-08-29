@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-# Create your views here.
+# Create your views heree.
 def cart(request):
     return render(request, 'cart.html')
 
