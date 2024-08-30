@@ -7,6 +7,5 @@ urlpatterns = [
     path('about', checkout, name='checkout'),
     path('contact', shop_detail, name='shop-detail'),
     path('gallery', shop, name='shop'),
-
 ]
 
