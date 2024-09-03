@@ -1,7 +1,12 @@
 
 {% extends 'base.html' %}
 {% load static %}
+
 {% block title %}Tomato Disease Prediction{% endblock %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/model.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="container">

@@ -3,6 +3,10 @@
 
 {% block title %}Login/SignUp{% endblock %}
 
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+
 {% block content %}
 
 <div id="container" class="container">
@@ -112,5 +116,8 @@
     </div>
     <!-- END CONTENT SECTION -->
 </div>
+{% endblock %}
 
+{% block extra_scripts %}
+    <script src="{% static 'js/auth.js' %}"></script>
 {% endblock %}
