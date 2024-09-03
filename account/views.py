@@ -6,3 +6,6 @@ def account(request):
 
 def wishlist(request):
     return render(request, 'wishlist')
+
+def auth(request):
+    return render(request, 'auth' )
