@@ -5,7 +5,7 @@ def account(request):
     return render(request, 'my-account.html')
 
 def wishlist(request):
-    return render(request, 'wishlist')
+    return render(request, 'wishlist.html')
 
 def auth(request):
-    return render(request, 'auth' )
+    return render(request, 'auth.html' )
