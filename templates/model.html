@@ -7,7 +7,7 @@
     <h1 class="text-center my-4">Tomato Disease Prediction</h1>
     
     <!-- Form for uploading image -->
-    <form method="POST" enctype="multipart/form-data" action="{% url 'predict' %}">
+    <form method="POST" enctype="multipart/form-data" action="{% url 'model' %}">
         {% csrf_token %}
         <div class="form-group">
             <label for="image">Upload an image of a tomato leaf:</label>
