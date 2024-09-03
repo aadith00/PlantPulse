@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Tomato Disease Prediction{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="text-center my-4">Tomato Disease Prediction</h1>
+    
+    <!-- Form for uploading image -->
+    <form method="POST" enctype="multipart/form-data" action="{% url 'predict' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="image">Upload an image of a tomato leaf:</label>
+            <input type="file" class="form-control-file" id="image" name="image" accept="image/*" required>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Predict</button>
+    </form>
+
+    <!-- Display prediction result -->
+    {% if prediction %}
+        <div class="result mt-4">
+            <h3>Prediction Result:</h3>
+            <p><strong>Prediction:</strong> {{ prediction }}</p>
+            <p><strong>Confidence:</strong> {{ confidence }}%</p>
+        </div>
+    {% elif error %}
+        <div class="alert alert-danger mt-4">
+            {{ error }}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
