@@ -5,4 +5,5 @@ urlpatterns = [
     path('account', account, name='my-account'),
     path('wishlist', wishlist, name='wishlist'),
     path('auth', auth, name = 'auth'),
+    
 ]
