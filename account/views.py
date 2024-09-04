@@ -8,4 +8,4 @@ def wishlist(request):
     return render(request, 'wishlist.html')
 
 def auth(request):
-    return render(request, 'auth.html' )
+    return render(request, 'autho.html' )
