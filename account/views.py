@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render # type: ignore
 
 # Create your views here.
 def account(request):
@@ -8,4 +8,4 @@ def wishlist(request):
     return render(request, 'wishlist.html')
 
 def auth(request):
-    return render(request, 'auth.html' )
+    return render(request, 'autho.html' )
