@@ -4,7 +4,7 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
 
-# Create your views here.
+# Create your views here
 def modpage(request):
     return render(request, 'model.html')
 
@@ -48,6 +48,5 @@ def model_prediction_view(request):
             return render(request, 'model.html', {
                 'error': f"An error occurred: {str(e)}"
             })
-
     # If GET request, just render the page with the form
     return render(request, 'model.html')
