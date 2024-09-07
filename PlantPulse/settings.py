@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'PlantPulse.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'USER': 'aadith',
+        'PASSWORD': 'Aadith08@sql',
+        'HOST': 'localhost',
+        'PORT': '3306'
     }
 }
 
