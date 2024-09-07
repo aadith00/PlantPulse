@@ -71,7 +71,7 @@ def user_register(request):
             
             user.save()
             login(request,user)
-            return redirect("/about")
+            return redirect("/index")
     
     context = {
         'errors' : errors
