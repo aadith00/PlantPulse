@@ -20,9 +20,9 @@ def user_register(request):
         # first_name = request.POST['first_name'].strip()
         # last_name = request.POST['last_name'].strip()
         email = request.POST['email'].strip()
-        username = request.POST['register_number'].strip()
+        username = request.POST['email'].strip()
         password = request.POST['password'].strip()
-        cnfpass = request.POST['cnfpass'].strip()
+        cnfpass = request.POST['confirm_password'].strip()
 
     # ## Validation for first name
     #     if not first_name:
@@ -52,7 +52,7 @@ def user_register(request):
         if not password:
             errors['password'] = 'Password is required.'
         if not cnfpass:
-            errors['cnfpass'] = 'Password is required.'
+            errors['confirm_password'] = 'Password is required.'
         if password != cnfpass:
             errors['password'] = 'The passwords do not match.'
 
@@ -71,13 +71,13 @@ def user_register(request):
             
             user.save()
             login(request,user)
-            return redirect("/home")
+            return redirect("/about")
     
     context = {
         'errors' : errors
     }
 
-    return render (request, "autho.html", context)
+    return render (request, "index.html", context)
 
 def user_login(request):
     
@@ -93,9 +93,9 @@ def user_login(request):
         
         else:
             error_message = "Invalid username or password."
-            return render(request, 'register.html', {'error_message': error_message})
+            return render(request, 'autho.html', {'error_message': error_message})
         
-    return render (request, 'autho.html')
+    return render (request, 'index.html')
 
 def user_logout(request):
     logout(request)
