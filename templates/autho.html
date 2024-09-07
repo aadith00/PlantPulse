@@ -577,9 +577,7 @@
             padding: 6px 25px;
         }
 
-        nav.navbar.bootsnav ul.navbar-nav li.dropdown ul.dropdown-menu li a:hover {
-
-        }
+        nav.navbar.bootsnav ul.navbar-nav li.dropdown ul.dropdown-menu li a:hover {}
 
         nav.navbar.bootsnav li.dropdown ul.dropdown-menu {
             left: auto;
@@ -589,9 +587,7 @@
             padding: 5px 10px;
         }
 
-        .btn-cart {
-            
-        }
+        .btn-cart {}
 
         .cart-list h6 a {
             font-size: 16px;
@@ -1080,25 +1076,28 @@
             <div class="col align-items-center flex-col sign-up">
                 <div class="form-wrapper align-items-center">
                     <div class="form sign-up">
-                        <div class="input-group">
-                            <i class='bx bxs-user'></i>
-                            <input type="text" placeholder="Username">
-                        </div>
-                        <div class="input-group">
-                            <i class='bx bx-mail-send'></i>
-                            <input type="email" placeholder="Email">
-                        </div>
-                        <div class="input-group">
-                            <i class='bx bxs-lock-alt'></i>
-                            <input type="password" placeholder="Password">
-                        </div>
-                        <div class="input-group">
-                            <i class='bx bxs-lock-alt'></i>
-                            <input type="password" placeholder="Confirm password">
-                        </div>
-                        <button>
-                            Sign up
-                        </button>
+                        <form method="POST" action="{% url 'auth' %}">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <i class='bx bxs-user'></i>
+                                <input type="text" name="username" placeholder="Username" required>
+                            </div>
+                            <div class="input-group">
+                                <i class='bx bx-mail-send'></i>
+                                <input type="email" name="email" placeholder="Email" required>
+                            </div>
+                            <div class="input-group">
+                                <i class='bx bxs-lock-alt'></i>
+                                <input type="password" name="password" placeholder="Password" required>
+                            </div>
+                            <div class="input-group">
+                                <i class='bx bxs-lock-alt'></i>
+                                <input type="password" name="confirm_password" placeholder="Confirm password" required>
+                            </div>
+                            <button type="submit">
+                                Sign up
+                            </button>
+                        </form>
                         <p>
                             <span>
                                 Already have an account?
@@ -1109,71 +1108,57 @@
                         </p>
                     </div>
                 </div>
-
             </div>
             <!-- END SIGN UP -->
+
             <!-- SIGN IN -->
             <div class="col align-items-center flex-col sign-in">
                 <div class="form-wrapper align-items-center">
                     <div class="form sign-in">
-                        <div class="input-group">
-                            <i class='bx bxs-user'></i>
-                            <input type="text" placeholder="Username">
-                        </div>
-                        <div class="input-group">
-                            <i class='bx bxs-lock-alt'></i>
-                            <input type="password" placeholder="Password">
-                        </div>
-                        <button>
-                            Sign in
-                        </button>
+                        <form method="POST" action="{% url 'auth' %}">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <i class='bx bxs-user'></i>
+                                <input type="text" name="username" placeholder="Username" required>
+                            </div>
+                            <div class="input-group">
+                                <i class='bx bxs-lock-alt'></i>
+                                <input type="password" name="password" placeholder="Password" required>
+                            </div>
+                            <button type="submit">
+                                Sign in
+                            </button>
+                        </form>
                         <p>
-                            <b>
-                                Forgot password?
-                            </b>
+                            <b>Forgot password?</b>
                         </p>
                         <p>
-                            <span>
-                                Don't have an account?
-                            </span>
+                            <span>Don't have an account?</span>
                             <b onclick="toggle()" class="pointer">
                                 Sign up here
                             </b>
                         </p>
                     </div>
                 </div>
-                <div class="form-wrapper">
-
-                </div>
             </div>
             <!-- END SIGN IN -->
         </div>
         <!-- END FORM SECTION -->
+
         <!-- CONTENT SECTION -->
         <div class="row content-row">
             <!-- SIGN IN CONTENT -->
             <div class="col align-items-center flex-col">
                 <div class="text sign-in">
-                    <h2>
-                        Welcome
-                    </h2>
-
-                </div>
-                <div class="img sign-in">
-
+                    <h2>Welcome</h2>
                 </div>
             </div>
             <!-- END SIGN IN CONTENT -->
+
             <!-- SIGN UP CONTENT -->
             <div class="col align-items-center flex-col">
-                <div class="img sign-up">
-
-                </div>
                 <div class="text sign-up">
-                    <h2>
-                        Join with us
-                    </h2>
-
+                    <h2>Join with us</h2>
                 </div>
             </div>
             <!-- END SIGN UP CONTENT -->
@@ -1194,5 +1179,6 @@
         }, 200)
     </script>
 </body>
+
 
 </html>
