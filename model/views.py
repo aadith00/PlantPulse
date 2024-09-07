@@ -3,13 +3,14 @@ from django.core.files.storage import FileSystemStorage
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
+from PlantPulse.settings import BASE_DIR
 
 # Create your views here
 def modpage(request):
     return render(request, 'model.html')
 
 # Load the trained model 
-model = load_model(r'C:\Users\IDZ\Desktop\Trimester 4\Project\model.h5')
+model = load_model(BASE_DIR/'../model.h5')
 
 # Define class names 
 CLASS_NAMES = ['Tomato___bacterial_spot', 'Tomato___early_blight', 'Tomato___healthy', 'Tomato___late_blight', 'Tomato___leaf_curl', 'Tomato___leaf_mold', 'Tomato___mosaic_virus', 'Tomato___septoria_leaf_spot', 'Tomato___spider_mites', 'Tomato___target_spot']
