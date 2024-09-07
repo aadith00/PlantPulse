@@ -83,7 +83,11 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'PlantPulse',
         'USER': 'root',
+<<<<<<< HEAD
         'PASSWORD': 'Aadith08@sql',
+=======
+        'PASSWORD': 'Aadi@2023',
+>>>>>>> a1dbe1dc4094920559a2b18a6ec0c6e6eb44b98f
         'HOST': 'localhost',
         'PORT': '3306'
     }
