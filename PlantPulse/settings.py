@@ -81,13 +81,8 @@ WSGI_APPLICATION = 'PlantPulse.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-<<<<<<< HEAD
         'NAME': BASE_DIR / 'db.sqlite3',
     }
-=======
-        'NAME': BASE_DIR / 'db.sqlite3'
-        }
->>>>>>> 036bcdbd8e321ac4bcc5bfdbfbafa3a4bad4bd55
 }
 
 
