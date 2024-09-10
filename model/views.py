@@ -13,7 +13,9 @@ def modpage(request):
 model = load_model(BASE_DIR/'../model.h5')
 
 # Define class names 
-CLASS_NAMES = ['Tomato___bacterial_spot', 'Tomato___early_blight', 'Tomato___healthy', 'Tomato___late_blight', 'Tomato___leaf_curl', 'Tomato___leaf_mold', 'Tomato___mosaic_virus', 'Tomato___septoria_leaf_spot', 'Tomato___spider_mites', 'Tomato___target_spot']
+CLASS_NAMES = ['Tomato___bacterial_spot', 'Tomato___early_blight', 'Tomato___healthy', 'Tomato___late_blight',
+               'Tomato___leaf_curl', 'Tomato___leaf_mold', 'Tomato___mosaic_virus', 'Tomato___septoria_leaf_spot',
+               'Tomato___spider_mites', 'Tomato___target_spot']
 
 def model_prediction_view(request):
     if request.method == 'POST' and request.FILES['image']:

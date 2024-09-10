@@ -81,8 +81,6 @@
         <!-- Start Navigation -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
 
-            {% if user.is_authenticated %}
-
             <div class="container">
                 <!-- Start Header Navigation -->
                 <div class="navbar-header">
@@ -90,8 +88,9 @@
                         aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                         <i class="fa fa-bars"></i>
                     </button>
-                    <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}"
-                            class="logo" alt=""></a>
+                    <a class="navbar-brand" href="{% url 'index' %}">
+                        <img src="{% static 'images/logo.png' %}" class="logo" alt="">
+                    </a>
                 </div>
                 <!-- End Header Navigation -->
 
@@ -106,10 +105,12 @@
                             <ul class="dropdown-menu">
                                 <li><a href="{% url 'shop' %}">Sidebar Shop</a></li>
                                 <li><a href="{% url 'shop-detail' %}">Shop Detail</a></li>
+                                {% if user.is_authenticated %}
                                 <li><a href="{% url 'cart' %}">Cart</a></li>
                                 <li><a href="{% url 'checkout' %}">Checkout</a></li>
                                 <li><a href="{% url 'my-account' %}">My Account</a></li>
                                 <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                                {% endif %}
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'gallery' %}">Gallery</a></li>
@@ -122,6 +123,7 @@
                 <div class="attr-nav">
                     <ul>
                         <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
+                        {% if user.is_authenticated %}
                         <li class="side-menu">
                             <a href="#">
                                 <i class="fa fa-shopping-bag"></i>
@@ -130,49 +132,18 @@
                             </a>
                         </li>
                         <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                        {% else %}
+                        <a href="{% url 'auth' %}" class="btn btn-primary">Login</a>
+                        {% endif %}
                     </ul>
                 </div>
                 <!-- End Atribute Navigation -->
             </div>
 
-            {% else %}
-
-            <div class="container"></div>
-            <!-- Start Header Navigation -->
-            <div class="navbar-header">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
-                    aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
-                    <i class="fa fa-bars"></i>
-                </button>
-                <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'images/logo.png' %}" class="logo"
-                        alt=""></a>
-            </div>
-            <!-- End Header Navigation -->
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="navbar-menu">
-                <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                    <li class="nav-item active"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'model' %}">Predict</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="{% url 'shop' %}">Sidebar Shop</a></li>
-                            <li><a href="{% url 'shop-detail' %}">Shop Detail</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'gallery' %}">Gallery</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
-                </ul>
-            </div>
-            <!-- /.navbar-collapse -->
-
-            {% endif %}
-
         </nav>
         <!-- End Navigation -->
     </header>
+
     <!-- End Main Top -->
 
     <!-- Start Top Search -->
