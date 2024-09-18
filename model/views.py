@@ -6,8 +6,8 @@ import numpy as np
 from PlantPulse.settings import BASE_DIR
 
 # Create your views here
-def modpage(request):
-    return render(request, 'model.html')
+def model_page(request):
+    return render(request, 'newmodel.html')
 
 # Load the trained model 
 model = load_model(BASE_DIR/'../model.h5')

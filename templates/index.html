@@ -122,7 +122,6 @@
                 <!-- Start Atribute Navigation -->
                 <div class="attr-nav">
                     <ul>
-                        <li class="search"><a href="#"><i class="fa fa-search"></i></a></li>
                         {% if user.is_authenticated %}
                         <li class="side-menu">
                             <a href="#">
@@ -132,8 +131,6 @@
                             </a>
                         </li>
                         <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
-                        {% else %}
-                        <a href="{% url 'auth' %}" class="btn btn-primary">Login</a>
                         {% endif %}
                     </ul>
                 </div>

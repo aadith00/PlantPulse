@@ -10,9 +10,9 @@
 {% block content %}
 <div class="container">
     <h1 class="text-center my-4">Tomato Disease Prediction</h1>
-    
+
     <!-- Form for uploading image -->
-    <form method="POST" enctype="multipart/form-data" action="{% url 'model1' %}">
+    <form method="POST" enctype="multipart/form-data" action="{% url 'model_prediction' %}">
         {% csrf_token %}
         <div class="form-group">
             <label for="image">Upload an image of a tomato leaf:</label>
@@ -26,7 +26,6 @@
         <div class="result mt-4">
             <h3>Prediction Result:</h3>
             <p><strong>Prediction:</strong> {{ prediction }}</p>
-            <!-- <p><strong>Confidence:</strong> {{ confidence }}%</p> -->
         </div>
     {% elif error %}
         <div class="alert alert-danger mt-4">
@@ -34,4 +33,4 @@
         </div>
     {% endif %}
 </div>
-{% endblock %}
+{% endblock %}
