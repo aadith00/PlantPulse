@@ -41,15 +41,15 @@ def model_prediction_view(request):
             predicted_class_name = CLASS_NAMES[predicted_class_index]
 
             # Return the result to the template
-            return render(request, 'model.html', {
+            return render(request, 'newmodel.html', {
                 'prediction': predicted_class_name,
                 'confidence': round(confidence, 2)
             })
 
         except Exception as e:
             # Handle errors
-            return render(request, 'model.html', {
+            return render(request, 'newmodel.html', {
                 'error': f"An error occurred: {str(e)}"
             })
     # If GET request, just render the page with the form
-    return render(request, 'model.html')
+    return render(request, 'newmodel.html')
