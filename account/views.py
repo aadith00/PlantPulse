@@ -24,14 +24,6 @@ def user_register(request):
         password = request.POST['password'].strip()
         cnfpass = request.POST['confirm_password'].strip()
 
-    # ## Validation for first name
-    #     if not first_name:
-    #         errors['first_name'] = 'First name is required.'
-
-    # ## Validation for last name
-    #     if not last_name:
-    #         errors['last_name'] = 'Last name is required.'
-
     ## Validation for email
         if not email:
             errors['email'] = 'Email field is required.'
@@ -63,8 +55,6 @@ def user_register(request):
             ## Creating an user
 
             user = User.objects.create_user(
-                # first_name = first_name,
-                # last_name = last_name,
                 username = username,
                 password = password,
             )

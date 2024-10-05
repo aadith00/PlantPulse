@@ -145,5 +145,3 @@ JAZZMIN_SETTINGS = {
     'site_logo' : "images/logo.png",
     'copyright' : "plantpulse.com"
 }
-
-AUTH_USER_MODEL = 'account.User'
