@@ -1,7 +1,6 @@
 from django.db import models
 from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
-from django.contrib.auth.models import User
 
 # Create your models here.
 class Variety(models.Model):
