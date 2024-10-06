@@ -3,6 +3,7 @@ from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
 from django.contrib.auth.models import User
 
+
 STATUS_CHOICE = (
     ("process","Processing"),
     ("shipped","Shipped"),
@@ -61,6 +62,8 @@ class Product(models.Model):
     in_stock = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
 
+    sku = ShortUUIDField(unique=True, length = 4, max_length = 10,prefix = "sku", alphabet = "1234567890")
+
     date = models.DateTimeField(auto_now_add = True)
     updated = models.DateTimeField(null = True, blank = True)
 
@@ -106,3 +109,12 @@ class CartOrderItems(models.Model):
 
     def order_img(self):
         return mark_safe('<img src = "/media/%s" width = "50" height = "50" />' % (self.image))
+    
+
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=100,null = True)
+    status = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name_plural = "Address"
