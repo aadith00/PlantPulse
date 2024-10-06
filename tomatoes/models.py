@@ -9,11 +9,11 @@ STATUS_CHOICE = (
 )
 
 STATUS = (
-    ("draft","Draft"),
-    ("disabled","Disabled"),
-    ("rejected","Rejected"),
+    ("draft", "Draft"),
+    ("disabled", "Disabled"),
+    ("rejected", "Rejected"),
     ("in_review", "In Review"),
-    ("published","Published")
+    ("published", "Published")
 )
 
 RATING = (
@@ -44,11 +44,11 @@ class Variety(models.Model):
         return self.name
     
 class Product(models.Model):
-    pid = ShortUUIDField(unique = True, Length = 10, max_length = 20, prefix = "prd", alphabet = "abcdefgh12345")
+    pid = ShortUUIDField(unique = True, length = 10, max_length = 20, prefix = "prd", alphabet = "abcdefgh12345")
     
     # user = models.ForeignKey(User, on_delete=models.SET_NULL,null= True)
 
-    title = models.CharField(maxL_length=100,default="Fresh Tomato")
+    title = models.CharField(max_length=100,default="Fresh Tomato")
     image = models.ImageField(upload_to = user_directory_path,default = "product.jpg")
     description = models.TextField(null = True,blank = True, default="This is the product")
 
@@ -77,7 +77,6 @@ class ProductImages(models.Model):
     images = models.ImageField(upload_to = "product-images",default="product.jpg")  
     product = models.ForeignKey(Product, on_delete=models.SET_NULL,null= True)
     date = models.DateTimeField(auto_now_add=True)
-
 
     class Meta:
         verbose_name_plural = "Product Images"
