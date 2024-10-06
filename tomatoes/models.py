@@ -1,6 +1,7 @@
 from django.db import models
 from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
+from django.contrib.auth.models import User
 
 STATUS_CHOICE = (
     ("process","Processing"),
@@ -46,7 +47,7 @@ class Variety(models.Model):
 class Product(models.Model):
     pid = ShortUUIDField(unique = True, Length = 10, max_length = 20, prefix = "prd", alphabet = "abcdefgh12345")
     
-    # user = models.ForeignKey(User, on_delete=models.SET_NULL,null= True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     title = models.CharField(maxL_length=100,default="Fresh Tomato")
     image = models.ImageField(upload_to = user_directory_path,default = "product.jpg")
@@ -105,4 +106,4 @@ class CartOrderItems(models.Model):
         verbose_name_plural = "Cart Order Items"
 
     def order_img(self):
-        return mark_safe('<img src = "/media/%s" width = "50" height = "50" />' % (self.image.url))
+        return mark_safe('<img src = "/media/%s" width = "50" height = "50" />' % (self.image))
