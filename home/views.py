@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from tomatoes.models import Variety, Product
 # Create your views here.
 
 def index(request):
