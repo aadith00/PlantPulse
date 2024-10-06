@@ -7,6 +7,7 @@ admin.site.register(Product)
 admin.site.register(ProductImages)
 admin.site.register(CartOrder)
 admin.site.register(CartOrderItems)
+admin.site.register(ProductReview)
 admin.site.register(Address)
 
 class ProductImagesAdmin(admin.TabularInline):
@@ -21,6 +22,9 @@ class CartOrderAdmin(admin.ModelAdmin):
 
 class CartOrderItemsAdmin(admin.ModelAdmin):
     list_display = ['order','invoice_no','item','image','qty','price','total']
+
+class ProductReviewAdmin(admin.ModelAdmin):
+    list_display = ['user','product','review','rating']
 
 class AddressAdmin(admin.ModelAdmin):
     list_display = ['user','address','status']
