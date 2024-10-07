@@ -4,9 +4,11 @@ from tomatoes.models import Variety, Product
 
 def index(request):
     product = Product.objects.all()
+    variety = Variety.objects.all()
 
     context = {
-        "products" : product
+        "products" : product,
+        "varieties" : variety
     }
     
     return render(request, 'index.html', context)

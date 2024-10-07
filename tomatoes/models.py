@@ -51,7 +51,7 @@ class Product(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     title = models.CharField(max_length=100,default="Fresh Tomato")
-    image = models.ImageField(upload_to = user_directory_path,default = "product.jpg")
+    image = models.ImageField(upload_to = "Products",default = "product.jpg")
     description = models.TextField(null = True,blank = True, default="This is the product")
 
     price = models.DecimalField(max_digits=99999999999999,decimal_places=2,default="1.99")
@@ -99,7 +99,7 @@ class CartOrderItems(models.Model):
     invoice_no = models.CharField(max_length=200, default="XX")
     product_status = models.CharField(max_length=200)
     item = models.CharField(max_length=200)
-    image = models.CharField(max_length=200)
+    image = models.ImageField(upload_to="Cart Order Items")
     qty = models.IntegerField(default=0)
     price = models.DecimalField(max_digits=99999999999999,decimal_places=2,default="1.99")
     total = models.DecimalField(max_digits=99999999999999,decimal_places=2,default="1.99")
@@ -133,3 +133,15 @@ class Address(models.Model):
 
     class Meta:
         verbose_name_plural = "Address"
+
+class Disease(models.Model):
+    name = models.CharField(max_length=50)
+    descripttion = models.TextField()
+    causes = models.TextField()
+    image = models.ImageField(upload_to="Diseases")
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name_plural = "Diseases"
