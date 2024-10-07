@@ -46,7 +46,7 @@ class Variety(models.Model):
         return self.name
     
 class Product(models.Model):
-    pid = ShortUUIDField(unique = True, length = 10, max_length = 20, prefix = "prd", alphabet = "abcdefgh12345")
+    pid = ShortUUIDField(unique = True, length = 10, max_length = 20, prefix = "prd")
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -62,7 +62,7 @@ class Product(models.Model):
     in_stock = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
 
-    sku = ShortUUIDField(unique=True, length = 4, max_length = 10,prefix = "sku", alphabet = "1234567890")
+    sku = ShortUUIDField(unique=True, length = 4, max_length = 10,prefix = "sku")
 
     date = models.DateTimeField(auto_now_add = True)
     updated = models.DateTimeField(null = True, blank = True)
@@ -97,7 +97,7 @@ class CartOrder(models.Model):
 
 class CartOrderItems(models.Model):
     order = models.ForeignKey(CartOrder, on_delete=models.CASCADE)
-    invoice_no = models.CharField(max_length=200)
+    invoice_no = models.CharField(max_length=200, default="XX")
     product_status = models.CharField(max_length=200)
     item = models.CharField(max_length=200)
     image = models.CharField(max_length=200)
