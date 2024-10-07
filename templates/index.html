@@ -209,24 +209,17 @@
     <div class="categories-shop">
         <div class="container">
             <div class="row">
+
+                {% for p in products %}
+
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="shop-cat-box">
-                        <img class="img-fluid" src="{% static 'images/categories_img_01.jpg' %}" alt="" />
+                        <img class="img-fluid" src="{{ p.image.url }}" alt="" />
                         <a class="btn hvr-hover" href="#">Lorem ipsum dolor</a>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="shop-cat-box">
-                        <img class="img-fluid" src="{% static 'images/categories_img_02.jpg' %}" alt="" />
-                        <a class="btn hvr-hover" href="#">Lorem ipsum dolor</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="shop-cat-box">
-                        <img class="img-fluid" src="{% static 'images/categories_img_03.jpg' %}" alt="" />
-                        <a class="btn hvr-hover" href="#">Lorem ipsum dolor</a>
-                    </div>
-                </div>
+
+                {% endfor %}
             </div>
         </div>
     </div>

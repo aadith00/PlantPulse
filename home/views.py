@@ -3,7 +3,13 @@ from tomatoes.models import Variety, Product
 # Create your views here.
 
 def index(request):
-    return render(request, 'index.html')
+    product = Product.objects.all()
+
+    context = {
+        "products" : product
+    }
+    
+    return render(request, 'index.html', context)
 
 def about(request):
     return render(request, 'about.html')
