@@ -1,0 +1,673 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<!-- Basic -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>PlantPulse</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="{% static 'images/x-icon' %}">
+    <link rel="apple-touch-icon" href="{% static 'images/apple-touch-icon.png' %}">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    <style>
+        /* Custom styles to make the form section stand out */
+        .main-content {
+            background-image: url("{% static 'images/tomato-bg.jpg' %}");
+            background-size: cover;
+            padding: 80px 0;
+            /* Increased padding for more space around the form */
+            color: #fff;
+        }
+
+        .form-container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            /* Increased padding inside the form container */
+            border-radius: 8px;
+            margin-top: 40px;
+            /* Increased margin-top to move the form down */
+            max-width: 800px;
+            /* Optional: Set a max-width for better alignment */
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-container h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            /* Added margin-bottom for spacing under the heading */
+        }
+
+        .custom-file-upload {
+            background-color: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            color: #333;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #e9e9e9;
+        }
+
+        .prediction-result {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            padding: 20px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+
+        /* Add spacing */
+        .main-content .col-lg-12 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-gallery {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .image-gallery img {
+            width: 150px;
+            margin: 10px;
+            border-radius: 10px;
+        }
+    </style>
+
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+    <!-- Start Main Top -->
+    <div class="main-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="right-phone-box">
+                        <p>Call US :- <a href="#">+91 9207542829</a></p>
+                    </div>
+                    <div class="our-link">
+                        {% if user.is_authenticated %}
+                        <ul>
+                            <li><a href="#"><i class="fa fa-user s_color"></i> My Account</a></li>
+                            <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
+                            <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
+                        </ul>
+                        {% else %}
+                        <ul>
+                            <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
+                            <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
+                        </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div class="login-box">
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'auth' %}" class="btn btn-primary">Welcome {{ user.username }} </a>
+                        {% else %}
+                        <a href="{% url 'auth' %}" class="btn btn-primary">Register / Sign In</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Main Top -->
+
+    <!-- Start Main Top -->
+    <header class="main-header">
+        <!-- Start Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light navbar-default bootsnav">
+
+            <div class="container">
+                <!-- Start Header Navigation -->
+                <div class="navbar-header">
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu"
+                        aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <a class="navbar-brand" href="{% url 'index' %}">
+                        <img src="{% static 'images/logo.png' %}" class="logo" alt="">
+                    </a>
+                </div>
+                <!-- End Header Navigation -->
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="navbar-menu">
+                    <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                        <li class="nav-item active"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'model' %}">Predict</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{% url 'shop' %}">Sidebar Shop</a></li>
+                                <li><a href="{% url 'shop-detail' %}">Shop Detail</a></li>
+                                {% if user.is_authenticated %}
+                                <li><a href="{% url 'cart' %}">Cart</a></li>
+                                <li><a href="{% url 'checkout' %}">Checkout</a></li>
+                                <li><a href="{% url 'my-account' %}">My Account</a></li>
+                                <li><a href="{% url 'wishlist' %}">Wishlist</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'gallery' %}">Gallery</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+
+                <!-- Start Atribute Navigation -->
+                <div class="attr-nav">
+                    <ul>
+                        {% if user.is_authenticated %}
+                        <li class="side-menu">
+                            <a href="#">
+                                <i class="fa fa-shopping-bag"></i>
+                                <span class="badge">3</span>
+                                <p>My Cart</p>
+                            </a>
+                        </li>
+                        <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                        {% endif %}
+                    </ul>
+                </div>
+                <!-- End Atribute Navigation -->
+            </div>
+
+        </nav>
+        <!-- End Navigation -->
+    </header>
+
+    <!-- End Main Top -->
+
+    <section class="py-5">
+        <div class="container">
+            <div class="row gx-5">
+                <aside class="col-lg-6">
+                    <div class="border rounded-4 mb-3 d-flex justify-content-center">
+                        <a data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image">
+                            <img style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"
+                                src="{{ p.image.url }}" />
+                        </a>
+                    </div>
+                    <div class="d-flex justify-content-center mb-3">
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image"
+                            href="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big1.webp"
+                            class="item-thumb">
+                            <img width="60" height="60" class="rounded-2"
+                                src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big1.webp" />
+                        </a>
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image"
+                            href="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big2.webp"
+                            class="item-thumb">
+                            <img width="60" height="60" class="rounded-2"
+                                src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big2.webp" />
+                        </a>
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image"
+                            href="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big3.webp"
+                            class="item-thumb">
+                            <img width="60" height="60" class="rounded-2"
+                                src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big3.webp" />
+                        </a>
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image"
+                            href="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big4.webp"
+                            class="item-thumb">
+                            <img width="60" height="60" class="rounded-2"
+                                src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big4.webp" />
+                        </a>
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image"
+                            href="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big.webp"
+                            class="item-thumb">
+                            <img width="60" height="60" class="rounded-2"
+                                src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/detail1/big.webp" />
+                        </a>
+                    </div>
+                    <!-- thumbs-wrap.// -->
+                    <!-- gallery-wrap .end// -->
+                </aside>
+                <main class="col-lg-6">
+                    <div class="ps-lg-3">
+                        <h4 class="title text-dark">
+                            Quality Men's Hoodie for Winter, Men's Fashion <br />
+                            Casual Hoodie
+                        </h4>
+                        <div class="d-flex flex-row my-3">
+                            <div class="text-warning mb-1 me-2">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                                <span class="ms-1">
+                                    4.5
+                                </span>
+                            </div>
+                            <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>154 orders</span>
+                            <span class="text-success ms-2">In stock</span>
+                        </div>
+
+                        <div class="mb-3">
+                            <span class="h5">$75.00</span>
+                            <span class="text-muted">/per box</span>
+                        </div>
+
+                        <p>
+                            Modern look and quality demo item is a streetwear-inspired collection that continues to
+                            break away from
+                            the conventions of mainstream fashion. Made in Italy, these black and brown clothing low-top
+                            shirts for
+                            men.
+                        </p>
+
+                        <div class="row">
+                            <dt class="col-3">Type:</dt>
+                            <dd class="col-9">Regular</dd>
+
+                            <dt class="col-3">Color</dt>
+                            <dd class="col-9">Brown</dd>
+
+                            <dt class="col-3">Material</dt>
+                            <dd class="col-9">Cotton, Jeans</dd>
+
+                            <dt class="col-3">Brand</dt>
+                            <dd class="col-9">Reebook</dd>
+                        </div>
+
+                        <hr />
+
+                        <div class="row mb-4">
+                            <div class="col-md-4 col-6">
+                                <label class="mb-2">Size</label>
+                                <select class="form-select border border-secondary" style="height: 35px;">
+                                    <option>Small</option>
+                                    <option>Medium</option>
+                                    <option>Large</option>
+                                </select>
+                            </div>
+                            <!-- col.// -->
+                            <div class="col-md-4 col-6 mb-3">
+                                <label class="mb-2 d-block">Quantity</label>
+                                <div class="input-group mb-3" style="width: 170px;">
+                                    <button class="btn btn-white border border-secondary px-3" type="button"
+                                        id="button-addon1" data-mdb-ripple-color="dark">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                    <input type="text" class="form-control text-center border border-secondary"
+                                        placeholder="14" aria-label="Example text with button addon"
+                                        aria-describedby="button-addon1" />
+                                    <button class="btn btn-white border border-secondary px-3" type="button"
+                                        id="button-addon2" data-mdb-ripple-color="dark">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="#" class="btn btn-warning shadow-0"> Buy now </a>
+                        <a href="#" class="btn btn-primary shadow-0"> <i class="me-1 fa fa-shopping-basket"></i> Add to
+                            cart </a>
+                        <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i
+                                class="me-1 fa fa-heart fa-lg"></i> Save </a>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </section>
+    <!-- content -->
+
+    <section class="bg-light border-top py-4">
+        <div class="container">
+            <div class="row gx-4">
+                <div class="col-lg-8 mb-4">
+                    <div class="border rounded-2 px-3 py-2 bg-white">
+                        <!-- Pills navs -->
+                        <ul class="nav nav-pills nav-justified mb-3" id="ex1" role="tablist">
+                            <li class="nav-item d-flex" role="presentation">
+                                <a class="nav-link d-flex align-items-center justify-content-center w-100 active"
+                                    id="ex1-tab-1" data-mdb-toggle="pill" href="#ex1-pills-1" role="tab"
+                                    aria-controls="ex1-pills-1" aria-selected="true">Specification</a>
+                            </li>
+                            <li class="nav-item d-flex" role="presentation">
+                                <a class="nav-link d-flex align-items-center justify-content-center w-100"
+                                    id="ex1-tab-2" data-mdb-toggle="pill" href="#ex1-pills-2" role="tab"
+                                    aria-controls="ex1-pills-2" aria-selected="false">Warranty info</a>
+                            </li>
+                            <li class="nav-item d-flex" role="presentation">
+                                <a class="nav-link d-flex align-items-center justify-content-center w-100"
+                                    id="ex1-tab-3" data-mdb-toggle="pill" href="#ex1-pills-3" role="tab"
+                                    aria-controls="ex1-pills-3" aria-selected="false">Shipping info</a>
+                            </li>
+                            <li class="nav-item d-flex" role="presentation">
+                                <a class="nav-link d-flex align-items-center justify-content-center w-100"
+                                    id="ex1-tab-4" data-mdb-toggle="pill" href="#ex1-pills-4" role="tab"
+                                    aria-controls="ex1-pills-4" aria-selected="false">Seller profile</a>
+                            </li>
+                        </ul>
+                        <!-- Pills navs -->
+
+                        <!-- Pills content -->
+                        <div class="tab-content" id="ex1-content">
+                            <div class="tab-pane fade show active" id="ex1-pills-1" role="tabpanel"
+                                aria-labelledby="ex1-tab-1">
+                                <p>
+                                    With supporting text below as a natural lead-in to additional content. Lorem ipsum
+                                    dolor sit amet,
+                                    consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                                    magna aliqua. Ut
+                                    enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                                    ea commodo
+                                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                                    dolore eu fugiat
+                                    nulla
+                                    pariatur.
+                                </p>
+                                <div class="row mb-2">
+                                    <div class="col-12 col-md-6">
+                                        <ul class="list-unstyled mb-0">
+                                            <li><i class="fas fa-check text-success me-2"></i>Some great feature name
+                                                here</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Lorem ipsum dolor sit
+                                                amet, consectetur</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Duis aute irure dolor in
+                                                reprehenderit</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Optical heart sensor</li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-0">
+                                        <ul class="list-unstyled">
+                                            <li><i class="fas fa-check text-success me-2"></i>Easy fast and ver good
+                                            </li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Some great feature name
+                                                here</li>
+                                            <li><i class="fas fa-check text-success me-2"></i>Modern style and design
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <table class="table border mt-3 mb-2">
+                                    <tr>
+                                        <th class="py-2">Display:</th>
+                                        <td class="py-2">13.3-inch LED-backlit display with IPS</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="py-2">Processor capacity:</th>
+                                        <td class="py-2">2.3GHz dual-core Intel Core i5</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="py-2">Camera quality:</th>
+                                        <td class="py-2">720p FaceTime HD camera</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="py-2">Memory</th>
+                                        <td class="py-2">8 GB RAM or 16 GB RAM</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="py-2">Graphics</th>
+                                        <td class="py-2">Intel Iris Plus Graphics 640</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="tab-pane fade mb-2" id="ex1-pills-2" role="tabpanel"
+                                aria-labelledby="ex1-tab-2">
+                                Tab content or sample information now <br />
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                incididunt ut labore et
+                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                nisi ut
+                                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                                velit esse cillum
+                                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                                culpa qui
+                                officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur
+                                adipisicing elit,
+                                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+                                veniam, quis
+                                nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            </div>
+                            <div class="tab-pane fade mb-2" id="ex1-pills-3" role="tabpanel"
+                                aria-labelledby="ex1-tab-3">
+                                Another tab content or sample information now <br />
+                                Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                                et dolore magna
+                                aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                aliquip ex ea
+                                commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
+                                dolore eu
+                                fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                                officia
+                                deserunt
+                                mollit anim id est laborum.
+                            </div>
+                            <div class="tab-pane fade mb-2" id="ex1-pills-4" role="tabpanel"
+                                aria-labelledby="ex1-tab-4">
+                                Some other tab content or sample information now <br />
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+                                incididunt ut labore et
+                                dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                                nisi ut
+                                aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                                velit esse cillum
+                                dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                                culpa qui
+                                officia deserunt mollit anim id est laborum.
+                            </div>
+                        </div>
+                        <!-- Pills content -->
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="px-0 border rounded-2 shadow-0">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Similar items</h5>
+                                <div class="d-flex mb-3">
+                                    <a href="#" class="me-3">
+                                        <img src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/8.webp"
+                                            style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
+                                    </a>
+                                    <div class="info">
+                                        <a href="#" class="nav-link mb-1">
+                                            Rucksack Backpack Large <br />
+                                            Line Mounts
+                                        </a>
+                                        <strong class="text-dark"> $38.90</strong>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex mb-3">
+                                    <a href="#" class="me-3">
+                                        <img src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/9.webp"
+                                            style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
+                                    </a>
+                                    <div class="info">
+                                        <a href="#" class="nav-link mb-1">
+                                            Summer New Men's Denim <br />
+                                            Jeans Shorts
+                                        </a>
+                                        <strong class="text-dark"> $29.50</strong>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex mb-3">
+                                    <a href="#" class="me-3">
+                                        <img src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/10.webp"
+                                            style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
+                                    </a>
+                                    <div class="info">
+                                        <a href="#" class="nav-link mb-1"> T-shirts with multiple colors, for men and
+                                            lady </a>
+                                        <strong class="text-dark"> $120.00</strong>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex">
+                                    <a href="#" class="me-3">
+                                        <img src="https://mdbcdn.b-cdn.net/img/bootstrap-ecommerce/items/11.webp"
+                                            style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
+                                    </a>
+                                    <div class="info">
+                                        <a href="#" class="nav-link mb-1"> Blazer Suit Dress Jacket for Men, Blue color
+                                        </a>
+                                        <strong class="text-dark"> $339.90</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Start Footer  -->
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-top-box">
+                            <h3>Business Time</h3>
+                            <ul class="list-time">
+                                <li>Monday - Friday: 08.00am to 05.00pm</li>
+                                <li>Saturday: 10.00am to 08.00pm</li>
+                                <li>Sunday: <span>Closed</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-top-box">
+                            <h3>Newsletter</h3>
+                            <form class="newsletter-box">
+                                <div class="form-group">
+                                    <input class="" type="email" name="Email" placeholder="Email Address*" />
+                                    <i class="fa fa-envelope"></i>
+                                </div>
+                                <button class="btn hvr-hover" type="submit">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-top-box">
+                            <h3>Social Media</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <ul>
+                                <li><a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-linkedin" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-google-plus" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-pinterest-p" aria-hidden="true"></i></a></li>
+                                <li><a href="#"><i class="fab fa-whatsapp" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-widget">
+                            <h4>About PlantPulse</h4>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                ut labore et dolore magna aliqua. </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-link">
+                            <h4>Information</h4>
+                            <ul>
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Customer Service</a></li>
+                                <li><a href="#">Our Sitemap</a></li>
+                                <li><a href="#">Terms &amp; Conditions</a></li>
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Delivery Information</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-link-contact">
+                            <h4>Contact Us</h4>
+                            <ul>
+                                <li>
+                                    <p><i class="fas fa-map-marker-alt"></i>Address: Michael I. Days 3756 <br>Preston
+                                        Street Wichita,<br> KS 67213 </p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770">+1-888 705
+                                            770</a></p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-envelope"></i>Email: <a
+                                            href="mailto:contactinfo@gmail.com">contactinfo@gmail.com</a></p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- End Footer  -->
+
+    <!-- Start copyright  -->
+    <div class="footer-copyright">
+        <p class="footer-company">All Rights Reserved. &copy; 2024 <a href="#">PlantPulse</a> Design By : Team
+    </div>
+    <!-- End copyright  -->
+
+    <a href="#" id="back-to-top" title="Back to top" style="display: none;">&uarr;</a>
+
+    <!-- ALL JS FILES -->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <!-- ALL PLUGINS -->
+    <script src="{% static 'js/jquery.superslides.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap-select.js' %}"></script>
+    <script src="{% static 'js/inewsticker.js' %}"></script>
+    <script src="{% static 'js/bootsnav.js.' %}"></script>
+    <script src="{% static 'js/images-loded.min.js' %}"></script>
+    <script src="{% static 'js/isotope.min.js' %}"></script>
+    <script src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'js/baguetteBox.min.js' %}"></script>
+    <script src="{% static 'js/form-validator.min.js' %}"></script>
+    <script src="{% static 'js/contact-form-script.js' %}"></script>
+    <script src="{% static 'js/custom.js' %}"></script>
+</body>
+
+</html>

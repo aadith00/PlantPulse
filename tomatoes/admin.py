@@ -3,12 +3,6 @@ from .models import *
 
 # Register your models here.
 admin.site.register(Variety)
-# admin.site.register(Product)
-# admin.site.register(ProductImages)
-# admin.site.register(CartOrder)
-# admin.site.register(CartOrderItems)
-# admin.site.register(ProductReview)
-# admin.site.register(Address)
 
 class ProductImagesAdmin(admin.TabularInline):
     model = ProductImages
@@ -29,8 +23,12 @@ class ProductReviewAdmin(admin.ModelAdmin):
 class AddressAdmin(admin.ModelAdmin):
     list_display = ['user','address','status']
 
+class DiseaseAdmin(admin.ModelAdmin):
+    list_display = ['name', 'description', 'causes', 'image']
+
 
 admin.site.register(Product,ProductAdmin)
 admin.site.register(CartOrder,CartOrderAdmin)
 admin.site.register(CartOrderItems,CartOrderItemsAdmin)
 admin.site.register(Address,AddressAdmin)
+admin.site.register(Disease,DiseaseAdmin)

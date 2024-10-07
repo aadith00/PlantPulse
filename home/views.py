@@ -1,14 +1,16 @@
 from django.shortcuts import render
-from tomatoes.models import Variety, Product
+from tomatoes.models import Variety, Product, Disease
 # Create your views here.
 
 def index(request):
     product = Product.objects.all()
     variety = Variety.objects.all()
+    disease = Disease.objects.all()
 
     context = {
         "products" : product,
-        "varieties" : variety
+        "varieties" : variety,
+        "diseases" : disease
     }
     
     return render(request, 'index.html', context)

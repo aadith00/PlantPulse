@@ -78,7 +78,7 @@ class Product(models.Model):
 
 class ProductImages(models.Model):
     images = models.ImageField(upload_to = "product-images",default="product.jpg")  
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL,null= True)
+    product = models.ForeignKey(Product,related_name='p_image', on_delete=models.SET_NULL,null= True)
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -136,7 +136,7 @@ class Address(models.Model):
 
 class Disease(models.Model):
     name = models.CharField(max_length=50)
-    descripttion = models.TextField()
+    description = models.TextField()
     causes = models.TextField()
     image = models.ImageField(upload_to="Diseases")
 
