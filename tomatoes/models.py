@@ -97,6 +97,7 @@ class CartOrder(models.Model):
 
 class CartOrderItems(models.Model):
     order = models.ForeignKey(CartOrder, on_delete=models.CASCADE)
+    invoice_no = models.CharField(max_length=200)
     product_status = models.CharField(max_length=200)
     item = models.CharField(max_length=200)
     image = models.CharField(max_length=200)
@@ -110,6 +111,21 @@ class CartOrderItems(models.Model):
     def order_img(self):
         return mark_safe('<img src = "/media/%s" width = "50" height = "50" />' % (self.image))
     
+class ProductReview(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL,null= True)
+    review = models.TextField()
+    rating = models.IntegerField(choices = RATING,default = None)
+    date = models.DateTimeField(auto_now_add=True) 
+
+    class Meta:
+        verbose_name_plural = "Product Reviews"
+
+    def __str__(self):
+        return self.product.title
+    
+    def  get_rating(self):
+        return self.rating
 
 class Address(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
