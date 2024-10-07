@@ -62,7 +62,7 @@ class Product(models.Model):
     in_stock = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
 
-    sku = ShortUUIDField(unique=True, length = 4, max_length = 10,prefix = "sku")
+    sku = ShortUUIDField(unique=True, length = 4, max_length = 10, prefix = "sku", default="sku0000")
 
     date = models.DateTimeField(auto_now_add = True)
     updated = models.DateTimeField(null = True, blank = True)
@@ -76,7 +76,6 @@ class Product(models.Model):
     def __str__(self):
         return self.title 
 
-
 class ProductImages(models.Model):
     images = models.ImageField(upload_to = "product-images",default="product.jpg")  
     product = models.ForeignKey(Product, on_delete=models.SET_NULL,null= True)
@@ -87,7 +86,7 @@ class ProductImages(models.Model):
 
 class CartOrder(models.Model):
     user = models.ForeignKey(Product, on_delete=models.SET_NULL,null= True)
-    price = models.DecimalField(max_digits=99999999999999,decimal_places=2,default="1.99")
+    price = models.DecimalField(max_digits=99999999999999,decimal_places=2,default="0")
     paid_status = models.BooleanField(default=False)
     order_date = models.DateTimeField(auto_now_add=True)
     product_status = models.CharField(choices = STATUS_CHOICE, max_length=30,default="in_review")
