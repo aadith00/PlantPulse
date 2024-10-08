@@ -50,11 +50,15 @@ class Product(models.Model):
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    title = models.CharField(max_length=100,default="Fresh Tomato")
-    image = models.ImageField(upload_to = "Products",default = "product.jpg")
-    description = models.TextField(null = True,blank = True, default="This is the product")
+    title = models.CharField(max_length=100, default="Fresh Tomato")
+    image = models.ImageField(upload_to = "Products", default = "product.jpg")
+    description = models.TextField(null = True, blank = True, default="This is the product")
+    variety = models.CharField(max_length=100, default="NA")
 
     price = models.DecimalField(max_digits=99999999999999,decimal_places=2,default="1.99")
+    stock_count = models.CharField(max_length=100, default="10", null=True, blank=True)
+    life = models.CharField(max_length=100, default="14", null=True, blank=True)
+    mfg_date = models.DateTimeField(auto_now_add = False, null=True, blank=True)
 
     product_status = models.CharField(choices = STATUS, max_length=10,default="in_review")
 
@@ -78,7 +82,7 @@ class Product(models.Model):
 
 class ProductImages(models.Model):
     images = models.ImageField(upload_to = "product-images",default="product.jpg")  
-    product = models.ForeignKey(Product,related_name='p_image', on_delete=models.SET_NULL,null= True)
+    product = models.ForeignKey(Product, related_name='p_image', on_delete=models.SET_NULL,null= True)
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
