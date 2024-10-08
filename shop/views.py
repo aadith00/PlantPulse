@@ -20,7 +20,8 @@ def product_detail(request, pid):
     p_image = product.p_image.all()
 
     context = {
-        "p" : product
+        "p" : product,
+        "p_image" : p_image
     }
 
 
