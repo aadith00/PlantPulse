@@ -9,4 +9,3 @@ urlpatterns = [
     path('shop', shop, name='shop'),
     path('product/<pid>/', product_detail, name='product-detail'),
 ]
-

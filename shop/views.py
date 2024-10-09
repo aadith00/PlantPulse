@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from tomatoes.models import Product
+from tomatoes.models import Product, ProductReview
 
 # Create your views heree.
 def cart(request):
@@ -9,7 +9,14 @@ def checkout(request):
     return render(request, 'checkout.html')
 
 def shop_detail(request):
-    return render(request,'shop-detail.html')
+    product = Product.objects.all()
+    review = ProductReview.objects.filter(product=product)
+
+    context = {
+        "review" : review
+    }
+
+    return render(request,'shop-detail.html', context)
 
 def shop(request):
     return render(request,'shop.html')
@@ -18,7 +25,6 @@ def product_detail(request, pid):
     product = Product.objects.get(pid=pid)
 
     p_image = product.p_image.all()
-
     context = {
         "p" : product,
         "p_image" : p_image
