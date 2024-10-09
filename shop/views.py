@@ -10,10 +10,9 @@ def checkout(request):
 
 def shop_detail(request):
     product = Product.objects.all()
-    review = ProductReview.objects.filter(product=product)
 
     context = {
-        "review" : review
+        "products" : product,
     }
 
     return render(request,'shop-detail.html', context)
@@ -29,8 +28,6 @@ def product_detail(request, pid):
         "p" : product,
         "p_image" : p_image
     }
-
-
 
     return render(request, "product-detail.html", context)
 

@@ -41,3 +41,17 @@ smallImgs[4].addEventListener('click', () => {
     smallImgs[3].classList.remove('sm-card')
     smallImgs[4].classList.add('sm-card')
 })
+
+$("#add-to-cart-btn").on("click", function(){
+    let prod_quantity = $("#product-quantity").val();
+    let prod_title = $("#product-title").val();
+    let prod_id = $("#product-id").val();
+    let prod_price = $("#product-price").text();
+    let this_val = $(this);
+
+    console.log("Quantity:", prod_quantity);
+    console.log("Title:", prod_title);
+    console.log("ID:", prod_id);
+    console.log("Price:", prod_price);
+    console.log("Current Element:", this_val);
+});

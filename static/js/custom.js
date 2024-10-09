@@ -214,3 +214,17 @@
 	
 	
 }(jQuery));
+
+$("#add-to-cart-btn").on("click", function(){
+    let prod_quantity = $("#product-quantity").val();  // Using ID
+    let prod_title = $("#product-title").val();  // Correct typo
+    let prod_id = $("#product-id").val();
+    let prod_price = $("#product-price").text();  // IDs for unique elements
+    let this_val = $(this);
+
+    console.log("Quantity:", prod_quantity);
+    console.log("Title:", prod_title);
+    console.log("ID:", prod_id);
+    console.log("Price:", prod_price);
+    console.log("Current Element:", this_val);
+});
