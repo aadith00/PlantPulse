@@ -1,10 +1,10 @@
-(function($) {
-    "use strict";
-	
+(function ($) {
+	"use strict";
+
 	/* ..............................................
 	   Loader 
 	   ................................................. */
-	$(window).on('load', function() {
+	$(window).on('load', function () {
 		$('.preloader').fadeOut();
 		$('#preloader').delay(550).fadeOut('slow');
 		$('body').delay(450).css({
@@ -16,7 +16,7 @@
 	   Fixed Menu
 	   ................................................. */
 
-	$(window).on('scroll', function() {
+	$(window).on('scroll', function () {
 		if ($(window).scrollTop() > 50) {
 			$('.main-header').addClass('fixed-menu');
 		} else {
@@ -41,15 +41,15 @@
 	   Map Full
 	   ................................................. */
 
-	$(document).ready(function() {
-		$(window).on('scroll', function() {
+	$(document).ready(function () {
+		$(window).on('scroll', function () {
 			if ($(this).scrollTop() > 100) {
 				$('#back-to-top').fadeIn();
 			} else {
 				$('#back-to-top').fadeOut();
 			}
 		});
-		$('#back-to-top').click(function() {
+		$('#back-to-top').click(function () {
 			$("html, body").animate({
 				scrollTop: 0
 			}, 600);
@@ -62,9 +62,9 @@
 	   ................................................. */
 
 	var Container = $('.container');
-	Container.imagesLoaded(function() {
+	Container.imagesLoaded(function () {
 		var portfolio = $('.special-menu');
-		portfolio.on('click', 'button', function() {
+		portfolio.on('click', 'button', function () {
 			$(this).addClass('active').siblings().removeClass('active');
 			var filterValue = $(this).attr('data-filter');
 			$grid.isotope({
@@ -103,7 +103,7 @@
 	   Tooltip
 	   ................................................. */
 
-	$(document).ready(function() {
+	$(document).ready(function () {
 		$('[data-toggle="tooltip"]').tooltip();
 	});
 
@@ -169,15 +169,15 @@
 	   Scroll
 	   ................................................. */
 
-	$(document).ready(function() {
-		$(window).on('scroll', function() {
+	$(document).ready(function () {
+		$(window).on('scroll', function () {
 			if ($(this).scrollTop() > 100) {
 				$('#back-to-top').fadeIn();
 			} else {
 				$('#back-to-top').fadeOut();
 			}
 		});
-		$('#back-to-top').click(function() {
+		$('#back-to-top').click(function () {
 			$("html, body").animate({
 				scrollTop: 0
 			}, 600);
@@ -190,13 +190,13 @@
 	   Slider Range
 	   ................................................. */
 
-	$(function() {
+	$(function () {
 		$("#slider-range").slider({
 			range: true,
 			min: 0,
 			max: 4000,
 			values: [1000, 3000],
-			slide: function(event, ui) {
+			slide: function (event, ui) {
 				$("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
 			}
 		});
@@ -211,20 +211,35 @@
 	$(".brand-box").niceScroll({
 		cursorcolor: "#9b9b9c",
 	});
-	
-	
+
+	$("#add-to-cart-btn").on("click", function () {
+		let prod_quantity = $("#product-quantity").val();  // Using ID
+		let prod_title = $("#product-title").val();  // Correct typo
+		let prod_id = $("#product-id").val();
+		let prod_price = $("#product-price").text();  // IDs for unique elements
+		let this_val = $(this);
+
+		console.log("Quantity:", prod_quantity);
+		console.log("Title:", prod_title);
+		console.log("ID:", prod_id);
+		console.log("Price:", prod_price);
+		console.log("Current Element:", this_val);
+	});
+
 }(jQuery));
 
-$("#add-to-cart-btn").on("click", function(){
-    let prod_quantity = $("#product-quantity").val();  // Using ID
-    let prod_title = $("#product-title").val();  // Correct typo
-    let prod_id = $("#product-id").val();
-    let prod_price = $("#product-price").text();  // IDs for unique elements
-    let this_val = $(this);
+$(document).ready(function () {
+	$("#add-to-cart-btn").on("click", function () {
+		let prod_quantity = $("#product-quantity").val();  // Make sure these IDs exist in your HTML
+		let prod_title = $("#product-title").val();
+		let prod_id = $("#product-id").val();
+		let prod_price = $("#product-price").text();
+		let this_val = $(this);
 
-    console.log("Quantity:", prod_quantity);
-    console.log("Title:", prod_title);
-    console.log("ID:", prod_id);
-    console.log("Price:", prod_price);
-    console.log("Current Element:", this_val);
+		console.log("Quantity:", prod_quantity);
+		console.log("Title:", prod_title);
+		console.log("ID:", prod_id);
+		console.log("Price:", prod_price);
+		console.log("Current Element:", this_val);
+	});
 });
