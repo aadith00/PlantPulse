@@ -55,5 +55,26 @@ $(document).ready(function () {
         console.log("ID:", prod_id);
         console.log("Price:", prod_price);
         console.log("Current Element:", this_val);
+
+        $.ajax({
+            url: '/add-to-cart',
+            data: {
+                'id': prod_id,
+                'quant': prod_quantity,
+                'title': prod_title,  // Corrected here
+                'price': prod_price
+            },
+            dataType: 'json',
+            beforeSend: function () {
+                console.log("Adding Product to Cart....");
+            },
+            success: function (res) {
+                this_val.html("Item added to cart");
+                console.log("Added product to Cart");
+            }
+        });
+
     });
 });
+
+
