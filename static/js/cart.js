@@ -68,9 +68,10 @@ $(document).ready(function () {
             beforeSend: function () {
                 console.log("Adding Product to Cart....");
             },
-            success: function (res) {
+            success: function (response) {
                 this_val.html("Item added to cart");
                 console.log("Added product to Cart");
+                $(".cart-items-count").text(response.totalcartitems)
             }
         });
 

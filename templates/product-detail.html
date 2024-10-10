@@ -398,7 +398,7 @@
                         <li class="side-menu">
                             <a href="#">
                                 <i class="fa fa-shopping-bag"></i>
-                                <span class="badge">3</span>
+                                <span class="badge cart-items-count">3</span>
                                 <p>My Cart</p>
                             </a>
                         </li>
@@ -440,7 +440,7 @@
             <!-- Product Information -->
             <div class="product-info">
                 <h3>{{ p.title }}</h3>
-                <h5 id="product-price">Price: Rs. {{ p.price }} </h5>
+                <h5>Price: Rs. </h5><h5 id="product-price">{{ p.price }} </h5>
                 <p> {{ p.description }}</p>
 
                 <div class="sizes">
