@@ -417,7 +417,6 @@
         </nav>
         <!-- End Navigation -->
     </header>
-
     <!-- End Main Top -->
 
     <section class="product-container">
@@ -464,7 +463,11 @@
                     <br>
                     <input type="hidden" value="{{ p.pid }}" id="product-id" name="">
                     <input type="hidden" value="{{ p.title }}" id="product-title" name="">
+                    {% if user.is_authenticated %}
                     <button type="submit" id="add-to-cart-btn">Add to Cart</button>
+                    {% else %}
+                    <a href="{% url 'auth' %}" class="btn btn-primary">Please sign in to add to cart</a>
+                    {% endif %}
                 </div>
 
                 <div>
