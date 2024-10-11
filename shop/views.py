@@ -18,9 +18,6 @@ def shop_detail(request):
 
     return render(request,'shop-detail.html', context)
 
-def shop(request):
-    return render(request,'shop.html')
-
 def product_detail(request, pid):
     product = Product.objects.get(pid=pid)
 
@@ -57,4 +54,3 @@ def add_to_cart(request):
         request.session['cart_data_obj'] = cart_product
 
     return JsonResponse({"data" : request.session['cart_data_obj'], 'totalcartitems' : len(request.session['cart_data_obj'])})
-
