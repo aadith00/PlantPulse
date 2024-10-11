@@ -95,14 +95,15 @@
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-menu">
-                    <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                    <ul class="nav navbar-nav ml-auto d-flex align-items-center" data-in="fadeInDown"
+                        data-out="fadeOutUp">
                         <li class="nav-item"><a class="nav-link" href="{% url 'index' %}">Home</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'model' %}">Predict</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
 
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle"
-                                href="{% if not user.is_authenticated %}{% url 'shop-detail' %}{% else %}# {% endif %}"
+                                href="{% if not user.is_authenticated %}{% url 'shop-detail' %}{% else %} {% url 'shop-detail' %} {% endif %}"
                                 id="shopDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
                                 SHOP
@@ -119,27 +120,23 @@
 
                         <li class="nav-item"><a class="nav-link" href="{% url 'gallery' %}">Gallery</a></li>
                         <li class="nav-item active"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
-                    </ul>
-                </div>
-                <!-- /.navbar-collapse -->
 
-                <!-- Start Atribute Navigation -->
-                <div class="attr-nav">
-                    <ul>
                         {% if user.is_authenticated %}
+                        <!-- Cart option before Logout -->
                         <li class="side-menu">
                             <a href="#">
+                                <p>My Cart</p>
                                 <i class="fa fa-shopping-bag"></i>
                                 <span class="badge">3</span>
-                                <p>My Cart</p>
                             </a>
                         </li>
-                        <a href="{% url 'logout' %}" class="btn btn-primary">Logout</a>
+                        <li class="nav-item">
+                            <a href="{% url 'logout' %}" class="btn btn-primary ml-3">Logout</a>
+                        </li>
                         {% endif %}
                     </ul>
                 </div>
-                <!-- End Atribute Navigation -->
-            </div>
+
 
         </nav>
         <!-- End Navigation -->
