@@ -44,25 +44,17 @@ smallImgs[4].addEventListener('click', () => {
 
 $(document).ready(function () {
     $("#add-to-cart-btn").on("click", function () {
-        let prod_quantity = $("#product-quantity").val();  // Make sure these IDs exist in your HTML
+        let prod_quantity = $("#product-quantity").val();
         let prod_title = $("#product-title").val();
         let prod_id = $("#product-id").val();
-        let prod_price = $("#product-price").text();
         let this_val = $(this);
-
-        console.log("Quantity:", prod_quantity);
-        console.log("Title:", prod_title);
-        console.log("ID:", prod_id);
-        console.log("Price:", prod_price);
-        console.log("Current Element:", this_val);
 
         $.ajax({
             url: '/add-to-cart',
             data: {
                 'id': prod_id,
                 'quant': prod_quantity,
-                'title': prod_title,  // Corrected here
-                'price': prod_price
+                'title': prod_title
             },
             dataType: 'json',
             beforeSend: function () {
@@ -71,11 +63,12 @@ $(document).ready(function () {
             success: function (response) {
                 this_val.html("Item added to cart");
                 console.log("Added product to Cart");
-                $(".cart-items-count").text(response.totalcartitems)
+                console.log(response);  // Log the response to check the cart data
+                $(".cart-items-count").text(response.totalcartitems);  // Update cart item count
+            },
+            error: function (xhr, status, error) {
+                console.error("Error adding product to cart:", error);
             }
         });
-
     });
 });
-
-

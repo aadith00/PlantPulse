@@ -151,9 +151,9 @@
                         <!-- Cart option before Logout -->
                         <li class="side-menu">
                             <a href="#">
-                                <p>My Cart</p>
                                 <i class="fa fa-shopping-bag"></i>
-                                <span class="badge">3</span>
+                                <span class="badge cart-items-count">{{ request.session.cart_data_obj|length }}</span>
+                                <p>My Cart</p>
                             </a>
                         </li>
                         <li class="nav-item">

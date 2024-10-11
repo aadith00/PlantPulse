@@ -44,18 +44,16 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="right-phone-box">
-                        <p>Call US :- <a href="#">+91 9207542829</a></p>
+                        <p>Call US :- <a>+91 XXX XXX XXXX</a></p>
                     </div>
                     <div class="our-link">
                         {% if user.is_authenticated %}
                         <ul>
                             <li><a href="#"><i class="fa fa-user s_color"></i> My Account</a></li>
-                            <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
                             <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
                         </ul>
                         {% else %}
                         <ul>
-                            <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
                             <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
                         </ul>
                         {% endif %}
@@ -125,9 +123,9 @@
                         <!-- Cart option before Logout -->
                         <li class="side-menu">
                             <a href="#">
-                                <p>My Cart</p>
                                 <i class="fa fa-shopping-bag"></i>
-                                <span class="badge">3</span>
+                                <span class="badge cart-items-count">{{ request.session.cart_data_obj|length }}</span>
+                                <p>My Cart</p>
                             </a>
                         </li>
                         <li class="nav-item">
