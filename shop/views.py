@@ -101,16 +101,6 @@ def add_to_cart(request):
 
     return JsonResponse({'status': 'error'}, status=400)
 
-<<<<<<< HEAD
-# def cart(request):
-#     cart_total_amount = 0
-
-#     if 'cart_data_obj' in request.session:
-#         for p_id, item in request.session['cart_data_obj'].items():
-            
-#     return render(request, 'cart.html')
-=======
 def cart(request):
     cart = Cart.objects.get(user=request.user, status='in_progress')
     return render(request, 'cart.html', {'cart': cart})
->>>>>>> e0c5fe100126254891168e73a1553bfccd46ad30
