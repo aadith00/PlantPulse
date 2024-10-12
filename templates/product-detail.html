@@ -463,6 +463,9 @@
                     <br>
                     <input type="hidden" value="{{ p.pid }}" id="product-id" name="">
                     <input type="hidden" value="{{ p.title }}" id="product-title" name="">
+
+                    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                    
                     {% if user.is_authenticated %}
                     <button type="submit" id="add-to-cart-btn">Add to Cart</button>
                     {% else %}
