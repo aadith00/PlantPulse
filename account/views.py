@@ -56,8 +56,7 @@ def user_register(request):
 
             user = User.objects.create_user(
                 username = username,
-                password = password,
-            )
+                password = password,)
             
             user.save()
             login(request,user)
@@ -90,3 +89,4 @@ def user_login(request):
 def user_logout(request):
     logout(request)
     return redirect('auth')
+
