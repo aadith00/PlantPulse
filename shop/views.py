@@ -54,10 +54,10 @@ def add_to_cart(request):
 
     return JsonResponse({"data": request.session['cart_data_obj'], 'totalcartitems': len(request.session['cart_data_obj'])})
 
-def cart(request):
-    cart_total_amount = 0
+# def cart(request):
+#     cart_total_amount = 0
 
-    if 'cart_data_obj' in request.session:
-        for p_id, item in request.session['cart_data_obj'].items():
+#     if 'cart_data_obj' in request.session:
+#         for p_id, item in request.session['cart_data_obj'].items():
             
-    return render(request, 'cart.html')
+#     return render(request, 'cart.html')
