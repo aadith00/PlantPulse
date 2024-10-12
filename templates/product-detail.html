@@ -257,7 +257,7 @@
                 width: 100%;
             }
 
-            echo "# product-details-page-html-css-js">>README.md .product-info p {
+            .md .product-info p {
                 width: 100%;
             }
 
@@ -429,11 +429,11 @@
                     <img src="{{ p.image.url }}" alt="" class="small-Img">
                 </div>
 
-                {% for p in p_image %}
+                <!-- {% for p in p_image %}
                 <div class="small-Card">
                     <img src="{{ p.images.url }}" alt="" class="small-Img">
                 </div>
-                {% endfor %}
+                {% endfor %} -->
 
             </div>
 
@@ -465,7 +465,7 @@
                     <input type="hidden" value="{{ p.title }}" id="product-title" name="">
 
                     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                    
+
                     {% if user.is_authenticated %}
                     <button type="submit" id="add-to-cart-btn">Add to Cart</button>
                     {% else %}
