@@ -29,17 +29,16 @@ class Farmer(models.Model):
         return self.name
     
 
-class User(AbstractUser):
-    email = models.EmailField(unique=True)
-    username = models.CharField(max_length=100)
+# class Customer(AbstractUser):
+#     email = models.EmailField(unique=True)
+#     username = models.CharField(max_length=100)
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ['username']
+#     USERNAME_FIELD = "email"
+#     REQUIRED_FIELDS = ['username']
 
-    def __str__(self):
-        return self.username
+#     def __str__(self):
+#         return self.username
     
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="image")
