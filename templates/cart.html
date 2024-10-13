@@ -102,33 +102,15 @@
                                 <li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
                                 <li><a class="dropdown-item" href="{% url 'checkout' %}">Checkout</a></li>
                                 <li><a class="dropdown-item" href="{% url 'my-account' %}">My Account</a></li>
-                                <li><a class="dropdown-item" href="{% url 'wishlist' %}">Wishlist</a></li>
                             </ul>
                             {% endif %}
                         </li>
 
                         <li class="nav-item"><a class="nav-link" href="{% url 'gallery' %}">Gallery</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
-
-                        {% if user.is_authenticated %}
-                        <!-- Cart option before Logout -->
-                        <li class="side-menu">
-                            <a href="{% url 'view-cart' %}">
-                                <i class="fa fa-shopping-bag"></i>
-                                <span class="badge cart-items-count">
-                                    {% if user.is_authenticated %}
-                                    {{ request.user.cart.items.count }}
-                                    {% else %}
-                                    0
-                                    {% endif %}
-                                </span>
-                                <p>My Cart</p>
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a href="{% url 'logout' %}" class="btn btn-primary ml-3">Logout</a>
                         </li>
-                        {% endif %}
                     </ul>
                 </div>
 
@@ -184,18 +166,15 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for item in cart.items.all %}
+                                {% for item in cart_items %}
                                 <tr>
                                     <td class="thumbnail-img">
                                         <a href="#">
-                                            <img class="img-fluid" src="{{ item.product.image.url }}"
-                                                alt="{{ item.product.title }}" />
+                                            <img class="img-fluid" src="{{ item.product.image.url }}" alt="{{ item.product.title }}" />
                                         </a>
                                     </td>
                                     <td class="name-pr">
-                                        <a href="#">
-                                            {{ item.product.title }}
-                                        </a>
+                                        <a href="#">{{ item.product.title }}</a>
                                     </td>
                                     <td class="price-pr">
                                         <p>Rs. {{ item.price }}</p>
@@ -205,8 +184,7 @@
                                             class="c-input-text qty text" />
                                     </td>
                                     <td class="total-pr">
-                                        <p>Rs. {{ item.price|multiply:item.quantity }}</p>
-                                        <!-- This calculates the total price for the item -->
+                                        <p>Rs. {{ item.total_price }}</p> 
                                     </td>
                                     <td class="remove-pr">
                                         <a href="{% url 'remove-from-cart' item.id %}">
@@ -220,7 +198,7 @@
                     </div>
                 </div>
             </div>
-
+    
             <div class="row my-5">
                 <div class="col-lg-6 col-sm-6">
                     <div class="update-box">
@@ -228,7 +206,8 @@
                     </div>
                 </div>
             </div>
-
+    
+            <!-- Order Summary Section -->
             <div class="row my-5">
                 <div class="col-lg-8 col-sm-12"></div>
                 <div class="col-lg-4 col-sm-12">
@@ -236,35 +215,28 @@
                         <h3>Order summary</h3>
                         <div class="d-flex">
                             <h4>Sub Total</h4>
-                            <div class="ml-auto font-weight-bold"> $ 130 </div>
-                        </div>
-                        <div class="d-flex">
-                            <h4>Discount</h4>
-                            <div class="ml-auto font-weight-bold"> $ 40 </div>
+                            <div class="ml-auto font-weight-bold">Rs. {{ total_price }} </div>
                         </div>
                         <hr class="my-1">
                         <div class="d-flex">
-                            <h4>Tax</h4>
-                            <div class="ml-auto font-weight-bold"> $ 2 </div>
-                        </div>
-                        <div class="d-flex">
                             <h4>Shipping Cost</h4>
-                            <div class="ml-auto font-weight-bold"> Free </div>
+                            <div class="ml-auto font-weight-bold"> Free </div> <!-- Placeholder for shipping cost -->
                         </div>
                         <hr>
                         <div class="d-flex gr-total">
                             <h5>Grand Total</h5>
-                            <div class="ml-auto h5"> $ 388 </div>
+                            <div class="ml-auto h5">Rs. {{ total_price }}</div> <!-- Placeholder for grand total -->
                         </div>
                         <hr>
                     </div>
                 </div>
-                <div class="col-12 d-flex shopping-box"><a href="checkout.html"
-                        class="ml-auto btn hvr-hover">Checkout</a> </div>
+                <div class="col-12 d-flex shopping-box">
+                    <a href="{% url 'checkout' %}" class="ml-auto btn hvr-hover">Checkout</a>
+                </div>
             </div>
-
+    
         </div>
-    </div>
+    </div>    
     <!-- End Cart -->
 
     <!-- Start Instagram Feed  -->
@@ -353,7 +325,6 @@
         </div>
     </div>
     <!-- End Instagram Feed  -->
-
 
     <!-- Start Footer  -->
     <footer>

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
 from .models import Cart, CartItem
 from tomatoes.models import Product, ProductReview
@@ -57,5 +57,40 @@ def add_to_cart(request):
     return JsonResponse({'status': 'error'}, status=400)
 
 def cart(request):
-    cart = Cart.objects.get(user=request.user, status='in_progress')
-    return render(request, 'cart.html', {'cart': cart})
+    try:
+        cart = Cart.objects.get(user=request.user, status='in_progress')
+        cart_items = CartItem.objects.filter(cart=cart)
+        
+        # Calculate total price for each cart item
+        for item in cart_items:
+            item.total_price = item.quantity * item.price  # Add total_price attribute
+
+        # Calculate overall total price
+        total_price = sum(item.total_price for item in cart_items)
+        
+    except Cart.DoesNotExist:
+        cart_items = []
+        total_price = 0  # Default to 0 if no cart exists
+
+    return render(request, 'cart.html', {
+        'cart_items': cart_items,
+        'total_price': total_price,
+    })
+
+def remove_from_cart(request, item_id):
+    # Ensure the user is authenticated
+    if request.user.is_authenticated:
+        # Get the user's cart in progress
+        cart = get_object_or_404(Cart, user=request.user, status='in_progress')
+        
+        # Get the cart item to remove
+        cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
+
+        # Remove the item from the cart
+        cart_item.delete()
+
+        # Redirect back to the cart page
+        return redirect('cart')  # Make sure 'cart' is the name of your cart view
+    else:
+        # Redirect to login page or any other action if the user is not authenticated
+        return redirect('login')  # Adjust as necessary
