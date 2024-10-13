@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Site Metas -->
-    <title>PlantPulse</title>
+    <title>PlantPulse - Prediction</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -195,10 +195,10 @@
                         {% if user.is_authenticated %}
                         <!-- Cart option before Logout -->
                         <li class="side-menu">
-                            <a href="#">
-                                <i class="fa fa-shopping-bag"></i>
-                                <span class="badge cart-items-count">{{ request.session.cart_data_obj|length }}</span>
+                            <a href="{% url 'cart' %}">
                                 <p>My Cart</p>
+                                <i class="fa fa-shopping-bag"></i>
+                                <span class="badge cart-items-count">{{ cart_items_count }}</span>
                             </a>
                         </li>
                         <li class="nav-item">

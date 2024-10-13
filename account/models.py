@@ -3,7 +3,6 @@ from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
 from django.contrib.auth.models import User
 
-
 def user_directory_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.user.id, filename)
 
@@ -62,4 +61,3 @@ class BillingAddress(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - {self.address}, {self.city}'
-    

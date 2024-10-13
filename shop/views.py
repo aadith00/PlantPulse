@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from .models import Cart, CartItem
 from tomatoes.models import Product
 from account.models import BillingAddress
+from shop.models import Cart, CartItem
 
 # Create your views heree.
 def checkout(request):
@@ -12,19 +13,35 @@ def checkout(request):
 def shop_detail(request):
     product = Product.objects.all()
 
+    cart_items_count = 0
+
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user, status='in_progress').first()
+        if cart:
+            cart_items_count = CartItem.objects.filter(cart=cart).count()
+
     context = {
-        "products" : product,
+        "products": product,
+        "cart_items_count": cart_items_count
     }
 
-    return render(request,'shop-detail.html', context)
+    return render(request, 'shop-detail.html', context)
 
 def product_detail(request, pid):
-    product = Product.objects.get(pid=pid)
+    product = get_object_or_404(Product, pid=pid)
+
+    cart_items_count = 0
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user, status='in_progress').first()
+        if cart:
+            cart_items_count = CartItem.objects.filter(cart=cart).count()
 
     p_image = product.p_image.all()
+    
     context = {
-        "p" : product,
-        "p_image" : p_image
+        "p": product,
+        "p_image": p_image,
+        "cart_items_count": cart_items_count
     }
 
     return render(request, "product-detail.html", context)
@@ -79,22 +96,16 @@ def cart(request):
     })
 
 def remove_from_cart(request, item_id):
-    # Ensure the user is authenticated
     if request.user.is_authenticated:
-        # Get the user's cart in progress
         cart = get_object_or_404(Cart, user=request.user, status='in_progress')
         
-        # Get the cart item to remove
         cart_item = get_object_or_404(CartItem, id=item_id, cart=cart)
 
-        # Remove the item from the cart
         cart_item.delete()
 
-        # Redirect back to the cart page
-        return redirect('cart')  # Make sure 'cart' is the name of your cart view
+        return redirect('cart')
     else:
-        # Redirect to login page or any other action if the user is not authenticated
-        return redirect('login')  # Adjust as necessary
+        return redirect('login')
 
 
 def checkout(request):
