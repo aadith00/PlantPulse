@@ -99,7 +99,7 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'model' %}">Predict</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
 
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown active">
                             <a class="nav-link dropdown-toggle active"
                                 href="{% if not user.is_authenticated %}{% url 'shop-detail' %}{% else %}# {% endif %}"
                                 id="shopDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"

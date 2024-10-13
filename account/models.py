@@ -2,7 +2,6 @@ from django.db import models
 from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
 from django.contrib.auth.models import User
-from django.contrib.auth.models import AbstractUser
 
 
 def user_directory_path(instance, filename):
@@ -49,5 +48,18 @@ class Profile(models.Model):
     def __str__(self):
         return self.full_name
     
+class BillingAddress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    address = models.CharField(max_length=255)
+    address2 = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    country = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=20)
+    phone = models.CharField(max_length=15, blank=True, null=True)
 
+    def __str__(self):
+        return f'{self.user.username} - {self.address}, {self.city}'
     
