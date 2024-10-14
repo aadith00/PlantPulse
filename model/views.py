@@ -4,10 +4,22 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
 from PlantPulse.settings import BASE_DIR
+from shop.models import Cart, CartItem
 
 # Create your views here
 def model_page(request):
-    return render(request, 'newmodel.html')
+    cart_items_count = 0
+
+    if request.user.is_authenticated:
+        cart = Cart.objects.filter(user=request.user, status='in_progress').first()
+        if cart:
+            cart_items_count = CartItem.objects.filter(cart=cart).count()
+
+    context = {
+        "cart_items_count": cart_items_count
+    }
+
+    return render(request, 'newmodel.html', context)
 
 # Load the trained model 
 model = load_model(BASE_DIR/'../model.h5')

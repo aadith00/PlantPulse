@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Site Metas -->
+    <title>PlantPulse - Gallery</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -49,13 +50,11 @@
                         {% if user.is_authenticated %}
                         <ul>
                             <li><a href="#"><i class="fa fa-user s_color"></i> My Account</a></li>
-                            <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
-                            <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
+                            <li><a href="{% url 'contact' %}"><i class="fas fa-headset"></i> Contact Us</a></li>
                         </ul>
                         {% else %}
                         <ul>
-                            <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
-                            <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
+                            <li><a href="{% url 'contact' %}"><i class="fas fa-headset"></i> Contact Us</a></li>
                         </ul>
                         {% endif %}
                     </div>
@@ -123,10 +122,10 @@
                         {% if user.is_authenticated %}
                         <!-- Cart option before Logout -->
                         <li class="side-menu">
-                            <a href="#">
-                                <i class="fa fa-shopping-bag"></i>
-                                <span class="badge cart-items-count">{{ request.session.cart_data_obj|length }}</span>
+                            <a href="{% url 'cart' %}">
                                 <p>My Cart</p>
+                                <i class="fa fa-shopping-bag"></i>
+                                <span class="badge cart-items-count">{{ cart_items_count }}</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -135,8 +134,6 @@
                         {% endif %}
                     </ul>
                 </div>
-
-
         </nav>
         <!-- End Navigation -->
     </header>
