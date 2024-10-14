@@ -33,3 +33,4 @@ admin.site.register(CartOrderItems,CartOrderItemsAdmin)
 admin.site.register(Address,AddressAdmin)
 admin.site.register(Disease,DiseaseAdmin)
 admin.site.register(ProductReview,ProductReviewAdmin)
+
