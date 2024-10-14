@@ -170,7 +170,8 @@
                                 <tr>
                                     <td class="thumbnail-img">
                                         <a href="#">
-                                            <img class="img-fluid" src="{{ item.product.image.url }}" alt="{{ item.product.title }}" />
+                                            <img class="img-fluid" src="{{ item.product.image.url }}"
+                                                alt="{{ item.product.title }}" />
                                         </a>
                                     </td>
                                     <td class="name-pr">
@@ -180,11 +181,11 @@
                                         <p>Rs. {{ item.price }}</p>
                                     </td>
                                     <td class="quantity-box">
-                                        <input type="number" size="4" value="{{ item.quantity }}" min="1" step="1"
-                                            class="c-input-text qty text" />
+                                        <p>{{ item.quantity }}</p> <!-- Display quantity as text -->
                                     </td>
                                     <td class="total-pr">
-                                        <p>Rs. {{ item.total_price }}</p> 
+                                        <p>Rs. {{ item.total_price }}</p>
+                                        <!-- Ensure this uses the calculated total price -->
                                     </td>
                                     <td class="remove-pr">
                                         <a href="{% url 'remove-from-cart' item.id %}">
@@ -195,18 +196,19 @@
                                 {% endfor %}
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
-    
+
             <div class="row my-5">
                 <div class="col-lg-6 col-sm-6">
                     <div class="update-box">
                         <a href="{% url 'shop-detail' %}" class="btn btn-primary">Update Cart</a>
                     </div>
                 </div>
-            </div>            
-    
+            </div>
+
             <!-- Order Summary Section -->
             <div class="row my-5">
                 <div class="col-lg-8 col-sm-12"></div>
@@ -230,13 +232,20 @@
                         <hr>
                     </div>
                 </div>
+
+                <!-- Checkout Button: Only works if cart has items -->
                 <div class="col-12 d-flex shopping-box">
+                    {% if total_price > 0 %}
                     <a href="{% url 'checkout' %}" class="ml-auto btn hvr-hover">Checkout</a>
+                    {% else %}
+                    <button class="btn hvr-hover btn-danger" disabled>No items in cart</button>
+                    {% endif %}
                 </div>
             </div>
-    
+
+
         </div>
-    </div>    
+    </div>
     <!-- End Cart -->
 
     <!-- Start Instagram Feed  -->

@@ -230,8 +230,15 @@
                                 <label for="phone">Phone Number</label>
                                 <input type="text" class="form-control" name="phone" id="phone">
                             </div>
+
+                            <!-- Place Order Button: Only works if cart has items -->
+                            {% if total_price > 0 %}
                             <button type="submit" class="btn hvr-hover">Place Order</button>
+                            {% else %}
+                            <button class="btn hvr-hover btn-danger" disabled>No items in cart</button>
+                            {% endif %}
                         </form>
+
                     </div>
                 </div>
 
