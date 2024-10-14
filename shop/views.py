@@ -4,6 +4,7 @@ from django.http import JsonResponse
 from .models import Cart, CartItem, Order
 from tomatoes.models import Product
 from account.models import BillingAddress
+from django.contrib import messages
 
 # Create your views heree.
 def checkout(request):
@@ -106,7 +107,6 @@ def remove_from_cart(request, item_id):
     else:
         return redirect('login')
 
-
 def checkout(request):
     cart_items_count = 0  # Initialize cart items count
     cart_items = []
@@ -140,8 +140,6 @@ def checkout(request):
         'total_price': total_price,
         'cart_items_count': cart_items_count  # Pass the cart items count to the template
     })
-    
-from django.contrib import messages
 
 def place_order(request):
     cart = get_object_or_404(Cart, user=request.user, status='in_progress')
