@@ -141,8 +141,9 @@ def checkout(request):
         'cart_items_count': cart_items_count  # Pass the cart items count to the template
     })
     
+from django.contrib import messages
+
 def place_order(request):
-    # Get the user's cart
     cart = get_object_or_404(Cart, user=request.user, status='in_progress')
     cart_items = CartItem.objects.filter(cart=cart)
 
@@ -150,18 +151,35 @@ def place_order(request):
         return redirect('shop')  # Redirect to shop if there are no items in the cart
 
     if request.method == 'POST':
+        # Get the data from the request
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        address = request.POST.get('address')
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        country = request.POST.get('country')
+        zip_code = request.POST.get('zip_code')
+
+        # Validate required fields
+        if not all([first_name, last_name, address, city, state, country, zip_code]):
+            messages.error(request, "Please enter the required details.")
+            return render(request, 'place_order.html', {
+                'cart_items': cart_items,
+                'total_price': sum(item.quantity * item.price for item in cart_items)
+            })
+
         # Save the billing address
         billing_address = BillingAddress.objects.create(
             user=request.user,
-            first_name=request.POST.get('first_name'),
-            last_name=request.POST.get('last_name'),
-            address=request.POST.get('address'),
-            address2=request.POST.get('address2'),
-            city=request.POST.get('city'),
-            state=request.POST.get('state'),
-            country=request.POST.get('country'),
-            zip_code=request.POST.get('zip_code'),
-            phone=request.POST.get('phone'),
+            first_name=first_name,
+            last_name=last_name,
+            address=address,
+            address2=request.POST.get('address2'),  # Optional
+            city=city,
+            state=state,
+            country=country,
+            zip_code=zip_code,
+            phone=request.POST.get('phone'),  # Optional
         )
 
         # Create the order
@@ -175,10 +193,10 @@ def place_order(request):
         for item in cart_items:
             item.order = order
             item.save()
-        
+
         # Clear the cart
         cart.items.clear()
-        
+
         return redirect('order_confirmation')  # Redirect to confirmation page
 
     return render(request, 'place_order.html', {

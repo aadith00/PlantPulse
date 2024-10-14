@@ -111,7 +111,6 @@
                                 <li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
                                 <li><a class="dropdown-item" href="{% url 'checkout' %}">Checkout</a></li>
                                 <li><a class="dropdown-item" href="{% url 'my-account' %}">My Account</a></li>
-                                <li><a class="dropdown-item" href="{% url 'wishlist' %}">Wishlist</a></li>
                             </ul>
                             {% endif %}
                         </li>
@@ -173,6 +172,15 @@
     <hr>
     <div class="checkout-page">
         <div class="container">
+            <!-- Display error messages -->
+            {% if messages %}
+            <ul class="alert alert-danger">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+
             <!-- Billing Address Section -->
             <div class="row">
                 <div class="col-sm-6 col-lg-6 mb-3">
@@ -222,8 +230,8 @@
                                 <label for="phone">Phone Number</label>
                                 <input type="text" class="form-control" name="phone" id="phone">
                             </div>
+                            <button type="submit" class="btn hvr-hover">Place Order</button>
                         </form>
-
                     </div>
                 </div>
 
@@ -233,41 +241,31 @@
                         <div class="title-left">
                             <h3>Your Order</h3>
                         </div>
-
                         <!-- Loop through cart items -->
                         {% for item in cart_items %}
                         <div class="d-flex">
-                            <h4>{{ item.product.title }}</h4> <!-- Product name -->
+                            <h4>{{ item.product.title }}</h4>
                             <div class="ml-auto font-weight-bold">
-                                Rs. {{ item.price }} (x{{ item.quantity }}) <!-- Individual price and quantity -->
+                                Rs. {{ item.price }} (x{{ item.quantity }})
                             </div>
                         </div>
                         <hr>
                         {% endfor %}
-
-                        <!-- Subtotal -->
                         <div class="d-flex">
                             <h4>Sub Total</h4>
                             <div class="ml-auto font-weight-bold">Rs. {{ total_price }}</div>
                         </div>
                         <hr>
-
-                        <!-- Grand Total (you can add tax, shipping, etc. if needed) -->
                         <div class="d-flex gr-total">
                             <h5>Grand Total</h5>
                             <div class="ml-auto h5">Rs. {{ total_price }}</div>
                         </div>
                         <hr>
-
-                        <!-- Checkout button -->
-                        <div class="col-12 d-flex shopping-box">
-                            <a href="{% url 'checkout' %}" class="ml-auto btn hvr-hover">Place Order</a>
-                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
+
     </div>
 
     <!-- End Cart -->

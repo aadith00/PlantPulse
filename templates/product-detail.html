@@ -317,19 +317,17 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="right-phone-box">
-                        <p>Call US :- <a href="#">+91 9207542829</a></p>
+                        <p>Call US :- <a href="#">+91 XXX XXX XXXX</a></p>
                     </div>
                     <div class="our-link">
                         {% if user.is_authenticated %}
                         <ul>
                             <li><a href="#"><i class="fa fa-user s_color"></i> My Account</a></li>
-                            <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
-                            <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
+                            <li><a href="{% url 'contact' %}"><i class="fas fa-headset"></i> Contact Us</a></li>
                         </ul>
                         {% else %}
                         <ul>
-                            <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
-                            <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
+                            <li><a href="{% url 'contact' %}"><i class="fas fa-headset"></i> Contact Us</a></li>
                         </ul>
                         {% endif %}
                     </div>
@@ -386,7 +384,6 @@
                                 <li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
                                 <li><a class="dropdown-item" href="{% url 'checkout' %}">Checkout</a></li>
                                 <li><a class="dropdown-item" href="{% url 'my-account' %}">My Account</a></li>
-                                <li><a class="dropdown-item" href="{% url 'wishlist' %}">Wishlist</a></li>
                             </ul>
                             {% endif %}
                         </li>
