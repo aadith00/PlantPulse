@@ -226,22 +226,30 @@
     <div class="box-add-products">
         <div class="container">
             <div class="row">
-
-                {% for v in varieties %}
-
-                <div class="col-lg-6 col-md-6 col-sm-12">
-                    <div class="offer-box-products">
-                        <img class="img-fluid" src="{{ v.image.url }}" alt="Image" />
-                        <a class="btn hvr-hover" href="#">{{ v.name }}</a>
+                <div class="col-lg-12">
+                    <div class="title-all text-center">
+                        <h1>Varieties</h1>
                     </div>
                 </div>
-
+            </div>
+    
+            <div class="row special-list">
+                {% for v in varieties %}
+                <div class="col-lg-3 col-md-6 special-grid best-seller">
+                    <div class="products-single fix">
+                        <div class="box-img-hover">
+                            <img src="{{ v.image.url }}" class="img-fluid" alt="Image">
+                        </div>
+                        <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
+                            <h4>{{ v.name }}</h4>
+                        </div>
+                    </div>
+                </div>
                 {% endfor %}
-
             </div>
         </div>
     </div>
-
+    
     <!-- Start Products  -->
     <div class="products-box">
         <div class="container">
@@ -252,27 +260,25 @@
                     </div>
                 </div>
             </div>
-
+    
             <div class="row special-list">
-
                 {% for d in diseases %}
-
                 <div class="col-lg-3 col-md-6 special-grid best-seller">
                     <div class="products-single fix">
                         <div class="box-img-hover">
                             <img src="{{ d.image.url }}" class="img-fluid" alt="Image">
                         </div>
-                        <div class="why-text">
+                        <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
                             <h4>{{ d.name }}</h4>
                         </div>
                     </div>
                 </div>
-
                 {% endfor %}
-
             </div>
         </div>
     </div>
+    
+    
     <!-- End Products  -->
 
     <!-- Start Blog  -->

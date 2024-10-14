@@ -49,7 +49,7 @@ def contact(request):
     context = {
         "cart_items_count": cart_items_count
     }
-
+    
     return render(request, 'contact-us.html', context)
 
 def gallery(request):
