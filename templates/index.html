@@ -148,7 +148,35 @@
                 <span class="input-group-addon"><i class="fa fa-search"></i></span>
                 <input type="text" class="form-control" placeholder="Search">
                 <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
+            </div><!-- Start Categories  -->
+<div class="categories-shop">
+    <div class="container">
+        <!-- Adding a title for the Categories section -->
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="title-all text-center">
+                    <h1>Categories</h1> <!-- Added Categories heading -->
+                </div>
             </div>
+        </div>
+
+        <div class="row special-list">
+            {% for p in products %}
+            <div class="col-lg-3 col-md-6 special-grid best-seller">
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <img src="{{ p.image.url }}" class="img-fluid" alt="Image">
+                    </div>
+                    <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
+                        <h4>{{ p.title }}</h4>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
         </div>
     </div>
     <!-- End Top Search -->
@@ -224,60 +252,60 @@
     <!-- End Categories -->
 
     <div class="box-add-products">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="title-all text-center">
-                        <h1>Varieties</h1>
-                    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="title-all text-center">
+                    <h1>Varieties</h1>
                 </div>
-            </div>
-    
-            <div class="row special-list">
-                {% for v in varieties %}
-                <div class="col-lg-3 col-md-6 special-grid best-seller">
-                    <div class="products-single fix">
-                        <div class="box-img-hover">
-                            <img src="{{ v.image.url }}" class="img-fluid" alt="Image">
-                        </div>
-                        <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
-                            <h4>{{ v.name }}</h4>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
             </div>
         </div>
-    </div>
-    
-    <!-- Start Products  -->
-    <div class="products-box">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="title-all text-center">
-                        <h1>Leaf Diseases</h1>
+
+        <div class="row special-list">
+            {% for v in varieties %}
+            <div class="col-lg-3 col-md-6 special-grid best-seller">
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <img src="{{ v.image.url }}" class="img-fluid" alt="Image">
+                    </div>
+                    <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
+                        <h4>{{ v.name }}</h4>
                     </div>
                 </div>
             </div>
-    
-            <div class="row special-list">
-                {% for d in diseases %}
-                <div class="col-lg-3 col-md-6 special-grid best-seller">
-                    <div class="products-single fix">
-                        <div class="box-img-hover">
-                            <img src="{{ d.image.url }}" class="img-fluid" alt="Image">
-                        </div>
-                        <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
-                            <h4>{{ d.name }}</h4>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
+            {% endfor %}
         </div>
     </div>
-    
+</div>
+
+<!-- Start Products  -->
+<div class="products-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="title-all text-center">
+                    <h1>Leaf Diseases</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row special-list">
+            {% for d in diseases %}
+            <div class="col-lg-3 col-md-6 special-grid best-seller">
+                <div class="products-single fix">
+                    <div class="box-img-hover">
+                        <img src="{{ d.image.url }}" class="img-fluid" alt="Image">
+                    </div>
+                    <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
+                        <h4>{{ d.name }}</h4>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
     
     <!-- End Products  -->
 
