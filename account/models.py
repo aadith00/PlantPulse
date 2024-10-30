@@ -36,6 +36,36 @@ class Farmer(models.Model):
 
 #     def __str__(self):
 #         return self.username
+
+class Customer(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="customer_profile")
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+
+    # Address Information
+    address = models.CharField(max_length=255)
+    address2 = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    zip_code = models.CharField(max_length=20)
+    country = models.CharField(max_length=100)
+
+    # Order and Activity Information
+    order_count = models.PositiveIntegerField(default=0)
+    total_spent = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    last_order_date = models.DateTimeField(blank=True, null=True)
+
+    # Preferences and Status
+    preferred_contact_method = models.CharField(max_length=10, choices=[
+        ('email', 'Email'),
+        ('phone', 'Phone'),
+        ('sms', 'SMS')
+    ], default='email')
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} ({self.user.username})"
     
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
