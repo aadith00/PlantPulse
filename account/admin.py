@@ -4,9 +4,6 @@ from .models import Farmer,Profile, BillingAddress, Customer
 class FarmerAdmin(admin.ModelAdmin):
     list_display = ['name','image','contact']
 
-# class CustomerAdmin(admin.ModelAdmin):
-#     list_display = ['username','email']
-
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ['full_name','phone']
 
@@ -18,7 +15,6 @@ class CustomerAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Farmer,FarmerAdmin)
-# admin.site.register(Customer,CustomerAdmin)
 admin.site.register(Profile,ProfileAdmin)
 admin.site.register(BillingAddress,AddressAdmin)
 admin.site.register(Customer,CustomerAdmin)

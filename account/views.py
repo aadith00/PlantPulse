@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect # type: ignore
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
+from .models import Customer
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 def account(request):
@@ -90,3 +94,22 @@ def user_logout(request):
     logout(request)
     return redirect('auth')
 
+
+@login_required
+def update_customer_info(request):
+    customer = get_object_or_404(Customer, user=request.user)
+
+    if request.method == 'POST':
+        customer.first_name = request.POST.get('first_name')
+        customer.last_name = request.POST.get('last_name')
+        customer.address = request.POST.get('address')
+        customer.city = request.POST.get('city')
+        customer.country = request.POST.get('country')
+        customer.zip_code = request.POST.get('zip_code')
+        customer.phone_number = request.POST.get('phone_number')
+        
+        customer.save()
+        messages.success(request, "Your profile has been updated successfully.")
+        return redirect('profile')
+
+    return render(request, 'profile.html', {'customer': customer})
