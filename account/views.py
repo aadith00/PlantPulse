@@ -5,11 +5,15 @@ from .models import Customer, Farmer
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
+from custom_admin.models import Admin
 
 # Create your views here.
 def account(request):
-    customer = Customer.objects.get(user =request.user)
-    print(customer)
+    try:
+        customer = Customer.objects.get(user =request.user)
+        print(customer)
+    except:
+        customer = Customer.objects.create(user=request.user)
     return render(request, 'my-account.html',context={'customer':customer})
 
 def wishlist(request):
@@ -27,6 +31,7 @@ def user_register(request):
         password = request.POST.get('password', '').strip()
         cnfpass = request.POST.get('confirm_password', '').strip()
         role = request.POST.get('role', '').strip()  # Capture the role from the form
+        print(role)
 
         # Validation for email
         if not email:
@@ -65,7 +70,6 @@ def user_register(request):
                 email=email,
                 password=password
             )
-            user.save()
 
             # Register user in the appropriate table based on role
             if role.lower() == 'farmer':
@@ -83,6 +87,23 @@ def user_register(request):
 
     return render(request, "index.html", context)
 
+# def user_login(request):
+#     if request.method == 'POST':
+#         username = request.POST['username']
+#         password = request.POST['password']
+
+#         user = authenticate(request, username=username, password=password)
+
+#         if user is not None:
+#             login(request, user)
+#             return redirect('index')
+        
+#         else:
+#             error_message = "Invalid username or password."
+#             return render(request, 'autho.html', {'error_message': error_message})
+        
+#     return render (request, 'index.html')
+
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -92,18 +113,26 @@ def user_login(request):
 
         if user is not None:
             login(request, user)
-            return render(request, 'index.html')
-        
+
+            # Redirect based on user type
+            if Admin.objects.filter(user=user).exists():
+                return redirect('dashboard')
+            elif Farmer.objects.filter(user=user).exists():
+                return redirect('index')
+            elif Customer.objects.filter(user=user).exists():
+                return redirect('index')
+            else:
+                messages.error(request, "Account type not recognized.")
+                return redirect('autho.html')
         else:
             error_message = "Invalid username or password."
             return render(request, 'autho.html', {'error_message': error_message})
         
-    return render (request, 'index.html')
+    return render(request, 'autho.html')
 
 def user_logout(request):
     logout(request)
     return redirect('auth')
-
 
 @login_required
 def update_customer_info(request):
@@ -127,7 +156,7 @@ def update_customer_info(request):
 @login_required
 def update_profile_picture(request):
     try:
-        customer = request.user.customer_profile  # Use the related_name defined in the Customer model
+        customer = Customer.objects.get(user=request.user)
     except Customer.DoesNotExist:
         messages.error(request, "Customer profile not found.")
         return redirect('my-account')  # Adjust redirect as needed
