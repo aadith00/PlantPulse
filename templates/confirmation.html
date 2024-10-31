@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Order Confirmation</title>
+    <style>
+        /* Base styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container Styles */
+        .container-fluid {
+            background-color: #6c757d;
+            color: #fff;
+            text-align: center;
+            padding: 50px 0;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        /* Header and Footer */
+        h1, h2 {
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        footer {
+            background-color: #6c757d;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.9em;
+        }
+
+        /* Card and Table Styles */
+        .card {
+            background-color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 30px;
+            animation: scaleIn 0.8s ease-out;
+        }
+
+        .table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            background-color: #f1f1f1;
+        }
+
+        .table th, .table td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+        }
+
+        .btn-outline-primary {
+            background-color: transparent;
+            border: 2px solid #007bff;
+            color: #007bff;
+        }
+
+        /* Hover and Focus Effects */
+        .btn:hover {
+            transform: scale(1.05);
+            cursor: pointer;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="container-fluid">
+    <h1 class="text-uppercase">Order Confirmation</h1>
+    <p><a href="{% url 'index' %}">Home</a> - Order Confirmation</p>
+</div>
+
+<!-- Main Content -->
+<div class="container my-5">
+    <div class="card">
+        <h2 class="text-center mb-4">Thank you for your order!</h2>
+        <p class="text-center">Your order has been placed successfully.</p>
+        <p class="text-center">Order ID: <strong>{{ order.id }}</strong></p>
+
+        <h4 class="mt-4">Order Details:</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                <tr>
+                    <td>{{ item.product.title }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>Rs. {{ item.price }}</td>
+                    <td>Rs. {{ item.quantity|multiply:item.price }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3" class="text-right"><strong>Grand Total:</strong></td>
+                    <td><strong>Rs. {{ order.total_price }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h4 class="mt-4">Shipping Information:</h4>
+        <p><strong>Name:</strong> {{ order.billing_address.first_name }} {{ order.billing_address.last_name }}</p>
+        <p><strong>Address:</strong> {{ order.billing_address.address }}, {{ order.billing_address.city }}, {{ order.billing_address.state }}, {{ order.billing_address.zip_code }}</p>
+        <p><strong>Country:</strong> {{ order.billing_address.country }}</p>
+
+        <div class="text-center mt-4">
+            <a href="{% url 'shop' %}" class="btn btn-outline-primary">Continue Shopping</a>
+            <a href="{% url 'account-orders' %}" class="btn btn-primary">View Orders</a>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 PlantPulse. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
