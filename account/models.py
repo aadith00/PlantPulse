@@ -15,7 +15,7 @@ class Farmer(models.Model):
     address = models.CharField(max_length=100, default="India")
     contact = models.CharField(max_length=100, default="+91XXX XXX XXXX")
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Farmers"
