@@ -5,6 +5,21 @@ from .models import Customer
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.files.storage import default_storage
+
+def update_profile_picture(request):
+    if request.method == 'POST' and request.FILES.get('profile_picture'):
+        # Retrieve the customer profile associated with the logged-in user
+        customer = Customer.objects.get(user=request.user)
+        
+        # Save the new profile picture
+        customer.profile_picture = request.FILES['profile_picture']
+        customer.save()
+        
+        return redirect('my-account')  # Replace with the profile settings URL
+
+    return redirect('my-account')
+
 
 # Create your views here.
 def account(request):
