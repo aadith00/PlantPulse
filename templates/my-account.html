@@ -276,11 +276,23 @@
                 </div>
                 <div class="col-md-9">
                     <div class="tab-content">
-
-                        <!-- General Information -->
+    
+                        <!-- General Information and Profile Picture -->
                         <div class="tab-pane fade active show" id="account-general">
                             <div class="card-body">
                                 <h4>Account Information</h4>
+                                <hr>
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="{{ customer.profile_picture.url }}" alt="Profile Picture" class="rounded-circle" style="width: 80px; height: 80px; border: 2px solid #6c757d;">
+                                    <form action="{% url 'update_profile_picture' %}" method="post" enctype="multipart/form-data" class="ml-3">
+                                        {% csrf_token %}
+                                        <label class="btn btn-outline-primary" style="cursor: pointer;">
+                                            Upload new photo
+                                            <input type="file" name="profile_picture" style="display: none;">
+                                        </label>
+                                        <button type="submit" class="btn btn-primary mt-2">Update Photo</button>
+                                    </form>
+                                </div>
                                 <hr>
                                 <div class="form-group">
                                     <label class="form-label">Username</label>
@@ -333,7 +345,7 @@
                             </div>
                         </div>
     
-                        <!-- Order History Section -->
+                        <!-- Order History and Tracking Section -->
                         <div class="tab-pane fade" id="account-orders">
                             <div class="card-body">
                                 <h4>Order History</h4>
@@ -350,6 +362,14 @@
                                                 <div>
                                                     <span><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y" }}</span>
                                                 </div>
+                                                {% if order.tracking_number %}
+                                                    <div class="mt-2">
+                                                        <strong>Tracking Number:</strong> {{ order.tracking_number }}
+                                                        <a href="https://track.aftership.com/{{ order.tracking_number }}" target="_blank" class="btn btn-outline-primary btn-sm ml-2">Track Order</a>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="mt-2 text-muted">No tracking information available.</div>
+                                                {% endif %}
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -361,9 +381,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div>
     </div>
-
+    
     <!-- Start Footer  -->
     <footer>
         <div class="footer-main">
