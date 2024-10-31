@@ -8,7 +8,7 @@ from account.models import Farmer, Customer
 from tomatoes.models import Product
 from shop.models import Order
 from django.http import JsonResponse
-from .forms import UserForm
+from django.contrib import messages
 
 @login_required
 def dashboard(request):
@@ -110,13 +110,23 @@ def edit_user(request, user_id):
 
 def add_user(request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return JsonResponse({'success': True})
-    else:
-        form = UserForm()
-    return render(request, 'add_user.html', {'form': form})
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        role = request.POST.get('role')
+
+        # Create the user
+        user = User.objects.create_user(username=username, email=email, password=password)
+        
+        # Register into the appropriate table
+        if role == 'farmer':
+            Farmer.objects.create(user=user)
+            messages.success(request, 'Farmer registered successfully!')
+        elif role == 'customer':
+            Customer.objects.create(user=user)
+            messages.success(request, 'Customer registered successfully!')
+        
+        return redirect('manage_users')  # Redirect back to the manage users page
 
 def order_confirmation(request):
     return render(request, 'order_confirmation.html')
