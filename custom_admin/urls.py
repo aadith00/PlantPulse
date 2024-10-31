@@ -9,7 +9,8 @@ from .views import (
     admin_logout,
     manage_users,
     edit_user,
-    add_user
+    add_user,
+    order_confirmation
 )
 
 urlpatterns = [
@@ -22,5 +23,6 @@ urlpatterns = [
     path('custom_admin/delete_product/<str:product_id>/', delete_product, name='delete_product'),
     path('custom_admin/orders/', order_list, name='order_list'),
     path('custom_admin/update_order_status/<int:order_id>/', update_order_status, name='update_order_status'),
+    path('order_confirmation/', order_confirmation, name='order_confirmation'),
     path('logout/', admin_logout, name='logout'),
 ]

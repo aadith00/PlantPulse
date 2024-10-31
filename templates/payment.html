@@ -141,47 +141,32 @@
 </div>
 
 <!-- Main Content -->
-<div class="container my-5">
-    <div class="card">
-        <h2 class="text-center mb-4">Select Payment Method</h2>
-
-        <h4 class="mt-4">Order Summary:</h4>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in order.items.all %}
-                <tr>
-                    <td>{{ item.product.title }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <td>Rs. {{ item.price }}</td>
-                    <td>Rs. {{ item.quantity|multiply:item.price }}</td>
-                </tr>
-                {% endfor %}
-                <tr>
-                    <td colspan="3" class="text-right"><strong>Grand Total:</strong></td>
-                    <td><strong>Rs. {{ order.total_price }}</strong></td>
-                </tr>
-            </tbody>
-        </table>
-
-        <h4 class="mt-4">Payment Option:</h4>
-        <div class="mt-3 mb-4">
-            <input type="radio" id="cod" name="payment_method" value="cash_on_delivery" checked>
-            <label for="cod">Cash on Delivery</label>
-        </div>
-
-        <div class="text-center mt-4">
-            <a href="{% url 'order_confirmation' %}" class="btn btn-primary">Confirm Order</a>
-        </div>
+<div class="container">
+    <h2>Payment Method</h2>
+    <div class="alert alert-info">
+        <p>You have chosen to pay using <strong>Cash on Delivery</strong>.</p>
+        <p>Please ensure that you have the exact amount ready for payment upon delivery.</p>
     </div>
-</div>
+
+    <form method="post" action="{% url 'order_confirmation' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="address">Delivery Address:</label>
+            <input type="text" class="form-control" name="address" id="address" required placeholder="Enter your delivery address">
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Contact Number:</label>
+            <input type="text" class="form-control" name="phone" id="phone" required placeholder="Enter your contact number">
+        </div>
+
+        <div class="form-group">
+            <label for="delivery_time">Preferred Delivery Time:</label>
+            <input type="text" class="form-control" name="delivery_time" id="delivery_time" placeholder="Optional: Enter preferred delivery time">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Confirm Payment</button>
+    </form>
 
 <!-- Footer -->
 <footer>

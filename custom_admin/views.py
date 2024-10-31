@@ -89,3 +89,6 @@ def add_user(request):
     else:
         form = UserForm()
     return render(request, 'add_user.html', {'form': form})
+
+def order_confirmation(request):
+    return render(request, 'order_confirmation.html')
