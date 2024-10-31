@@ -8,17 +8,24 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.files.storage import default_storage
 
 def update_profile_picture(request):
-    if request.method == 'POST' and request.FILES.get('profile_picture'):
-        # Retrieve the customer profile associated with the logged-in user
-        customer = Customer.objects.get(user=request.user)
-        
-        # Save the new profile picture
-        customer.profile_picture = request.FILES['profile_picture']
-        customer.save()
-        
-        return redirect('my-account')  # Replace with the profile settings URL
+    try:
+        customer = request.user.customer_profile  # Adjusted to use the correct related_name 'customer_profile'
+    except Customer.DoesNotExist:
+        messages.error(request, "Customer profile not found.")
+        return redirect('my-account')  # Redirect back to account page or an appropriate page
 
-    return redirect('my-account')
+    if request.method == 'POST':
+        # Check if 'profile_picture' is in request.FILES
+        if request.FILES.get('profile_picture'):
+            customer.profile_picture = request.FILES['profile_picture']
+            customer.save()
+            messages.success(request, "Profile picture updated successfully.")
+        else:
+            messages.error(request, "No file uploaded. Please select a picture to upload.")
+    else:
+        messages.error(request, "Invalid request method. Please try again.")
+
+    return redirect('my-account')  # Adjust redirect as needed
 
 
 # Create your views here.

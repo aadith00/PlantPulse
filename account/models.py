@@ -33,6 +33,9 @@ class Customer(models.Model):
     email = models.EmailField(unique=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
 
+    # Profile Picture
+    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+
     # Address Information
     address = models.CharField(max_length=255)
     address2 = models.CharField(max_length=255, blank=True, null=True)
@@ -80,3 +83,5 @@ class BillingAddress(models.Model):
 
     def __str__(self):
         return f'{self.user.username} - {self.address}, {self.city}'
+
+    
