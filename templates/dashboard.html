@@ -5,12 +5,279 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #e9ecef; /* Light gray background for a softer look */
+        }
+        .sidebar {
+            background-color: #343a40;
+            height: 100vh; /* Full height sidebar */
+            color: white;
+            position: fixed; /* Fixes the sidebar in place */
+            padding: 20px 0; /* Padding for the sidebar */
+            width: 250px; /* Fixed width for sidebar */
+        }
+        .sidebar a {
+            color: #adb5bd;
+            text-decoration: none;
+        }
+        .sidebar a:hover {
+            color: white;
+        }
+        .content {
+            margin-left: 270px; /* Offset for the sidebar plus extra space */
+            padding: 20px; /* Padding for the content area */
+            min-height: 100vh; /* Ensures content extends to full height */
+        }
+        .card {
+            margin-top: 20px;
+            border-radius: 10px; /* Rounded corners for cards */
+        }
+        .card-header {
+            background-color: #28a745; /* Green background for card headers */
+            color: white; /* White text color */
+            font-weight: bold;
+            border-top-left-radius: 10px; /* Rounded top corners */
+            border-top-right-radius: 10px; /* Rounded top corners */
+        }
+        .dashboard-header {
+            font-size: 2rem; /* Increased font size for the header */
+            font-weight: 700;
+            margin-bottom: 20px; /* Spacing below the header */
+            color: #343a40; /* Dark text color */
+        }
+        .chart-container {
+            position: relative;
+            height: 40vh; /* Fixed height for the charts */
+            width: 100%; /* Full width for charts */
+        }
+        .logout-btn {
+            position: absolute;
+            bottom: 20px; /* Position it at the bottom */
+            width: 100%; /* Full width */
+            text-align: center; /* Center text */
+        }
+        .logout-button {
+            background-color: #dc3545; /* Red background for logout button */
+            color: white; /* White text color */
+            border: none; /* No border */
+            border-radius: 5px; /* Rounded corners for the button */
+            padding: 10px; /* Padding for the button */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+        .logout-button:hover {
+            background-color: #c82333; /* Darker red on hover */
+        }
+        .table th {
+            background-color: #e9ecef; /* Light background for table headers */
+        }
+        .badge-custom {
+            font-size: 0.8rem; /* Smaller badge font size */
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Admin Dashboard</h1>
-        <a href="{% url 'add_product' %}" class="btn btn-primary">Add Product</a>
-        <a href="{% url 'order_list' %}" class="btn btn-secondary">View Orders</a>
+    <div class="sidebar">
+        <h2 class="text-center">Admin Panel</h2>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'manage_users' %}" data-toggle="tooltip" title="Manage user accounts and roles">View Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="tooltip" title="View and manage orders">Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="tooltip" title="Manage product listings">Products</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="tooltip" title="View system reports">Reports</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="tooltip" title="Adjust application settings">Settings</a>
+            </li>
+            <li class="nav-item logout-btn">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn logout-button">Logout</button>
+                </form>
+            </li>
+        </ul>
     </div>
+
+    <div class="content">
+        <header class="pt-4 pb-2 mb-3 border-bottom">
+            <h1 class="dashboard-header text-center">Admin Dashboard</h1>
+            <p class="text-center">Welcome, {{ request.user.username }}!</p>
+        </header>
+
+        <!-- Overview Section -->
+        <div class="row text-center">
+            <div class="col-md-4">
+                <div class="card bg-light">
+                    <div class="card-header">Total Users</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ user_count }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-light">
+                    <div class="card-header">Total Orders</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ order_count }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-light">
+                    <div class="card-header">Total Sales</div>
+                    <div class="card-body">
+                        <h5 class="card-title">₹{{ total_sales|floatformat:2 }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">Sales Over Time</div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="salesChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">User Growth</div>
+                    <div class="card-body">
+                        <div class="chart-container">
+                            <canvas id="userGrowthChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Orders Section -->
+        <div class="card mt-4">
+            <div class="card-header">Recent Orders</div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#1234</td>
+                            <td>John Doe</td>
+                            <td><span class="badge badge-warning badge-custom">Pending</span></td>
+                            <td>Oct 25, 2024</td>
+                            <td>₹500</td>
+                        </tr>
+                        <tr>
+                            <td>#1235</td>
+                            <td>Jane Smith</td>
+                            <td><span class="badge badge-success badge-custom">Completed</span></td>
+                            <td>Oct 24, 2024</td>
+                            <td>₹700</td>
+                        </tr>
+                        <tr>
+                            <td>#1236</td>
+                            <td>Emily Johnson</td>
+                            <td><span class="badge badge-danger badge-custom">Cancelled</span></td>
+                            <td>Oct 23, 2024</td>
+                            <td>₹450</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- User Management Section -->
+        <div class="card mt-4">
+            <div class="card-header">User Management</div>
+            <div class="card-body">
+                <p>Manage users, roles, and access levels.</p>
+                <a href="{% url 'manage_users' %}" class="btn btn-primary">View Users</a>
+                <a href="#" class="btn btn-secondary">Add User</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Sales Over Time Chart
+        const salesCtx = document.getElementById('salesChart').getContext('2d');
+        const salesChart = new Chart(salesCtx, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'Sales (₹)',
+                    data: [3000, 2500, 4000, 2000, 5000, 3000, 7000],
+                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                    borderColor: 'rgba(40, 167, 69, 1)',
+                    borderWidth: 2,
+                    fill: true,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // User Growth Chart
+        const userCtx = document.getElementById('userGrowthChart').getContext('2d');
+        const userGrowthChart = new Chart(userCtx, {
+            type: 'bar',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [{
+                    label: 'New Users',
+                    data: [5, 8, 12, 10, 15, 18, 20],
+                    backgroundColor: 'rgba(23, 162, 184, 0.2)',
+                    borderColor: 'rgba(23, 162, 184, 1)',
+                    borderWidth: 2,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Initialize tooltips
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
