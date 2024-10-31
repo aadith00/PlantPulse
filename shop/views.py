@@ -7,8 +7,12 @@ from account.models import BillingAddress
 from django.contrib import messages
 
 # Create your views heree.
-def checkout(request):
+def checkoutpage(request):
     return render(request, 'checkout.html')
+
+def payment(request):
+    return render(request, 'payment.html')
+
 
 def shop_detail(request):
     product = Product.objects.all()
@@ -130,7 +134,7 @@ def checkout(request):
                 zip_code=request.POST.get('zip_code'),
                 phone=request.POST.get('phone'),
             )
-            return redirect('order_confirmation')
+            return redirect('payment')
 
     except Cart.DoesNotExist:
         total_price = 0  # Set to zero if there is no cart
