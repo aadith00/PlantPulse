@@ -116,7 +116,7 @@ def user_login(request):
 
             # Redirect based on user type
             if Admin.objects.filter(user=user).exists():
-                return redirect('admin_dashboard')
+                return redirect('dashboard')
             elif Farmer.objects.filter(user=user).exists():
                 return redirect('index')
             elif Customer.objects.filter(user=user).exists():

@@ -5,16 +5,17 @@ from shop.models import Order
 
 @login_required
 def dashboard(request):
-    return render(request, 'custom_admin/dashboard.html')
-
+    if request.user.is_superuser:
+        return render(request, 'dashboard.html')
+    else:
+        return redirect('index') 
 
 @login_required
 def add_product(request):
     if request.method == 'POST':
         # Code to create a new product
         pass
-    return render(request, 'custom_admin/add_product.html')
-
+    return render(request, 'add_product.html')
 
 @login_required
 def update_product(request, product_id):
