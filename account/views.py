@@ -30,7 +30,9 @@ def update_profile_picture(request):
 
 # Create your views here.
 def account(request):
-    return render(request, 'my-account.html')
+    customer = Customer.objects.get(user =request.user)
+    print(customer)
+    return render(request, 'my-account.html',context={'customer':customer})
 
 def wishlist(request):
     return render(request, 'wishlist.html')
