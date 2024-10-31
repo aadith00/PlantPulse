@@ -5,27 +5,6 @@ from .models import Customer, Farmer
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.files.storage import default_storage
-
-def update_profile_picture(request):
-    try:
-        customer = request.user.customer_profile  # Adjusted to use the correct related_name 'customer_profile'
-    except Customer.DoesNotExist:
-        messages.error(request, "Customer profile not found.")
-        return redirect('my-account')  # Redirect back to account page or an appropriate page
-
-    if request.method == 'POST':
-        # Check if 'profile_picture' is in request.FILES
-        if request.FILES.get('profile_picture'):
-            customer.profile_picture = request.FILES['profile_picture']
-            customer.save()
-            messages.success(request, "Profile picture updated successfully.")
-        else:
-            messages.error(request, "No file uploaded. Please select a picture to upload.")
-    else:
-        messages.error(request, "Invalid request method. Please try again.")
-
-    return redirect('my-account')  # Adjust redirect as needed
 
 # Create your views here.
 def account(request):
@@ -142,3 +121,23 @@ def update_customer_info(request):
         return redirect('profile')
 
     return render(request, 'profile.html', {'customer': customer})
+
+@login_required
+def update_profile_picture(request):
+    try:
+        customer = request.user.customer_profile  # Use the related_name defined in the Customer model
+    except Customer.DoesNotExist:
+        messages.error(request, "Customer profile not found.")
+        return redirect('my-account')  # Adjust redirect as needed
+
+    if request.method == 'POST':
+        if request.FILES.get('profile_picture'):
+            customer.profile_picture = request.FILES['profile_picture']
+            customer.save()
+            messages.success(request, "Profile picture updated successfully.")
+        else:
+            messages.error(request, "No file uploaded. Please select a picture to upload.")
+    else:
+        messages.error(request, "Invalid request method. Please try again.")
+
+    return redirect('my-account')
