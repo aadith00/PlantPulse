@@ -280,7 +280,9 @@
                                 <h4>Account Information</h4>
                                 <hr>
                                 <div class="d-flex align-items-center mb-3">
-                                    <img src="{{ customer.profile_picture.url }}" alt="Profile Picture" class="rounded-circle" style="width: 80px; height: 80px; border: 2px solid #6c757d;">
+                                    
+                                    <img {% if customer.profile_picture %} src="{{ customer.profile_picture.url }}" {% endif %} alt="Profile Picture" class="rounded-circle" style="width: 80px; height: 80px; border: 2px solid #6c757d;">
+                                    
                                     <form action="{% url 'update_profile_picture' %}" method="post" enctype="multipart/form-data" class="ml-3">
                                         {% csrf_token %}
                                         <label class="btn btn-outline-primary" style="cursor: pointer;">
