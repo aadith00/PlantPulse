@@ -1066,11 +1066,46 @@
                 font-size: 2rem;
             }
         }
+
+        .role-selection {
+            display: flex;
+            justify-content: space-between;
+            /* Distributes items evenly across the container */
+            align-items: center;
+            padding: 0 10px;
+            /* Adds some padding for spacing */
+            gap: 10px;
+            margin-top: 10px;
+            /* Adds some spacing above */
+        }
+
+        .role-option {
+            padding: 10px 20px;
+            border: 2px solid #28a745;
+            border-radius: 5px;
+            cursor: pointer;
+            color: #28a745;
+            font-weight: bold;
+            flex: 1;
+            /* Makes each button take up equal width */
+            text-align: center;
+            /* Centers text within the button */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .role-option:hover {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .role-option.selected {
+            background-color: #28a745;
+            color: white;
+        }
     </style>
 </head>
 
 <body>
-
     <div id="container" class="container">
         <!-- FORM SECTION -->
         <div class="row">
@@ -1095,6 +1130,14 @@
                             <div class="input-group">
                                 <i class='bx bxs-lock-alt'></i>
                                 <input type="password" name="confirm_password" placeholder="Confirm password" required>
+                            </div>
+                            <!-- New Role Selection -->
+                            <div class="input-group role-selection">
+                                <i class='bx bx-user-circle'></i>
+                                <span class="role-option" onclick="selectRole('Farmer')" id="role-farmer">Farmer</span>
+                                <span class="role-option" onclick="selectRole('Customer')"
+                                    id="role-customer">Customer</span>
+                                <input type="hidden" name="role" id="selected-role" required>
                             </div>
                             <button type="submit">
                                 Sign up
@@ -1179,8 +1222,22 @@
         setTimeout(() => {
             container.classList.add('sign-in')
         }, 200)
+
+        function selectRole(role) {
+            document.getElementById('selected-role').value = role;
+
+            // Reset the styles for both options
+            document.getElementById('role-farmer').classList.remove('selected');
+            document.getElementById('role-customer').classList.remove('selected');
+
+            // Highlight the selected option
+            if (role === 'Farmer') {
+                document.getElementById('role-farmer').classList.add('selected');
+            } else {
+                document.getElementById('role-customer').classList.add('selected');
+            }
+        }
     </script>
 </body>
-
 
 </html>

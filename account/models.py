@@ -25,17 +25,6 @@ class Farmer(models.Model):
     
     def __str__(self):
         return self.name
-    
-
-# class Customer(AbstractUser):
-#     email = models.EmailField(unique=True)
-#     username = models.CharField(max_length=100)
-
-#     USERNAME_FIELD = "email"
-#     REQUIRED_FIELDS = ['username']
-
-#     def __str__(self):
-#         return self.username
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="customer_profile")

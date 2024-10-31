@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect # type: ignore
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-from .models import Customer
+from .models import Customer, Farmer
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -32,63 +32,71 @@ def auth(request):
     return render(request, 'autho.html' )
 
 def user_register(request):
-
     errors = {}
+    
     if request.method == 'POST':
+        email = request.POST.get('email', '').strip()
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '').strip()
+        cnfpass = request.POST.get('confirm_password', '').strip()
+        role = request.POST.get('role', '').strip()  # Capture the role from the form
 
-        # first_name = request.POST['first_name'].strip()
-        # last_name = request.POST['last_name'].strip()
-        email = request.POST['email'].strip()
-        username = request.POST['email'].strip()
-        password = request.POST['password'].strip()
-        cnfpass = request.POST['confirm_password'].strip()
-
-    ## Validation for email
+        # Validation for email
         if not email:
             errors['email'] = 'Email field is required.'
         else:
-            is_used = User.objects.filter(email='email').exists()
+            is_used = User.objects.filter(email=email).exists()
             if is_used:
                 errors['email'] = 'This email is already taken.'
 
-    ## Validation for username
+        # Validation for username
         if not username:
             errors['username'] = 'Username field is required.'
         else:
-            is_used = User.objects.filter(username='username').exists()
+            is_used = User.objects.filter(username=username).exists()
             if is_used:
                 errors['username'] = 'This username is already taken.'
 
-    ## Validation for password
+        # Validation for password
         if not password:
             errors['password'] = 'Password is required.'
         if not cnfpass:
-            errors['confirm_password'] = 'Password is required.'
+            errors['confirm_password'] = 'Confirm password is required.'
         if password != cnfpass:
             errors['password'] = 'The passwords do not match.'
 
-        is_valid = len(errors.keys()) == 0
+        # Validation for role selection
+        if role.lower() not in ['farmer', 'customer']:
+            errors['role'] = 'Please select a valid role.'
+
+        is_valid = len(errors) == 0
 
         if is_valid:
-
-            ## Creating an user
-
+            # Create the User
             user = User.objects.create_user(
-                username = username,
-                password = password,)
-            
+                username=username,
+                email=email,
+                password=password
+            )
             user.save()
-            login(request,user)
+
+            # Register user in the appropriate table based on role
+            if role.lower() == 'farmer':
+                Farmer.objects.create(user=user)
+            elif role.lower() == 'customer':
+                Customer.objects.create(user=user)
+
+            # Log the user in and redirect
+            login(request, user)
             return redirect('index')
     
     context = {
-        'errors' : errors
+        'errors': errors
     }
 
-    return render (request, "index.html", context)
+    return render(request, "index.html", context)
 
 def user_login(request):
-    
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
