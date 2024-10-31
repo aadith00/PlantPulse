@@ -1,4 +1,7 @@
 from django.urls import path
+from django.conf.urls.static import static
+
+from PlantPulse import settings
 from .views import account, wishlist,auth, user_register, user_login, user_logout, update_customer_info, update_profile_picture
 
 urlpatterns = [
@@ -10,4 +13,4 @@ urlpatterns = [
     path('logout', user_logout, name='logout'),
     path('profile/update/', update_customer_info, name='update_customer_info'),
     path('update-profile-picture/', update_profile_picture, name='update_profile_picture'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
