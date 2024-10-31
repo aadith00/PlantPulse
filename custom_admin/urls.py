@@ -13,6 +13,6 @@ urlpatterns = [
     path('admin/add_product/', add_product, name='add_product'),
     path('admin/update_product/<str:product_id>/', update_product, name='update_product'),
     path('admin/delete_product/<str:product_id>/', delete_product, name='delete_product'),
-    path('admin/orders/', order_list, name='order_list'),  # URL for order list
-    path('admin/update_order_status/<int:order_id>/', update_order_status, name='update_order_status'),  # URL for updating order status
+    path('admin/orders/', order_list, name='order_list'),
+    path('admin/update_order_status/<int:order_id>/', update_order_status, name='update_order_status'),
 ]

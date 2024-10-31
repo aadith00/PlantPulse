@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'account',
     'model',
     'tomatoes',
-    'admin'
+    'custom_admin'
 ]
 
 MIDDLEWARE = [
