@@ -20,7 +20,6 @@ def update_profile_picture(request):
 
     return redirect('my-account')
 
-
 # Create your views here.
 def account(request):
     return render(request, 'my-account.html')
