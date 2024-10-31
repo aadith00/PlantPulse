@@ -10,13 +10,11 @@ STATUS_CHOICE = (
     ("delivered","Delivered"),
 )
 
-STATUS = (
-    ("draft", "Draft"),
-    ("disabled", "Disabled"),
-    ("rejected", "Rejected"),
-    ("in_review", "In Review"),
-    ("published", "Published")
-)
+STATUS = [
+    ('in_review', 'In Review'),
+    ('approved', 'Approved'),
+    ('rejected', 'Rejected'),
+]
 
 RATING = (
     (1," ★ ☆ ☆ ☆ ☆"),
@@ -46,39 +44,32 @@ class Variety(models.Model):
         return self.name
     
 class Product(models.Model):
-    pid = ShortUUIDField(unique = True, length = 10, max_length = 20, prefix = "prd")
-    
+    pid = ShortUUIDField(unique=True, length=10, max_length=20, prefix="prd")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-
     title = models.CharField(max_length=100, default="Fresh Tomato")
-    image = models.ImageField(upload_to = "Products", default = "product.jpg")
-    description = models.TextField(null = True, blank = True, default="This is the product")
+    image = models.ImageField(upload_to="Products", default="product.jpg")
+    description = models.TextField(null=True, blank=True, default="This is the product")
     variety = models.CharField(max_length=100, default="NA")
-
-    price = models.DecimalField(max_digits=99999999999999,decimal_places=2,default="1.99")
+    price = models.DecimalField(max_digits=99999999999999, decimal_places=2, default="1.99")
     stock_count = models.CharField(max_length=100, default="10", null=True, blank=True)
     life = models.CharField(max_length=100, default="14", null=True, blank=True)
-    mfg_date = models.DateTimeField(auto_now_add = False, null=True, blank=True)
-
-    product_status = models.CharField(choices = STATUS, max_length=10,default="in_review")
-
+    mfg_date = models.DateTimeField(auto_now_add=False, null=True, blank=True)
+    product_status = models.CharField(choices=STATUS, max_length=10, default="in_review")
     status = models.BooleanField(default=True)
     in_stock = models.BooleanField(default=True)
     featured = models.BooleanField(default=False)
-
-    sku = ShortUUIDField(unique=True, length = 4, max_length = 10, prefix = "sku", default="sku0000")
-
-    date = models.DateTimeField(auto_now_add = True)
-    updated = models.DateTimeField(null = True, blank = True)
+    sku = ShortUUIDField(unique=True, length=4, max_length=10, prefix="sku", default="sku0000")
+    date = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Products"
 
     def product_image(self):
-        return mark_safe('<img src = "%s" width = "50" height = "50" />' % (self.image.url))
+        return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
 
     def __str__(self):
-        return self.title 
+        return self.title
 
 class ProductImages(models.Model):
     images = models.ImageField(upload_to = "product-images",default="product.jpg")  
