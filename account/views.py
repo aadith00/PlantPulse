@@ -135,23 +135,35 @@ def user_logout(request):
     return redirect('auth')
 
 @login_required
-def update_customer_info(request):
+def update_general_info(request):
     customer = get_object_or_404(Customer, user=request.user)
-
+    
     if request.method == 'POST':
         customer.first_name = request.POST.get('first_name')
         customer.last_name = request.POST.get('last_name')
+        customer.phone_number = request.POST.get('phone_number')
+        customer.save()
+        
+        messages.success(request, "Your general information has been updated successfully.")
+        return redirect('my-account')
+    
+    return render(request, 'my-account.html', {'customer': customer})
+
+@login_required
+def update_address(request):
+    customer = get_object_or_404(Customer, user=request.user)
+    
+    if request.method == 'POST':
         customer.address = request.POST.get('address')
         customer.city = request.POST.get('city')
         customer.country = request.POST.get('country')
         customer.zip_code = request.POST.get('zip_code')
-        customer.phone_number = request.POST.get('phone_number')
-        
         customer.save()
-        messages.success(request, "Your profile has been updated successfully.")
-        return redirect('profile')
-
-    return render(request, 'profile.html', {'customer': customer})
+        
+        messages.success(request, "Your address has been updated successfully.")
+        return redirect('my-account')
+    
+    return render(request, 'my-account.html', {'customer': customer})
 
 @login_required
 def update_profile_picture(request):

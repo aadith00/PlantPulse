@@ -267,9 +267,12 @@
             <div class="row no-gutters row-bordered row-border-light">
                 <div class="col-md-3 pt-0">
                     <div class="list-group list-group-flush account-settings-links">
-                        <a class="list-group-item list-group-item-action active" data-toggle="list" href="#account-general">General</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-address">Addresses</a>
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#account-orders">Order History</a>
+                        <a class="list-group-item list-group-item-action active" data-toggle="list"
+                            href="#account-general">General</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list"
+                            href="#account-address">Addresses</a>
+                        <a class="list-group-item list-group-item-action" data-toggle="list"
+                            href="#account-orders">Order History</a>
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -280,150 +283,181 @@
                                 <h4>Account Information</h4>
                                 <hr>
                                 <div class="d-flex align-items-center mb-3">
-                                    
-                                    <img {% if customer.profile_picture %} src="{{ customer.profile_picture.url }}" {% endif %} alt="Profile Picture" class="rounded-circle" style="width: 80px; height: 80px; border: 2px solid #6c757d;">
-                                    
-                                    <form action="{% url 'update_profile_picture' %}" method="post" enctype="multipart/form-data" class="ml-3">
+
+                                    <img {% if customer.profile_picture %} src="{{ customer.profile_picture.url }}" {% endif %} alt="Profile Picture" class="rounded-circle"
+                                        style="width: 80px; height: 80px; border: 2px solid #6c757d;">
+
+                                    <form action="{% url 'update_profile_picture' %}" method="post"
+                                        enctype="multipart/form-data" class="ml-3">
                                         {% csrf_token %}
                                         <label class="btn btn-outline-primary" style="cursor: pointer;">
                                             Upload new photo
-                                            <input type="file" name="profile_picture" style="display: none;" onchange="this.form.submit()" required>
+                                            <input type="file" name="profile_picture" style="display: none;"
+                                                onchange="this.form.submit()" required>
                                         </label>
                                     </form>
                                 </div>
                                 <hr>
                                 <div class="form-group">
                                     <label class="form-label">Username</label>
-                                    <input type="text" class="form-control" value="{{ customer.user.username }}" readonly>
+                                    <input type="text" class="form-control" value="{{ customer.user.username }}"
+                                        readonly>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Email</label>
                                     <input type="text" class="form-control" value="{{ customer.user.email }}" readonly>
                                 </div>
-                                <form action="{% url 'update_customer_info' %}" method="post">
+                                <form action="{% url 'update_general_info' %}" method="post">
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <label class="form-label">First Name</label>
-                                        <input type="text" class="form-control" name="first_name" value="{{ customer.first_name }}">
+                                        <input type="text" class="form-control" name="first_name"
+                                            value="{{ customer.first_name }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" name="last_name" value="{{ customer.last_name }}">
+                                        <input type="text" class="form-control" name="last_name"
+                                            value="{{ customer.last_name }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Phone Number</label>
+                                        <input type="text" class="form-control" name="phone_number"
+                                            value="{{ customer.phone_number }}">
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
                                 </form>
+
                             </div>
                         </div>
-    
+
                         <!-- Address Section -->
                         <div class="tab-pane fade" id="account-address">
                             <div class="card-body">
                                 <h4>Shipping and Billing Address</h4>
                                 <hr>
-                                <form action="{% url 'update_customer_info' %}" method="post">
+                                <form action="{% url 'update_address' %}" method="post">
                                     {% csrf_token %}
                                     <div class="form-group">
-                                        <label class="form-label">Address</label>
-                                        <input type="text" class="form-control" name="address" value="{{ customer.address }}">
+                                        <label class="form-label">Address Line 1</label>
+                                        <input type="text" class="form-control" name="address"
+                                            value="{{ customer.address }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Address Line 2</label>
+                                        <input type="text" class="form-control" name="address2"
+                                            value="{{ customer.address2 }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">City</label>
                                         <input type="text" class="form-control" name="city" value="{{ customer.city }}">
                                     </div>
                                     <div class="form-group">
+                                        <label class="form-label">State</label>
+                                        <input type="text" class="form-control" name="state"
+                                            value="{{ customer.state }}">
+                                    </div>
+                                    <div class="form-group">
                                         <label class="form-label">Country</label>
-                                        <input type="text" class="form-control" name="country" value="{{ customer.country }}">
+                                        <input type="text" class="form-control" name="country"
+                                            value="{{ customer.country }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Zip Code</label>
-                                        <input type="text" class="form-control" name="zip_code" value="{{ customer.zip_code }}">
+                                        <input type="text" class="form-control" name="zip_code"
+                                            value="{{ customer.zip_code }}">
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-3">Save Address</button>
                                 </form>
+
                             </div>
                         </div>
-    
+
                         <!-- Order History and Tracking Section -->
                         <div class="tab-pane fade" id="account-orders">
                             <div class="card-body">
                                 <h4>Order History</h4>
                                 <hr>
                                 {% if pending_orders %}
-                                    <ul class="list-group">
-                                        {% for order in pending_orders %}
-                                            <li class="list-group-item">
-                                                <div>
-                                                    <span><strong>Order ID:</strong> {{ order.id }}</span>
-                                                    <span class="float-right"><strong>Total Price:</strong> Rs. {{ order.total_price }}</span>
-                                                    <span class="badge badge-info">{{ order.status }}</span>
-                                                </div>
-                                                <div>
-                                                    <span><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y" }}</span>
-                                                </div>
-                                                {% if order.tracking_number %}
-                                                    <div class="mt-2">
-                                                        <strong>Tracking Number:</strong> {{ order.tracking_number }}
-                                                        <a href="https://track.aftership.com/{{ order.tracking_number }}" target="_blank" class="btn btn-outline-primary btn-sm ml-2">Track Order</a>
-                                                    </div>
-                                                {% else %}
-                                                    <div class="mt-2 text-muted">No tracking information available.</div>
-                                                {% endif %}
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
+                                <ul class="list-group">
+                                    {% for order in pending_orders %}
+                                    <li class="list-group-item">
+                                        <div>
+                                            <span><strong>Order ID:</strong> {{ order.id }}</span>
+                                            <span class="float-right"><strong>Total Price:</strong> Rs. {{
+                                                order.total_price }}</span>
+                                            <span class="badge badge-info">{{ order.status }}</span>
+                                        </div>
+                                        <div>
+                                            <span><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y"
+                                                }}</span>
+                                        </div>
+                                        {% if order.tracking_number %}
+                                        <div class="mt-2">
+                                            <strong>Tracking Number:</strong> {{ order.tracking_number }}
+                                            <a href="https://track.aftership.com/{{ order.tracking_number }}"
+                                                target="_blank" class="btn btn-outline-primary btn-sm ml-2">Track
+                                                Order</a>
+                                        </div>
+                                        {% else %}
+                                        <div class="mt-2 text-muted">No tracking information available.</div>
+                                        {% endif %}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
                                 {% else %}
-                                    <p>No orders placed yet.</p>
+                                <p>No orders placed yet.</p>
                                 {% endif %}
                             </div>
                         </div>
-    
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    
-    
+
+
     <!-- Start Footer  -->
-<footer>
-    <div class="footer-main">
-        <div class="container">
-            <hr>
-            <div class="row">
-                <div class="col-lg-4 col-md-12 col-sm-12">
-                    <div class="footer-widget">
-                        <h4>About PlantPulse</h4>
-                        <p>PlantPulse offers a fresh, convenient marketplace where you can buy and sell quality
-                            tomatoes directly from trusted sources. Our platform connects farmers and buyers,
-                            ensuring access to fresh produce while supporting sustainable agriculture. Shopping for
-                            tomatoes with PlantPulse is quick, easy, and helps foster a healthier farming community.
-                        </p>
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <hr>
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-widget">
+                            <h4>About PlantPulse</h4>
+                            <p>PlantPulse offers a fresh, convenient marketplace where you can buy and sell quality
+                                tomatoes directly from trusted sources. Our platform connects farmers and buyers,
+                                ensuring access to fresh produce while supporting sustainable agriculture. Shopping for
+                                tomatoes with PlantPulse is quick, easy, and helps foster a healthier farming community.
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-12 col-sm-12">
-                    <div class="footer-link-contact">
-                        <h4>Contact Us</h4>
-                        <ul>
-                            <li>
-                                <p><i class="fas fa-map-marker-alt"></i>Address: PlantPulse Technologies <br> Office
-                                    No. 12, 4th Floor <br>Tech Park One, Yerawada,<br>Pune, Maharashtra - 411006,
-                                    India </p>
-                            </li>
-                            <li>
-                                <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770"> +91-98765 43210</a></p>
-                            </li>
-                            <li>
-                                <p><i class="fas fa-envelope"></i>Email: <a
-                                        href="mailto:contactinfo@gmail.com">support@plantpulse.in</a></p>
-                            </li>
-                        </ul>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-link-contact">
+                            <h4>Contact Us</h4>
+                            <ul>
+                                <li>
+                                    <p><i class="fas fa-map-marker-alt"></i>Address: PlantPulse Technologies <br> Office
+                                        No. 12, 4th Floor <br>Tech Park One, Yerawada,<br>Pune, Maharashtra - 411006,
+                                        India </p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770"> +91-98765
+                                            43210</a></p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-envelope"></i>Email: <a
+                                            href="mailto:contactinfo@gmail.com">support@plantpulse.in</a></p>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</footer>
-<!-- End Footer  -->
+    </footer>
+    <!-- End Footer  -->
 
 
     <!-- Start copyright  -->
