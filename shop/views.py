@@ -59,7 +59,6 @@ def product_detail(request, pid):
         "p_image": p_image,
         "cart_items_count": cart_items_count
     }
-
     return render(request, "product-detail.html", context)
 
 def add_to_cart(request):
