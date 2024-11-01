@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Farmer,Profile, BillingAddress, Customer
+from .models import Farmer, BillingAddress, Customer
 
 class FarmerAdmin(admin.ModelAdmin):
     list_display = ['name','image','contact']
@@ -15,6 +15,5 @@ class CustomerAdmin(admin.ModelAdmin):
 
 # Register your models here.
 admin.site.register(Farmer,FarmerAdmin)
-admin.site.register(Profile,ProfileAdmin)
 admin.site.register(BillingAddress,AddressAdmin)
 admin.site.register(Customer,CustomerAdmin)
