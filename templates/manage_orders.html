@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #e9ecef;
+            /* Light gray background for a softer look */
+        }
+
+        .sidebar {
+            background-color: #343a40;
+            height: 100vh;
+            /* Full height sidebar */
+            color: white;
+            position: fixed;
+            /* Fixes the sidebar in place */
+            padding: 20px 0;
+            /* Padding for the sidebar */
+            width: 250px;
+            /* Fixed width for sidebar */
+        }
+
+        .sidebar a {
+            color: #adb5bd;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            color: white;
+        }
+
+        .content {
+            margin-left: 270px;
+            /* Offset for the sidebar plus extra space */
+            padding: 20px;
+            /* Padding for the content area */
+            min-height: 100vh;
+            /* Ensures content extends to full height */
+        }
+
+        .card {
+            margin-top: 20px;
+            border-radius: 10px;
+            /* Rounded corners for cards */
+        }
+
+        .card-header {
+            background-color: #28a745;
+            /* Green background for card headers */
+            color: white;
+            /* White text color */
+            font-weight: bold;
+            border-top-left-radius: 10px;
+            /* Rounded top corners */
+            border-top-right-radius: 10px;
+            /* Rounded top corners */
+        }
+
+        .dashboard-header {
+            font-size: 2rem;
+            /* Increased font size for the header */
+            font-weight: 700;
+            margin-bottom: 20px;
+            /* Spacing below the header */
+            color: #343a40;
+            /* Dark text color */
+        }
+
+        .chart-container {
+            position: relative;
+            height: 40vh;
+            /* Fixed height for the charts */
+            width: 100%;
+            /* Full width for charts */
+        }
+
+        .logout-btn {
+            position: absolute;
+            bottom: 20px;
+            /* Position it at the bottom */
+            width: 100%;
+            /* Full width */
+            text-align: center;
+            /* Center text */
+        }
+
+        .logout-button {
+            background-color: #dc3545;
+            /* Red background for logout button */
+            color: white;
+            /* White text color */
+            border: none;
+            /* No border */
+            border-radius: 5px;
+            /* Rounded corners for the button */
+            padding: 10px;
+            /* Padding for the button */
+            cursor: pointer;
+            /* Pointer cursor on hover */
+        }
+
+        .logout-button:hover {
+            background-color: #c82333;
+            /* Darker red on hover */
+        }
+
+        .table th {
+            background-color: #e9ecef;
+            /* Light background for table headers */
+        }
+
+        .badge-custom {
+            font-size: 0.8rem;
+            /* Smaller badge font size */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <h2 class="text-center">Admin Panel</h2>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'dashboard' %}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'manage_users' %}" data-toggle="tooltip"
+                    title="Manage user accounts and roles">View Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'manage_orders' %}" data-toggle="tooltip"
+                    title="View and manage orders">Orders</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="tooltip" title="Manage product listings">Products</a>
+            </li>
+            <li class="nav-item logout-btn">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn logout-button">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <header class="pt-4 pb-2 mb-3 border-bottom">
+            <h1 class="dashboard-header text-center">Orders Management</h1>
+            <p class="text-center">Manage and review customer orders efficiently.</p>
+        </header>
+
+        <!-- Orders Overview Section -->
+        <div class="row text-center">
+            <div class="col-md-4">
+                <div class="card bg-light">
+                    <div class="card-header">Total Orders</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ total_orders }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-light">
+                    <div class="card-header">Pending Orders</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ pending_orders }}</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-light">
+                    <div class="card-header">Completed Orders</div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ completed_orders }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filters and Search Section -->
+        <div class="card mt-4">
+            <div class="card-header">Filter Orders</div>
+            <div class="card-body">
+                <form method="GET" action="{% url 'manage_orders' %}">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" name="order_id" placeholder="Order ID">
+                        </div>
+                        <div class="col-md-4">
+                            <select class="form-control" name="status">
+                                <option value="">All Statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary">Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Orders Table Section -->
+        <div class="card mt-4">
+            <div class="card-header">Orders List</div>
+            <div class="card-body">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer ID</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in orders %}
+                        <tr>
+                            <td>#{{ order.id }}</td>
+                            <td>{{ order.customer_name }}</td>
+                            <td>
+                                <span
+                                    class="badge {% if order.status == 'Pending' %}badge-warning{% elif order.status == 'Completed' %}badge-success{% else %}badge-danger{% endif %}">
+                                    {{ order.status }}
+                                </span>
+                            </td>
+                            <td>{{ order.date|date:"M d, Y" }}</td>
+                            <td>₹{{ order.total|floatformat:2 }}</td>
+                            <td>
+                                <a href="{% url 'view_order' order.id %}" class="btn btn-info btn-sm">View</a>
+                                <a href="{% url 'edit_order' order.id %}" class="btn btn-primary btn-sm">Edit</a>
+                                <form action="{% url 'delete_order' order.id %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" class="text-center">No orders found.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Order Details Modal -->
+        <div class="modal fade" id="orderDetailsModal" tabindex="-1" aria-labelledby="orderDetailsModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="orderDetailsModalLabel">Order Details</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- Order details content will be loaded here dynamically with AJAX -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>
