@@ -81,7 +81,6 @@
                         {% if user.is_authenticated %}
                         <ul class="dropdown-menu" aria-labelledby="shopDropdown">
                             <li><a class="dropdown-item" href="{% url 'cart' %}">Cart</a></li>
-                            <li><a class="dropdown-item" href="{% url 'payment' %}">Payment</a></li> <!-- Payment Page Link -->
                             <li><a class="dropdown-item" href="{% url 'my-account' %}">My Account</a></li>
                         </ul>
                         {% endif %}
@@ -119,40 +118,13 @@
             <p class="text-center">Your order has been placed successfully.</p>
             <p class="text-center">Order ID: <strong>{{ order.id }}</strong></p>
 
-            <h4 class="mt-4">Order Details:</h4>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Quantity</th>
-                        <th>Price</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in order.items.all %}
-                    <tr>
-                        <td>{{ item.product.title }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>Rs. {{ item.price }}</td>
-                        <td>Rs. {{ item.quantity|multiply:item.price }}</td>
-                    </tr>
-                    {% endfor %}
-                    <tr>
-                        <td colspan="3" class="text-right"><strong>Grand Total:</strong></td>
-                        <td><strong>Rs. {{ order.total_price }}</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-
             <h4 class="mt-4">Shipping Information:</h4>
             <p><strong>Name:</strong> {{ order.billing_address.first_name }} {{ order.billing_address.last_name }}</p>
             <p><strong>Address:</strong> {{ order.billing_address.address }}, {{ order.billing_address.city }}, {{ order.billing_address.state }}, {{ order.billing_address.zip_code }}</p>
             <p><strong>Country:</strong> {{ order.billing_address.country }}</p>
 
             <div class="text-center mt-4">
-                <a href="{% url 'shop' %}" class="btn btn-outline-primary">Continue Shopping</a>
-                <a href="{% url 'account-orders' %}" class="btn btn-primary">View Orders</a>
+                <a href="{% url 'shop-detail' %}" class="btn btn-outline-primary">Continue Shopping</a>
             </div>
         </div>
     </div>
