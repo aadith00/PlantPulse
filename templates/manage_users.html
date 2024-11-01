@@ -6,47 +6,202 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manage Users</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        /* Layout Styles */
+        body {
+            background-color: #e9ecef;
+            /* Light gray background */
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            background-color: #343a40;
+            color: white;
+            position: fixed;
+            height: 100vh;
+            /* Full viewport height */
+            width: 250px;
+            padding: 20px 0;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .nav-link {
+            color: #adb5bd;
+            padding: 10px 20px;
+        }
+
+        .sidebar .nav-link:hover {
+            color: white;
+        }
+
+        .logout-btn {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .logout-button {
+            background-color: #dc3545;
+            /* Red button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background-color: #c82333;
+            /* Darker red */
+        }
+
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* Card and Table Styles */
+        .card {
+            margin-top: 20px;
+            border-radius: 10px;
+        }
+
+        .card-header {
+            background-color: #28a745;
+            /* Green header */
+            color: white;
+            font-weight: bold;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .badge-custom {
+            font-size: 0.8rem;
+            /* Smaller badge */
+        }
+
+        .table th {
+            background-color: #f8f9fa;
+            /* Light background for table headers */
+        }
+
+        /* Modal Styles */
+        .modal-header {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .modal-footer .btn-primary {
+            background-color: #28a745;
+            border: none;
+        }
+
+        /* Notification Styles */
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1050;
+            width: auto;
+            min-width: 300px;
+            display: none; /* Initially hidden */
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">Manage Users</h1>
-        <button class="btn btn-success mb-3" data-toggle="modal" data-target="#addUserModal">Add New User</button>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for user in users %}
-                <tr>
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>{{ user.first_name }}</td>
-                    <td>{{ user.last_name }}</td>
-                    <td>{{ user.is_active|yesno:"Active,Inactive" }}</td>
-                    <td>
-                        <button class="btn btn-warning" data-toggle="modal" data-target="#editUserModal"
-                            data-user-id="{{ user.id }}" data-user-username="{{ user.username }}"
-                            data-user-email="{{ user.email }}" data-user-first-name="{{ user.first_name }}"
-                            data-user-last-name="{{ user.last_name }}"
-                            data-user-is-active="{{ user.is_active }}">Edit</button>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div class="sidebar">
+        <h2>Admin Panel</h2>
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link active" href="{% url 'dashboard' %}">Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'manage_users' %}">View Users</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Orders</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Products</a></li>
+            <li class="nav-item logout-btn">
+                <form action="{% url 'logout' %}" method="post">{% csrf_token %}
+                    <button type="submit" class="btn logout-button">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+
+    <div class="content">
+        <h2 class="dashboard-header">Manage Users</h2>
+
+        <!-- Notification Area -->
+        <div id="notification" class="alert" role="alert"></div>
+
+        <div class="card">
+            <div class="card-header">
+                User List
+                <button class="btn btn-light float-right" data-toggle="modal" data-target="#addUserModal">Add User</button>
+            </div>
+            <div class="card-body">
+                <input type="text" id="searchInput" class="form-control mb-3" placeholder="Search users..." onkeyup="searchUsers()">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortTable(0)" style="cursor:pointer;">Username</th>
+                            <th onclick="sortTable(1)" style="cursor:pointer;">Email</th>
+                            <th onclick="sortTable(2)" style="cursor:pointer;">Role</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTable">
+                        {% for user, role in user_roles %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>{{ role }}</td>
+                            <td>
+                                <button class="btn btn-primary edit-btn" data-id="{{ user.id }}" data-toggle="modal"
+                                    data-target="#editModal">Edit</button>
+                                <form action="{% url 'delete_user' user.id %}" method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit User Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form id="editUserForm" method="post">
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="editModalBody">
+                        <!-- Form fields will be populated dynamically -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- Add User Modal -->
@@ -54,84 +209,39 @@
         aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addUserModalLabel">Add New User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="addUserForm" method="POST">
+                <form id="addUserForm" method="post" action="{% url 'add_user' %}">
                     {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input type="text" class="form-control" name="username" required>
+                            <input type="text" class="form-control" id="username" name="username" required>
                         </div>
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" name="email" required>
+                            <input type="email" class="form-control" id="email" name="email" required>
                         </div>
                         <div class="form-group">
-                            <label for="first_name">First Name</label>
-                            <input type="text" class="form-control" name="first_name" required>
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
                         </div>
                         <div class="form-group">
-                            <label for="last_name">Last Name</label>
-                            <input type="text" class="form-control" name="last_name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="is_active">Active</label>
-                            <input type="checkbox" name="is_active" checked>
+                            <label for="role">Role</label>
+                            <select class="form-control" id="role" name="role" required>
+                                <option value="" disabled selected>Select role</option>
+                                <option value="farmer">Farmer</option>
+                                <option value="customer">Customer</option>
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Add User</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit User Modal -->
-    <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form id="editUserForm" method="POST">
-                    {% csrf_token %}
-                    <div class="modal-body">
-                        <input type="hidden" name="user_id" id="editUserId">
-                        <div class="form-group">
-                            <label for="editUsername">Username</label>
-                            <input type="text" class="form-control" name="username" id="editUsername" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editEmail">Email</label>
-                            <input type="email" class="form-control" name="email" id="editEmail" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editFirstName">First Name</label>
-                            <input type="text" class="form-control" name="first_name" id="editFirstName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editLastName">Last Name</label>
-                            <input type="text" class="form-control" name="last_name" id="editLastName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="editIsActive">Active</label>
-                            <input type="checkbox" name="is_active" id="editIsActive">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="submit" class="btn btn-primary">Add User</button>
                     </div>
                 </form>
             </div>
@@ -139,61 +249,114 @@
     </div>
 
     <script>
-        // Set up the edit user modal
-        $('#editUserModal').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget); // Button that triggered the modal
-            var userId = button.data('user-id');
-            var username = button.data('user-username');
-            var email = button.data('user-email');
-            var firstName = button.data('user-first-name');
-            var lastName = button.data('user-last-name');
-            var isActive = button.data('user-is-active');
-
-            // Update the modal's content
-            var modal = $(this);
-            modal.find('#editUserId').val(userId);
-            modal.find('#editUsername').val(username);
-            modal.find('#editEmail').val(email);
-            modal.find('#editFirstName').val(firstName);
-            modal.find('#editLastName').val(lastName);
-            modal.find('#editIsActive').prop('checked', isActive);
-        });
-
-        // Handle the add user form submission
-        $('#addUserForm').on('submit', function (e) {
-            e.preventDefault();
-            // Use AJAX to submit the form
+        $('.edit-btn').on('click', function () {
+            const userId = $(this).data('id');
+            // Fetch user data with AJAX (example)
             $.ajax({
-                type: 'POST',
-                url: "{% url 'add_user' %}", // Adjust this URL if needed
-                data: $(this).serialize(),
-                success: function (response) {
-                    location.reload(); // Reload the page to see the new user
-                },
-                error: function (error) {
-                    alert('Error adding user. Please try again.');
+                url: `/get_user/${userId}/`, // Adjust URL according to your backend
+                method: 'GET',
+                success: function (data) {
+                    $('#editModalBody').html(`
+                        <div class="form-group">
+                            <label for="editUsername">Username</label>
+                            <input type="text" class="form-control" id="editUsername" name="username" value="${data.username}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email</label>
+                            <input type="email" class="form-control" id="editEmail" name="email" value="${data.email}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editRole">Role</label>
+                            <select class="form-control" id="editRole" name="role" required>
+                                <option value="farmer" ${data.role === 'farmer' ? 'selected' : ''}>Farmer</option>
+                                <option value="customer" ${data.role === 'customer' ? 'selected' : ''}>Customer</option>
+                            </select>
+                        </div>
+                        <input type="hidden" name="user_id" value="${data.id}">
+                    `);
                 }
             });
         });
 
-        // Handle the edit user form submission
-        $('#editUserForm').on('submit', function (e) {
-            e.preventDefault();
-            var userId = $('#editUserId').val(); // Get the user ID from the hidden input
-            var url = "{% url 'edit_user' 0 %}".replace('0', userId); // Replace '0' with the actual user ID
+        function searchUsers() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const rows = document.getElementById('userTable').getElementsByTagName('tr');
 
-            // Use AJAX to submit the form
-            $.ajax({
-                type: 'POST',
-                url: url, // Use the updated URL
-                data: $(this).serialize(),
-                success: function (response) {
-                    location.reload(); // Reload the page to see the updated user
-                },
-                error: function (error) {
-                    alert('Error editing user. Please try again.');
+            for (let i = 0; i < rows.length; i++) {
+                const username = rows[i].getElementsByTagName('td')[0];
+                const email = rows[i].getElementsByTagName('td')[1];
+                if (username || email) {
+                    const usernameText = username.textContent || username.innerText;
+                    const emailText = email.textContent || email.innerText;
+                    if (usernameText.toLowerCase().indexOf(filter) > -1 || emailText.toLowerCase().indexOf(filter) > -1) {
+                        rows[i].style.display = '';
+                    } else {
+                        rows[i].style.display = 'none';
+                    }
                 }
-            });
+            }
+        }
+
+        function sortTable(n) {
+            const table = document.querySelector('.table');
+            let switching = true;
+            let dir = "asc"; // Set the sorting direction to ascending
+            let switchcount = 0;
+
+            while (switching) {
+                switching = false;
+                const rows = table.rows;
+                for (let i = 1; i < (rows.length - 1); i++) {
+                    let shouldSwitch = false;
+                    const x = rows[i].getElementsByTagName("TD")[n];
+                    const y = rows[i + 1].getElementsByTagName("TD")[n];
+
+                    if (dir === "asc") {
+                        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    } else if (dir === "desc") {
+                        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                            shouldSwitch = true;
+                            break;
+                        }
+                    }
+                }
+                if (shouldSwitch) {
+                    rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                    switching = true;
+                    switchcount++;
+                } else {
+                    if (switchcount === 0 && dir === "asc") {
+                        dir = "desc";
+                        switching = true;
+                    }
+                }
+            }
+        }
+
+        // Function to show notification
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.className = `alert alert-${type}`;
+            notification.innerHTML = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // Simulate notification for success/error (you can trigger this based on your server response)
+        $(document).ready(function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const msg = urlParams.get('msg');
+            const type = urlParams.get('type');
+
+            if (msg && type) {
+                showNotification(msg, type);
+            }
         });
     </script>
 </body>

@@ -4,9 +4,11 @@ from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.contrib.auth import logout
 from django.shortcuts import redirect
+from account.models import Farmer, Customer
 from tomatoes.models import Product
 from shop.models import Order
 from django.http import JsonResponse
+from django.contrib import messages
 
 @login_required
 def dashboard(request):
@@ -64,31 +66,74 @@ def admin_logout(request):
     return redirect('login')  # Redirect to your login page after logout
 
 def manage_users(request):
-    users = User.objects.all()  # Fetch all users
-    return render(request, 'manage_users.html', {'users': users})
+    users = User.objects.all()
+    user_roles = []
+
+    for user in users:
+        if hasattr(user, 'farmer'):
+            role = 'Farmer'
+        elif hasattr(user, 'customer'):
+            role = 'Customer'
+        else:
+            role = 'Admin'
+        user_roles.append((user, role))
+
+    return render(request, 'manage_users.html', {'user_roles': user_roles, 'users' : users})
 
 from django.http import JsonResponse
 
 def edit_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
-    if request.method == 'POST':
-        form = UserForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return JsonResponse({'success': True})
-    else:
-        form = UserForm(instance=user)
-    return render(request, 'edit_user.html', {'form': form})
+
+    if request.method == 'GET':
+        # Determine the user's role
+        if Farmer.objects.filter(user=user).exists():
+            role = 'farmer'
+        elif Customer.objects.filter(user=user).exists():
+            role = 'customer'
+        else:
+            role = 'admin'  # Assign admin if the user is not in both tables
+
+        context = {
+            'user': user,
+            'role': role,
+        }
+        return render(request, 'edit_user_modal.html', context)
+
+    elif request.method == 'POST':
+        # Handle the form submission to update the user
+        user.username = request.POST.get('username')
+        user.email = request.POST.get('email')
+        user.save()
+        
+        return JsonResponse({'success': True})
 
 def add_user(request):
     if request.method == 'POST':
-        form = UserForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return JsonResponse({'success': True})
-    else:
-        form = UserForm()
-    return render(request, 'add_user.html', {'form': form})
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+        role = request.POST.get('role')
+
+        # Create the user
+        user = User.objects.create_user(username=username, email=email, password=password)
+        
+        # Register into the appropriate table
+        if role == 'farmer':
+            Farmer.objects.create(user=user)
+            messages.success(request, 'Farmer registered successfully!')
+        elif role == 'customer':
+            Customer.objects.create(user=user)
+            messages.success(request, 'Customer registered successfully!')
+        
+        return redirect('manage_users')  # Redirect back to the manage users page
 
 def order_confirmation(request):
     return render(request, 'order_confirmation.html')
+
+def delete_user(request, user_id):
+    user = get_object_or_404(User, id=user_id)
+    if request.method == "POST":
+        user.delete()
+        return redirect('manage_users')
+    return render(request, 'confirm_delete.html', {'user': user})
