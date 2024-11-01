@@ -7,25 +7,6 @@ from account.models import BillingAddress
 from django.contrib import messages
 
 # Create your views heree.
-def checkoutpage(request):
-    return render(request, 'checkout.html')
-
-from django.shortcuts import render, redirect
-
-def payment(request):
-    if request.method == 'POST':
-        # Capture the preferred delivery time
-        preferred_delivery_time = request.POST.get('delivery_time')
-        return redirect('order_confirmation')
-
-    # If GET request, render the payment page
-    return render(request, 'payment.html')
-
-
-def order_confirmation(request):
-    return render(request, 'order_confirmation.html')
-
-
 def shop_detail(request):
     product = Product.objects.all()
 
@@ -121,6 +102,9 @@ def remove_from_cart(request, item_id):
         return redirect('cart')
     else:
         return redirect('login')
+    
+def checkoutpage(request):
+    return render(request, 'checkout.html')
 
 def checkout(request):
     cart_items_count = 0  # Initialize cart items count
@@ -133,7 +117,7 @@ def checkout(request):
         cart_items_count = cart_items.count()  # Get the count of items in the cart
 
         if request.method == 'POST':
-            BillingAddress.objects.create(
+            billing_address = BillingAddress.objects.create(
                 user=request.user,
                 first_name=request.POST.get('first_name'),
                 last_name=request.POST.get('last_name'),
@@ -145,10 +129,12 @@ def checkout(request):
                 zip_code=request.POST.get('zip_code'),
                 phone=request.POST.get('phone'),
             )
+            request.session['billing_address_id'] = billing_address.id  # Store billing address ID in session
+            request.session['total_price'] = float(total_price)  # Store total price in session
             return redirect('payment')
 
     except Cart.DoesNotExist:
-        total_price = 0  # Set to zero if there is no cart
+        total_price = 0
 
     return render(request, 'checkout.html', {
         'cart_items': cart_items,
@@ -156,63 +142,104 @@ def checkout(request):
         'cart_items_count': cart_items_count  # Pass the cart items count to the template
     })
 
-def place_order(request):
-    cart = get_object_or_404(Cart, user=request.user, status='in_progress')
-    cart_items = CartItem.objects.filter(cart=cart)
-
-    if not cart_items.exists():
-        return redirect('shop')  # Redirect to shop if there are no items in the cart
-
+def payment(request):
     if request.method == 'POST':
-        # Get the data from the request
-        first_name = request.POST.get('first_name')
-        last_name = request.POST.get('last_name')
-        address = request.POST.get('address')
-        city = request.POST.get('city')
-        state = request.POST.get('state')
-        country = request.POST.get('country')
-        zip_code = request.POST.get('zip_code')
+        # Capture the preferred delivery time
+        preferred_delivery_time = request.POST.get('delivery_time')
+        return redirect('order_confirmation')
 
-        # Validate required fields
-        if not all([first_name, last_name, address, city, state, country, zip_code]):
-            messages.error(request, "Please enter the required details.")
-            return render(request, 'place_order.html', {
-                'cart_items': cart_items,
-                'total_price': sum(item.quantity * item.price for item in cart_items)
-            })
+    # If GET request, render the payment page
+    return render(request, 'payment.html')
 
-        # Save the billing address
-        billing_address = BillingAddress.objects.create(
-            user=request.user,
-            first_name=first_name,
-            last_name=last_name,
-            address=address,
-            address2=request.POST.get('address2'),  # Optional
-            city=city,
-            state=state,
-            country=country,
-            zip_code=zip_code,
-            phone=request.POST.get('phone'),  # Optional
-        )
+def order_confirmation(request):
+    if request.method == 'POST':
+        # Retrieve the delivery time from the form data
+        delivery_time = request.POST.get('delivery_time')
+        
+        # Get the logged-in user
+        user = request.user
 
-        # Create the order
-        order = Order.objects.create(
-            user=request.user,
-            billing_address=billing_address,
-            total_price=sum(item.quantity * item.price for item in cart_items)
-        )
+        # Retrieve or create the billing address for the user (customize as needed)
+        billing_address = BillingAddress.objects.filter(user=user).first()
 
-        # Link cart items to the order and clear the cart
-        for item in cart_items:
-            item.order = order
-            item.save()
+        # Calculate the total price based on the cart or session data
+        total_price = request.session.get('total_price', 0)  # Assuming total price is stored in the session
 
-        # Clear the cart
-        cart.items.clear()
+        if billing_address:
+            # Create a new order entry
+            order = Order.objects.create(
+                user=user,
+                billing_address=billing_address,
+                total_price=total_price,
+                status="Pending"  # Default status
+            )
+            order.save()
 
-        return redirect('order_confirmation')  # Redirect to confirmation page
+            # Optionally, add a success message
+            messages.success(request, "Your order has been placed successfully!")
+            return redirect('order_confirmation')
+        else:
+            messages.error(request, "Billing address not found. Please set up your billing address.")
 
-    return render(request, 'place_order.html', {
-        'cart_items': cart_items,
-        'total_price': sum(item.quantity * item.price for item in cart_items)
-    })
+    return render(request, 'order_confirmation.html')
+
+# def place_order(request):
+#     cart = get_object_or_404(Cart, user=request.user, status='in_progress')
+#     cart_items = CartItem.objects.filter(cart=cart)
+
+#     if not cart_items.exists():
+#         return redirect('shop')  # Redirect to shop if there are no items in the cart
+
+#     if request.method == 'POST':
+#         # Get the data from the request
+#         first_name = request.POST.get('first_name')
+#         last_name = request.POST.get('last_name')
+#         address = request.POST.get('address')
+#         city = request.POST.get('city')
+#         state = request.POST.get('state')
+#         country = request.POST.get('country')
+#         zip_code = request.POST.get('zip_code')
+
+#         # Validate required fields
+#         if not all([first_name, last_name, address, city, state, country, zip_code]):
+#             messages.error(request, "Please enter the required details.")
+#             return render(request, 'place_order.html', {
+#                 'cart_items': cart_items,
+#                 'total_price': sum(item.quantity * item.price for item in cart_items)
+#             })
+
+#         # Save the billing address
+#         billing_address = BillingAddress.objects.create(
+#             user=request.user,
+#             first_name=first_name,
+#             last_name=last_name,
+#             address=address,
+#             address2=request.POST.get('address2'),  # Optional
+#             city=city,
+#             state=state,
+#             country=country,
+#             zip_code=zip_code,
+#             phone=request.POST.get('phone'),  # Optional
+#         )
+
+#         # Create the order
+#         order = Order.objects.create(
+#             user=request.user,
+#             billing_address=billing_address,
+#             total_price=sum(item.quantity * item.price for item in cart_items)
+#         )
+
+#         # Link cart items to the order and clear the cart
+#         for item in cart_items:
+#             item.order = order
+#             item.save()
+
+#         # Clear the cart
+#         cart.items.clear()
+
+#         return redirect('order_confirmation')  # Redirect to confirmation page
+
+#     return render(request, 'place_order.html', {
+#         'cart_items': cart_items,
+#         'total_price': sum(item.quantity * item.price for item in cart_items)
+#     })
