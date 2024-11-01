@@ -9,6 +9,8 @@ from tomatoes.models import Product
 from shop.models import Order
 from django.http import JsonResponse
 from django.contrib import messages
+from django.views.decorators.http import require_POST
+from django.urls import reverse
 
 @login_required
 def dashboard(request):
@@ -46,11 +48,6 @@ def delete_product(request, product_id):
         product.delete()
         return redirect('product_list')
     return render(request, 'delete_product.html', {'product': product})
-
-@login_required
-def order_list(request):
-    orders = Order.objects.all()  # Get all orders
-    return render(request, 'order_list.html', {'orders': orders})
 
 @login_required
 def update_order_status(request, order_id):
@@ -137,3 +134,67 @@ def delete_user(request, user_id):
         user.delete()
         return redirect('manage_users')
     return render(request, 'confirm_delete.html', {'user': user})
+
+@login_required
+def manage_orders(request):
+    # Apply filters if provided in the request
+    order_id = request.GET.get('order_id')
+    status = request.GET.get('status')
+
+    # Query the orders based on filters
+    orders = Order.objects.all()
+    if order_id:
+        orders = orders.filter(id=order_id)
+    if status:
+        orders = orders.filter(status=status)
+
+    # Summary for the overview section
+    total_orders = orders.count()
+    pending_orders = orders.filter(status='Pending').count()
+    completed_orders = orders.filter(status='Completed').count()
+
+    context = {
+        'orders': orders,
+        'total_orders': total_orders,
+        'pending_orders': pending_orders,
+        'completed_orders': completed_orders,
+    }
+    return render(request, 'manage_orders.html', context)
+
+def view_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    
+    # Collect order details to display in modal or dedicated view
+    order_details = {
+        'id': order.id,
+        'customer_name': order.user.username,
+        'status': order.status,
+        'date': order.created_at,
+        'total': order.total_price,
+        'items': list(order.items.values('product__name', 'quantity', 'price'))
+    }
+    
+    return JsonResponse(order_details)
+
+def edit_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    
+    if request.method == 'POST':
+        # Update fields (example updates status and total price)
+        order.status = request.POST.get('status')
+        order.total_price = request.POST.get('total_price')
+        order.save()
+        
+        messages.success(request, "Order updated successfully.")
+        return redirect(reverse('manage_orders'))
+    
+    context = {'order': order}
+    return render(request, 'edit_order.html', context)
+
+@require_POST
+def delete_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    order.delete()
+    
+    messages.success(request, "Order deleted successfully.")
+    return redirect(reverse('manage_orders'))
