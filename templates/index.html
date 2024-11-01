@@ -87,7 +87,7 @@
                         <i class="fa fa-bars"></i>
                     </button>
                     <a class="navbar-brand" href="{% url 'index' %}">
-                        <img src="{% static 'images/logo.png' %}" class="logo" alt="">
+                        <img src="{% static 'images/newlogo.png' %}" class="logo" alt="">
                     </a>
                 </div>
                 <!-- End Header Navigation -->
@@ -149,33 +149,33 @@
                 <input type="text" class="form-control" placeholder="Search">
                 <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
             </div><!-- Start Categories  -->
-<div class="categories-shop">
-    <div class="container">
-        <!-- Adding a title for the Categories section -->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="title-all text-center">
-                    <h1>Categories</h1> <!-- Added Categories heading -->
-                </div>
-            </div>
-        </div>
+            <div class="categories-shop">
+                <div class="container">
+                    <!-- Adding a title for the Categories section -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="title-all text-center">
+                                <h1>Categories</h1> <!-- Added Categories heading -->
+                            </div>
+                        </div>
+                    </div>
 
-        <div class="row special-list">
-            {% for p in products %}
-            <div class="col-lg-3 col-md-6 special-grid best-seller">
-                <div class="products-single fix">
-                    <div class="box-img-hover">
-                        <img src="{{ p.image.url }}" class="img-fluid" alt="Image">
-                    </div>
-                    <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
-                        <h4>{{ p.title }}</h4>
+                    <div class="row special-list">
+                        {% for p in products %}
+                        <div class="col-lg-3 col-md-6 special-grid best-seller">
+                            <div class="products-single fix">
+                                <div class="box-img-hover">
+                                    <img src="{{ p.image.url }}" class="img-fluid" alt="Image">
+                                </div>
+                                <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
+                                    <h4>{{ p.title }}</h4>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div>
             </div>
-            {% endfor %}
-        </div>
-    </div>
-</div>
 
         </div>
     </div>
@@ -190,8 +190,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <h1 class="m-b-20"><strong>Welcome To <br> PlantPulse</strong></h1>
-                            <p class="m-b-40">See how your users experience your website in realtime or view <br> trends
-                                to see any changes in performance over time.</p>
+                            <p class="m-b-40">See how farmers utilize PlantPulse to diagnose plant diseases and discover
+                                insights that help enhance their experience and boost crop productivity over time.</p>
                             <p><a class="btn hvr-hover" href="#">Shop New</a></p>
                         </div>
                     </div>
@@ -252,61 +252,61 @@
     <!-- End Categories -->
 
     <div class="box-add-products">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="title-all text-center">
-                    <h1>Varieties</h1>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-all text-center">
+                        <h1>Varieties</h1>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row special-list">
-            {% for v in varieties %}
-            <div class="col-lg-3 col-md-6 special-grid best-seller">
-                <div class="products-single fix">
-                    <div class="box-img-hover">
-                        <img src="{{ v.image.url }}" class="img-fluid" alt="Image">
-                    </div>
-                    <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
-                        <h4>{{ v.name }}</h4>
+            <div class="row special-list">
+                {% for v in varieties %}
+                <div class="col-lg-3 col-md-6 special-grid best-seller">
+                    <div class="products-single fix">
+                        <div class="box-img-hover">
+                            <img src="{{ v.image.url }}" class="img-fluid" alt="Image">
+                        </div>
+                        <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
+                            <h4>{{ v.name }}</h4>
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
     </div>
-</div>
 
-<!-- Start Products  -->
-<div class="products-box">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="title-all text-center">
-                    <h1>Leaf Diseases</h1>
-                </div>
-            </div>
-        </div>
-
-        <div class="row special-list">
-            {% for d in diseases %}
-            <div class="col-lg-3 col-md-6 special-grid best-seller">
-                <div class="products-single fix">
-                    <div class="box-img-hover">
-                        <img src="{{ d.image.url }}" class="img-fluid" alt="Image">
-                    </div>
-                    <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
-                        <h4>{{ d.name }}</h4>
+    <!-- Start Products  -->
+    <div class="products-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="title-all text-center">
+                        <h1>Leaf Diseases</h1>
                     </div>
                 </div>
             </div>
-            {% endfor %}
+
+            <div class="row special-list">
+                {% for d in diseases %}
+                <div class="col-lg-3 col-md-6 special-grid best-seller">
+                    <div class="products-single fix">
+                        <div class="box-img-hover">
+                            <img src="{{ d.image.url }}" class="img-fluid" alt="Image">
+                        </div>
+                        <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
+                            <h4>{{ d.name }}</h4>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-</div>
 
-    
+
     <!-- End Products  -->
 
     <!-- Start Blog  -->
@@ -316,7 +316,8 @@
                 <div class="col-lg-12">
                     <div class="title-all text-center">
                         <h1>latest blog</h1>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet lacus enim.</p>
+                        <p>Dedicated to growth, PlantPulse brings precision and simplicity to agriculture, empowering
+                            farmers to cultivate healthier crops with ease.</p>
                     </div>
                 </div>
             </div>
@@ -328,10 +329,10 @@
                         </div>
                         <div class="blog-content">
                             <div class="title-blog">
-                                <h3>Fusce in augue non nisi fringilla</h3>
-                                <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet
-                                    urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed
-                                    mollis. Praesent laoreet lacinia elit id lobortis.</p>
+                                <h3>Grow with ease and resilience.</h3>
+                                <p>Grow with confidence using PlantPulse. Access easy disease diagnosis, practical
+                                    farming insights, and a supportive marketplace to enhance your agricultural
+                                    practices. Our tools are designed to empower you every step of the way.</p>
                             </div>
                             <ul class="option-blog">
                                 <li><a href="#"><i class="far fa-heart"></i></a></li>
@@ -348,10 +349,10 @@
                         </div>
                         <div class="blog-content">
                             <div class="title-blog">
-                                <h3>Fusce in augue non nisi fringilla</h3>
-                                <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet
-                                    urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed
-                                    mollis. Praesent laoreet lacinia elit id lobortis.</p>
+                                <h3>Thrive with confidence and adaptability</h3>
+                                <p>Grow with confidence using PlantPulse. Access easy disease diagnosis, practical
+                                    farming insights, and a supportive marketplace to enhance your agricultural
+                                    practices. Our tools are designed to empower you every step of the way.</p>
                             </div>
                             <ul class="option-blog">
                                 <li><a href="#"><i class="far fa-heart"></i></a></li>
@@ -368,10 +369,10 @@
                         </div>
                         <div class="blog-content">
                             <div class="title-blog">
-                                <h3>Fusce in augue non nisi fringilla</h3>
-                                <p>Nulla ut urna egestas, porta libero id, suscipit orci. Quisque in lectus sit amet
-                                    urna dignissim feugiat. Mauris molestie egestas pharetra. Ut finibus cursus nunc sed
-                                    mollis. Praesent laoreet lacinia elit id lobortis.</p>
+                                <h3>Progress steadily and with assurance.</h3>
+                                <p>Grow with confidence using PlantPulse. Access easy disease diagnosis, practical
+                                    farming insights, and a supportive marketplace to enhance your agricultural
+                                    practices. Our tools are designed to empower you every step of the way.</p>
                             </div>
                             <ul class="option-blog">
                                 <li><a href="#"><i class="far fa-heart"></i></a></li>
@@ -476,45 +477,46 @@
 
 
     <!-- Start Footer  -->
-<footer>
-    <div class="footer-main">
-        <div class="container">
-            <hr>
-            <div class="row">
-                <div class="col-lg-4 col-md-12 col-sm-12">
-                    <div class="footer-widget">
-                        <h4>About PlantPulse</h4>
-                        <p>PlantPulse offers a fresh, convenient marketplace where you can buy and sell quality
-                            tomatoes directly from trusted sources. Our platform connects farmers and buyers,
-                            ensuring access to fresh produce while supporting sustainable agriculture. Shopping for
-                            tomatoes with PlantPulse is quick, easy, and helps foster a healthier farming community.
-                        </p>
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <hr>
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-widget">
+                            <h4>About PlantPulse</h4>
+                            <p>PlantPulse offers a fresh, convenient marketplace where you can buy and sell quality
+                                tomatoes directly from trusted sources. Our platform connects farmers and buyers,
+                                ensuring access to fresh produce while supporting sustainable agriculture. Shopping for
+                                tomatoes with PlantPulse is quick, easy, and helps foster a healthier farming community.
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-12 col-sm-12">
-                    <div class="footer-link-contact">
-                        <h4>Contact Us</h4>
-                        <ul>
-                            <li>
-                                <p><i class="fas fa-map-marker-alt"></i>Address: PlantPulse Technologies <br> Office
-                                    No. 12, 4th Floor <br>Tech Park One, Yerawada,<br>Pune, Maharashtra - 411006,
-                                    India </p>
-                            </li>
-                            <li>
-                                <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770"> +91-98765 43210</a></p>
-                            </li>
-                            <li>
-                                <p><i class="fas fa-envelope"></i>Email: <a
-                                        href="mailto:contactinfo@gmail.com">support@plantpulse.in</a></p>
-                            </li>
-                        </ul>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-link-contact">
+                            <h4>Contact Us</h4>
+                            <ul>
+                                <li>
+                                    <p><i class="fas fa-map-marker-alt"></i>Address: PlantPulse Technologies <br> Office
+                                        No. 12, 4th Floor <br>Tech Park One, Yerawada,<br>Pune, Maharashtra - 411006,
+                                        India </p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770"> +91-98765
+                                            43210</a></p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-envelope"></i>Email: <a
+                                            href="mailto:contactinfo@gmail.com">support@plantpulse.in</a></p>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</footer>
-<!-- End Footer  -->
+    </footer>
+    <!-- End Footer  -->
 
 
     <!-- Start copyright  -->
