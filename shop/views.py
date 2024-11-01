@@ -10,8 +10,20 @@ from django.contrib import messages
 def checkoutpage(request):
     return render(request, 'checkout.html')
 
+from django.shortcuts import render, redirect
+
 def payment(request):
+    if request.method == 'POST':
+        # Capture the preferred delivery time
+        preferred_delivery_time = request.POST.get('delivery_time')
+        return redirect('order_confirmation')
+
+    # If GET request, render the payment page
     return render(request, 'payment.html')
+
+
+def order_confirmation(request):
+    return render(request, 'order_confirmation.html')
 
 
 def shop_detail(request):
