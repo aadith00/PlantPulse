@@ -110,18 +110,17 @@
 </header>
 <!-- End Main Top -->
 
-
     <!-- Order Confirmation Content -->
     <div class="container my-5">
         <div class="card">
             <h2 class="text-center mb-4">Thank you for your order!</h2>
             <p class="text-center">Your order has been placed successfully.</p>
-            <p class="text-center">Order ID: <strong>{{ order.id }}</strong></p>
+            <p class="text-center">Order ID: <strong>{{ order.order_id }}</strong></p>
 
             <h4 class="mt-4">Shipping Information:</h4>
-            <p><strong>Name:</strong> {{ order.billing_address.first_name }} {{ order.billing_address.last_name }}</p>
-            <p><strong>Address:</strong> {{ order.billing_address.address }}, {{ order.billing_address.city }}, {{ order.billing_address.state }}, {{ order.billing_address.zip_code }}</p>
-            <p><strong>Country:</strong> {{ order.billing_address.country }}</p>
+            <p><strong>Name:</strong> {{ customer.first_name }} {{ customer.last_name }}</p>
+            <p><strong>Address:</strong> {{ customer.address }}, {{ customer.city }}, {{ customer.state }}, {{ customer.zip_code }}</p>
+            <p><strong>Country:</strong> {{ customer.country }}</p>
 
             <div class="text-center mt-4">
                 <a href="{% url 'shop-detail' %}" class="btn btn-outline-primary">Continue Shopping</a>
