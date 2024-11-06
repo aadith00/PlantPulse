@@ -168,40 +168,34 @@
     </div>
     <!-- End All Title Box -->
 
-    <!-- Start Shop Detail  -->
-    <div class="shop-detail-box-main">
-        <div class="container">
+<!-- Shop Detail -->
+<div class="shop-detail-box-main">
+    <div class="container">
+        <div class="row">
             {% for p in products %}
-            <div class="row">
-                <div class="col-xl-5 col-lg-5 col-md-6">
-                    <div id="carousel-example-1" class="single-product-slider carousel slide" data-ride="carousel">
-                        <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active"> <img class="d-block w-100"
-                                    src="{{ p.image.url }}" alt="First slide"> </div>
+                <div class="col-md-4 col-sm-6 mb-4">
+                    <div class="product-box">
+                        <div class="product-img">
+                            <img src="{{ p.image.url }}" class="img-fluid" alt="{{ p.title }}">
+                        </div>
+                        <div class="product-content">
+                            <h4>{{ p.title }}</h4>
+                            <p class="price">${{ p.price }}</p>
+                            <p class="available-stock">Stock: {{ p.stock_count }}</p>
+                            <p>{{ p.description|truncatewords:15 }}</p>
+                            <a href="{% url 'product-detail' p.pid %}" class="btn btn-primary">View Product</a>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-7 col-lg-7 col-md-6">
-                    <div class="single-product-details">
-                        <h2>{{ p.title }}</h2>
-                        <h5>$40.79</h5>
-                        <p class="available-stock"><span> Stock : {{ p.stock_count }}</span>
-                        <p>
-                        <h4>Short Description:</h4>
-                        <p>{{ p.description }}</p>
-                        <div class="price-box-bar">
-                            <div class="cart-and-bay-btn">
-                                <a class="btn hvr-hover" data-fancybox-close=""
-                                    href="{% url 'product-detail' p.pid %}">View Product</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
+                
+                {% if forloop.counter|divisibleby:3 %}
+                    </div><div class="row">
+                {% endif %}
             {% endfor %}
         </div>
     </div>
+</div>
+
     <!-- End Cart -->
 
    <!-- Start Instagram Feed  -->
