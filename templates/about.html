@@ -28,11 +28,34 @@
     <link rel="stylesheet" href="{% static 'css/response.css' %}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <style>
+        .hover-team:hover .team-description {
+            transition: all 0.3s ease;
+            opacity: 1;
+        }
+
+        .btn.hvr-hover {
+            margin-top: 20px;
+        }
+
+        .hover-team {
+            padding: 20px;
+            /* Adjust this value as needed */
+        }
+
+        .col-sm-6.col-lg-3 {
+            margin: 0 20px;
+            /* Adjust the value to increase or decrease spacing */
+        }
+    </style>
 
 </head>
 
@@ -198,145 +221,135 @@
                 <div class="col-sm-6 col-lg-4">
                     <div class="service-block-inner">
                         <h3>We are Trusted</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. </p>
+                        <p>We have earned the trust of our clients through consistent dedication to delivering quality
+                            and reliability in every aspect of our work. </p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-lg-4">
                     <div class="service-block-inner">
                         <h3>We are Professional</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. </p>
+                        <p>Our team maintains the highest standards of professionalism, ensuring timely, efficient, and
+                            well-executed solutions for all our clients. </p>
                     </div>
                 </div>
                 <div class="col-sm-6 col-lg-4">
                     <div class="service-block-inner">
                         <h3>We are Expert</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                            labore et dolore magna aliqua. </p>
+                        <p>With extensive experience and in-depth knowledge, we bring expert insights and innovative
+                            solutions to every project we undertake. </p>
                     </div>
                 </div>
             </div>
             <div class="text-center">
                 <h1 class="team-heading">Meet Our Team</h1>
             </div>
-            
-            <div class="row">
+
+            <div class="row justify-content-center g-4">
                 <!-- Team Member 1 -->
                 <div class="col-sm-6 col-lg-3">
                     <div class="hover-team text-center">
                         <div class="our-team">
-                            <img src="{% static 'images/aadi.jpg' %}" alt="" / style="height: 340px;">
+                            <img src="{% static 'images/aadi.jpg' %}" alt="" style="height: 365px; ">
                             <div class="team-content">
                                 <h3 class="title">Aadith Joseph Mathew</h3>
                                 <span class="post">Web Developer</span>
                             </div>
-                            <ul class="social">
-                                <li><a href="#" class="fab fa-facebook"></a></li>
-                                <li><a href="#" class="fab fa-twitter"></a></li>
-                                <li><a href="#" class="fab fa-google-plus"></a></li>
-                                <li><a href="#" class="fab fa-youtube"></a></li>
-                            </ul>
                             <div class="icon"><i class="fa fa-plus" aria-hidden="true"></i></div>
                         </div>
                         <div class="team-description">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna diam, maximus ut
-                                ullamcorper quis, placerat id eros. Duis semper justo sed condimentum rutrum. Nunc
-                                tristique purus turpis. Maecenas vulputate.</p>
+                            <p>A skilled web developer focused on creating efficient, user-friendly applications. With a
+                                keen eye for detail and performance, they deliver high-quality solutions tailored to
+                                modern web standards.</p>
                         </div>
                         <hr class="my-0">
                     </div>
                 </div>
-            
+
                 <!-- Team Member 2 -->
                 <div class="col-sm-6 col-lg-3">
                     <div class="hover-team text-center">
                         <div class="our-team">
-                            <img src="{% static 'images/devu.jpg' %}" alt="Devika S Vinod">
+                            <img src="{% static 'images/devu.jpg' %}" alt="Devika S Vinod"
+                                style="height: 340px; width: 100%;">
                             <div class="team-content">
                                 <h3 class="title">Devika S Vinod</h3>
                                 <span class="post">Web Developer</span>
                             </div>
-                            <ul class="social">
-                                <li><a href="#" class="fab fa-facebook"></a></li>
-                                <li><a href="#" class="fab fa-twitter"></a></li>
-                                <li><a href="#" class="fab fa-google-plus"></a></li>
-                                <li><a href="#" class="fab fa-youtube"></a></li>
-                            </ul>
                             <div class="icon"><i class="fa fa-plus" aria-hidden="true"></i></div>
                         </div>
                         <div class="team-description">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent urna diam, maximus ut
-                                ullamcorper quis, placerat id eros. Duis semper justo sed condimentum rutrum. Nunc
-                                tristique purus turpis. Maecenas vulputate.</p>
+                            <p>A passionate web developer committed to crafting seamless, responsive websites. They
+                                bring creativity and technical expertise to build functional and engaging user
+                                experiences.</p>
                         </div>
                         <hr class="my-0">
                     </div>
                 </div>
             </div>
-            
+
+
         </div>
     </div>
     </div>
     </div>
     <!-- End About Page -->
 
-   <!-- Start Instagram Feed  -->
-   <div class="instagram-box">
-    <div class="main-instagram owl-carousel owl-theme">
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{% static 'images/instagram-img-01.jpg' %}" alt="" />
+    <!-- Start Instagram Feed  -->
+    <div class="instagram-box">
+        <div class="main-instagram owl-carousel owl-theme">
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-01.jpg' %}" alt="" />
+                </div>
             </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{% static 'images/instagram-img-02.jpg' %}" alt="" />
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-02.jpg' %}" alt="" />
+                </div>
             </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{% static 'images/instagram-img-03.jpg' %}" alt="" />
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-03.jpg' %}" alt="" />
+                </div>
             </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{% static 'images/instagram-img-04.jpg' %}" alt="" />
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-04.jpg' %}" alt="" />
+                </div>
             </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{% static 'images/instagram-img-05.jpg' %}" alt="" />
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-05.jpg' %}" alt="" />
+                </div>
             </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{% static 'images/instagram-img-06.jpg' %}" alt="" />
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-06.jpg' %}" alt="" />
+                </div>
             </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{% static 'images/instagram-img-07.jpg' %}" alt="" />
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-07.jpg' %}" alt="" />
+                </div>
             </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{% static 'images/instagram-img-08.jpg' %}" alt="" />
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-08.jpg' %}" alt="" />
+                </div>
             </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{% static 'images/instagram-img-09.jpg' %}" alt="" />
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-09.jpg' %}" alt="" />
+                </div>
             </div>
-        </div>
-        <div class="item">
-            <div class="ins-inner-box">
-                <img src="{% static 'images/instagram-img-05.jpg' %}" alt="" />
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-05.jpg' %}" alt="" />
+                </div>
             </div>
         </div>
     </div>
-</div>
-<!-- End Instagram Feed  -->
+    <!-- End Instagram Feed  -->
 
 
     <!-- Start Footer  -->
