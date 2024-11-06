@@ -163,38 +163,31 @@ def manage_orders(request):
 
 def view_order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    
-    # Collect order details to display in modal or dedicated view
+
+    # Collect order details, including items in the order
     order_details = {
-        'id': order.id,
+        'order_id': order.order_id,
         'customer_name': order.user.username,
         'status': order.status,
-        'date': order.created_at,
-        'total': order.total_price,
-        'items': list(order.items.values('product__name', 'quantity', 'price'))
+        'date': order.created_at.strftime('%b %d, %Y'),
+        'total': float(order.total_price),
+        'items': [
+            {
+                'product_title': item.product.title,
+                'quantity': item.quantity,
+                'price': float(item.price),
+                'subtotal': float(item.quantity * item.price)
+            }
+            for item in order.cart.items.all()  # Access related cart items
+        ]
     }
-    
-    return JsonResponse(order_details)
 
-def edit_order(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    
-    if request.method == 'POST':
-        # Update fields (example updates status and total price)
-        order.status = request.POST.get('status')
-        order.total_price = request.POST.get('total_price')
-        order.save()
-        
-        messages.success(request, "Order updated successfully.")
-        return redirect(reverse('manage_orders'))
-    
-    context = {'order': order}
-    return render(request, 'edit_order.html', context)
+    # Return order details as JSON for display in modal
+    return JsonResponse(order_details)
 
 @require_POST
 def delete_order(request, order_id):
+    print("hello")
     order = get_object_or_404(Order, id=order_id)
     order.delete()
-    
-    messages.success(request, "Order deleted successfully.")
-    return redirect(reverse('manage_orders'))
+    return JsonResponse({'message': 'Order deleted successfully'})
