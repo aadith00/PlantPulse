@@ -172,7 +172,8 @@
                         <h2>GET IN TOUCH</h2>
                         <p>Empowering farmers with cutting-edge tools for sustainable agriculture. With PlantPulse,
                             identify plant diseases, access fresh produce, and support a thriving farming community.</p>
-                        <form id="contactForm">
+                        <form method="post" >
+                            {% csrf_token %}
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -184,20 +185,20 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <input type="text" placeholder="Your Email" id="email" class="form-control"
-                                            name="name" required data-error="Please enter your email">
+                                            name="email" required data-error="Please enter your email">
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" id="subject" name="name"
+                                        <input type="text" class="form-control" id="subject" name="subject"
                                             placeholder="Subject" required data-error="Please enter your Subject">
                                         <div class="help-block with-errors"></div>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <textarea class="form-control" id="message" placeholder="Your Message" rows="4"
+                                        <textarea class="form-control" name="message" id="message" placeholder="Your Message" rows="4"
                                             data-error="Write your message" required></textarea>
                                         <div class="help-block with-errors"></div>
                                     </div>
@@ -211,6 +212,8 @@
                         </form>
                     </div>
                 </div>
+
+                
                 <div class="col-lg-4 col-sm-12">
                     <div class="contact-info-left">
                         <h2>CONTACT INFO</h2>
@@ -232,6 +235,18 @@
                             </li>
                         </ul>
                     </div>
+                </div>
+                <div class="col-md-12">
+                    {% if messages %}
+                    
+                        {% for message in messages %}
+                        <div class="alert alert-{{message.tags}} alert-dismissible fade show mb-3" role="alert">
+                            {{message}}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                          </div>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
                 </div>
             </div>
         </div>

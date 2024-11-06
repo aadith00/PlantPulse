@@ -175,14 +175,12 @@ def payment(request,id):
             )
             cart.status='Ordered'
             cart.save()
-                        # Optionally add a success message
+            # Optionally add a success message
             messages.success(request, "Your order has been placed successfully!")
             return redirect('order_confirmation_user', order_id=order.order_id)
         else:
             messages.error(request, "Billing address not found. Please set up your billing address.")
             return redirect('update_address')
-
-
     else:
         return render(request, 'payment.html')
 
