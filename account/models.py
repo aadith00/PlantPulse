@@ -2,6 +2,7 @@ from django.db import models
 from shortuuid.django_fields import ShortUUIDField
 from django.utils.html import mark_safe
 from django.contrib.auth.models import User
+import random
 
 def user_directory_path(instance, filename):
     return 'user_{0}/{1}'.format(instance.user.id, filename)
@@ -28,6 +29,7 @@ class Farmer(models.Model):
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    customer_id = models.CharField(max_length=8, unique=True, editable=False)
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
@@ -39,14 +41,9 @@ class Customer(models.Model):
     address = models.CharField(max_length=255)
     address2 = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
+    state = models.CharField(max_length=100, default=" ", blank=True, null=True)
     zip_code = models.CharField(max_length=20)
     country = models.CharField(max_length=100)
-
-    # Order and Activity Information
-    order_count = models.PositiveIntegerField(default=0)
-    total_spent = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    last_order_date = models.DateTimeField(blank=True, null=True)
 
     # Preferences and Status
     preferred_contact_method = models.CharField(max_length=10, choices=[
@@ -57,20 +54,9 @@ class Customer(models.Model):
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.user.username})"
-    
-class BillingAddress(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    address = models.CharField(max_length=255)
-    address2 = models.CharField(max_length=255, blank=True, null=True)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    country = models.CharField(max_length=100)
-    zip_code = models.CharField(max_length=20)
-    phone = models.CharField(max_length=15, blank=True, null=True)
 
-    def __str__(self):
-        return f'{self.user.username} - {self.address}, {self.city}'
-
-    
+    def save(self, *args, **kwargs):
+        if not self.customer_id:
+            unique_number = ''.join([str(random.randint(0, 9)) for _ in range(5)])
+            self.customer_id = f"CUS{unique_number}"
+        super().save(*args, **kwargs)

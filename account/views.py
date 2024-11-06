@@ -87,23 +87,6 @@ def user_register(request):
 
     return render(request, "index.html", context)
 
-# def user_login(request):
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-
-#         user = authenticate(request, username=username, password=password)
-
-#         if user is not None:
-#             login(request, user)
-#             return redirect('index')
-        
-#         else:
-#             error_message = "Invalid username or password."
-#             return render(request, 'autho.html', {'error_message': error_message})
-        
-#     return render (request, 'index.html')
-
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -135,23 +118,50 @@ def user_logout(request):
     return redirect('auth')
 
 @login_required
-def update_customer_info(request):
+def update_general_info(request):
     customer = get_object_or_404(Customer, user=request.user)
-
+    
     if request.method == 'POST':
         customer.first_name = request.POST.get('first_name')
         customer.last_name = request.POST.get('last_name')
-        customer.address = request.POST.get('address')
-        customer.city = request.POST.get('city')
-        customer.country = request.POST.get('country')
-        customer.zip_code = request.POST.get('zip_code')
         customer.phone_number = request.POST.get('phone_number')
-        
         customer.save()
-        messages.success(request, "Your profile has been updated successfully.")
-        return redirect('profile')
+        
+        messages.success(request, "Your general information has been updated successfully.")
+        return redirect('my-account')
+    
+    return render(request, 'my-account.html', {'customer': customer})
 
-    return render(request, 'profile.html', {'customer': customer})
+@login_required
+def update_address(request):
+    customer = get_object_or_404(Customer, user=request.user)
+    
+    if request.method == 'POST':
+        # Get the form data from the request
+        address = request.POST.get('address')
+        address2 = request.POST.get('address2', '')  # Optional field
+        city = request.POST.get('city')
+        state = request.POST.get('state')
+        country = request.POST.get('country')
+        zip_code = request.POST.get('zip_code')
+        
+        # Ensure required fields are present
+        if address and city and state and country and zip_code:
+            # Update customer address information
+            customer.address = address
+            customer.address2 = address2
+            customer.city = city
+            customer.state = state
+            customer.country = country
+            customer.zip_code = zip_code
+            customer.save()
+            
+            messages.success(request, "Your address has been updated successfully.")
+            return redirect('my-account')
+        else:
+            messages.error(request, "Please fill in all required fields.")
+
+    return render(request, 'my-account.html', {'customer': customer})
 
 @login_required
 def update_profile_picture(request):
