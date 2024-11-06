@@ -28,8 +28,6 @@ def account(request):
 
     return render(request, 'my-account.html', context)
 
-
-
 # Add Review view
 def add_review(request,id):
     if request.method == 'POST':
