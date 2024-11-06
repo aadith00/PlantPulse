@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from tomatoes.models import Variety, Product, Disease
+from tomatoes.models import Vegetables, Product, Disease
 from shop.models import CartItem, Cart, ContactUs
 from django.contrib import messages
 
@@ -7,7 +7,7 @@ from django.contrib import messages
 
 def index(request):
     product = Product.objects.all()
-    variety = Variety.objects.all()
+    vegetables = Vegetables.objects.all()
     disease = Disease.objects.all()
 
     cart_items_count = 0
@@ -19,7 +19,7 @@ def index(request):
 
     context = {
         "products": product,
-        "varieties": variety,
+        "vegetables": vegetables,
         "diseases": disease,
         "cart_items_count": cart_items_count
     }
