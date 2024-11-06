@@ -2,7 +2,7 @@ from django.urls import path
 from django.conf.urls.static import static
 
 from PlantPulse import settings
-from .views import account,auth, user_register, user_login, user_logout, update_general_info, update_profile_picture, update_address, upload_product
+from .views import account,auth, user_register, user_login, user_logout, update_general_info, update_profile_picture, update_address, upload_product, add_review, review_page
 
 urlpatterns = [
     path('account', account, name='my-account'),
@@ -14,4 +14,6 @@ urlpatterns = [
     path('update/address/', update_address, name='update_address'),
     path('update-profile-picture/', update_profile_picture, name='update_profile_picture'),
     path('upload-product/', upload_product, name='upload_product'),
+    path('review/', review_page, name='review'),
+    path('add-review/', add_review, name='add-review')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

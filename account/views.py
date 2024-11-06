@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect # type: ignore
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Customer, Farmer
-from shop.models import Order, Product
+from shop.models import Order, Product, Review
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -43,10 +43,11 @@ def add_review(request,id):
         )
         review.save()
         return redirect('my-account')
-    else:
-
-        return render(request, 'add_review.html',)
-
+    # else:
+    #     return render(request, 'add_review.html')
+    
+def review_page(request):
+    return render(request, 'add_review.html')
 
 def auth(request):
     return render(request, 'autho.html' )
@@ -234,4 +235,4 @@ def upload_product(request):
             life=life,
             mfg_date=mfg_date
         )
-        return redirect('account')  # Redirect to account or a success page
+        return redirect('my-account')  # Redirect to account or a success page
