@@ -10,18 +10,20 @@ from custom_admin.models import Admin
 
 # Create your views here.
 def account(request):
-    # Get the customer associated with the logged-in user, create if not exists
     try:
         customer = Customer.objects.get(user=request.user)
     except Customer.DoesNotExist:
         customer = Customer.objects.create(user=request.user)
 
-    # Get all orders associated with the customer
+    is_farmer = Farmer.objects.filter(user=request.user).exists()  # Check if user is a farmer
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    customer_products = Product.objects.filter(user=request.user) if is_farmer else None
 
     context = {
         'customer': customer,
-        'orders': orders  # Pass orders to the template
+        'orders': orders,
+        'is_farmer': is_farmer,
+        'customer_products': customer_products,
     }
 
     return render(request, 'my-account.html', context)
@@ -211,3 +213,27 @@ def update_profile_picture(request):
         messages.error(request, "Invalid request method. Please try again.")
 
     return redirect('my-account')
+
+def upload_product(request):
+    if request.method == 'POST':
+        # Get form data directly from the request
+        title = request.POST.get('title')
+        description = request.POST.get('description')
+        price = request.POST.get('price')
+        image = request.FILES.get('image')
+        stock_count = request.POST.get('stock_count')
+        life = request.POST.get('life')
+        mfg_date = request.POST.get('mfg_date')
+
+        # Create a new product entry with the submitted details
+        Product.objects.create(
+            user=request.user,
+            title=title,
+            description=description,
+            price=price,
+            image=image,
+            stock_count=stock_count,
+            life=life,
+            mfg_date=mfg_date
+        )
+        return redirect('account')  # Redirect to account or a success page
