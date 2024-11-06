@@ -44,7 +44,15 @@
     .btn.hvr-hover {
         margin-top: 20px;
     }
-    
+
+    .hover-team {
+        padding: 20px; /* Adjust this value as needed */
+    }
+
+    .col-sm-6.col-lg-3 {
+        margin: 0 20px; /* Adjust the value to increase or decrease spacing */
+    }    
+   
     </style>
 
 </head>
@@ -234,22 +242,16 @@
                 <h1 class="team-heading">Meet Our Team</h1>
             </div>
             
-            <div class="row">
+            <div class="row justify-content-center g-4">
                 <!-- Team Member 1 -->
                 <div class="col-sm-6 col-lg-3">
                     <div class="hover-team text-center">
                         <div class="our-team">
-                            <img src="{% static 'images/aadi.jpg' %}" alt="" / style="height: 340px;">
+                            <img src="{% static 'images/aadi.jpg' %}" alt="" style="height: 365px; ">
                             <div class="team-content">
                                 <h3 class="title">Aadith Joseph Mathew</h3>
                                 <span class="post">Web Developer</span>
                             </div>
-                            <ul class="social">
-                                <li><a href="#" class="fab fa-facebook"></a></li>
-                                <li><a href="#" class="fab fa-twitter"></a></li>
-                                <li><a href="#" class="fab fa-google-plus"></a></li>
-                                <li><a href="#" class="fab fa-youtube"></a></li>
-                            </ul>
                             <div class="icon"><i class="fa fa-plus" aria-hidden="true"></i></div>
                         </div>
                         <div class="team-description">
@@ -266,17 +268,10 @@
                     <div class="hover-team text-center">
                         <div class="our-team">
                             <img src="{% static 'images/devu.jpg' %}" alt="Devika S Vinod" style="height: 340px; width: 100%;">
-
                             <div class="team-content">
                                 <h3 class="title">Devika S Vinod</h3>
                                 <span class="post">Web Developer</span>
                             </div>
-                            <ul class="social">
-                                <li><a href="#" class="fab fa-facebook"></a></li>
-                                <li><a href="#" class="fab fa-twitter"></a></li>
-                                <li><a href="#" class="fab fa-google-plus"></a></li>
-                                <li><a href="#" class="fab fa-youtube"></a></li>
-                            </ul>
                             <div class="icon"><i class="fa fa-plus" aria-hidden="true"></i></div>
                         </div>
                         <div class="team-description">
@@ -288,6 +283,7 @@
                     </div>
                 </div>
             </div>
+            
             
         </div>
     </div>
