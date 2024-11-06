@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect # type: ignore
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Customer, Farmer
+from shop.models import Order
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -9,12 +10,21 @@ from custom_admin.models import Admin
 
 # Create your views here.
 def account(request):
+    # Get the customer associated with the logged-in user, create if not exists
     try:
-        customer = Customer.objects.get(user =request.user)
-        print(customer)
-    except:
+        customer = Customer.objects.get(user=request.user)
+    except Customer.DoesNotExist:
         customer = Customer.objects.create(user=request.user)
-    return render(request, 'my-account.html',context={'customer':customer})
+
+    # Get all orders associated with the customer
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+
+    context = {
+        'customer': customer,
+        'orders': orders  # Pass orders to the template
+    }
+
+    return render(request, 'my-account.html', context)
 
 def wishlist(request):
     return render(request, 'wishlist.html')

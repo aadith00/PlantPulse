@@ -159,7 +159,7 @@ def manage_orders(request):
         'pending_orders': pending_orders,
         'completed_orders': completed_orders,
     }
-    return render(request, 'manage_orders.html', context)
+    return render(request, 'order_list.html', context)
 
 def view_order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
