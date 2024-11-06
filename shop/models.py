@@ -29,6 +29,8 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, default='Pending')
+    cart=models.ForeignKey(Cart,on_delete=models.CASCADE,null=True)
+    delivery_time=models.TextField(max_length=255,null=True)
 
     def __str__(self):
         return f"Order {self.order_id} by {self.user.username} - Total: {self.total_price}"

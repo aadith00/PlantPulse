@@ -137,7 +137,7 @@ def checkout(request):
 
             # Store total price in session and redirect to payment
             request.session['total_price'] = float(total_price)
-            return redirect('payment')
+            return redirect('payment',cart.id)
 
     except Cart.DoesNotExist:
         total_price = 0
@@ -149,43 +149,65 @@ def checkout(request):
         'customer': customer  # Pass the customer data to prefill the form
     })
 
-def payment(request):
-    return render(request, 'payment.html')
-
-def order_confirmation(request):
+def payment(request,id):
     if request.method == 'POST':
         # Retrieve the delivery time from the form data (if needed)
         delivery_time = request.POST.get('delivery_time')
-        
         # Get the logged-in user
         user = request.user
+
+        cart = Cart.objects.get(user=request.user, id=id)
+        cart_items = CartItem.objects.filter(cart=cart)
+        total_price = sum(item.quantity * item.price for item in cart_items)
 
         # Retrieve customer details
         customer = Customer.objects.filter(user=user).first()
 
-        # Calculate the total price from session data
-        total_price = request.session.get('total_price', 0)  # Assuming total price is stored in session
-
         if customer:
             # Create a new order entry
             order = Order.objects.create(
+                cart=cart,
                 user=user,
                 state=customer.state,
                 total_price=total_price,
-                status="Pending"
+                status="Pending",
+                delivery_time=delivery_time,
             )
-
-            # Pass the order and customer data to the template
-            context = {
-                'order': order,
-                'customer': customer
-            }
-
-            # Optionally add a success message
+            cart.status='Ordered'
+            cart.save()
+                        # Optionally add a success message
             messages.success(request, "Your order has been placed successfully!")
-            return render(request, 'order_confirmation.html', context)
+            return redirect('order_confirmation_user', order_id=order.order_id)
         else:
             messages.error(request, "Billing address not found. Please set up your billing address.")
             return redirect('update_address')
 
-    return render(request, 'order_confirmation.html')
+
+    else:
+        return render(request, 'payment.html')
+
+def order_confirmation(request, order_id):
+    # Retrieve the order by its ID
+    order = Order.objects.get(order_id=order_id)
+    
+    # Retrieve the cart associated with the order
+    cart = order.cart
+    cart_items = CartItem.objects.filter(cart=cart)
+    
+    # Get the logged-in user
+    user = request.user
+    
+    # Retrieve customer details
+    customer = Customer.objects.filter(user=user).first()
+
+    # Add relevant data to the context
+    context = {
+        'order': order,
+        'cart': cart,
+        'cart_items': cart_items,
+        'customer': customer,
+        'total_price': order.total_price,
+        'delivery_time': order.delivery_time,
+    }
+
+    return render(request, 'order_confirmation.html', context)

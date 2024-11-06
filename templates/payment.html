@@ -127,6 +127,8 @@
 
     <!-- Main Payment Section -->
     <div class="container">
+        <form action="" method="post">
+            {% csrf_token %}
         <h2>Payment Method</h2>
         <div class="alert alert-info">
             <p>Please ensure that you have the exact amount ready for payment upon delivery.</p>
@@ -134,7 +136,7 @@
 
         <div class="form-group">
             <label for="delivery_time">Preferred Delivery Time:</label>
-            <select class="form-control" id="delivery_time">
+            <select class="form-control" id="delivery_time" name="delivery_time">
                 <option value="" disabled selected>Select your preferred time</option>
                 <option value="9:00 AM - 12:00 PM">9:00 AM - 12:00 PM</option>
                 <option value="12:00 PM - 3:00 PM">12:00 PM - 3:00 PM</option>
@@ -144,8 +146,8 @@
         </div>
         
         <!-- Redirect Button with JavaScript -->
-        <a href="#" class="btn btn-primary" id="confirm-payment">Confirm Payment</a>
-        
+        <button type="submit"  class="btn btn-primary" >Confirm Payment</button>
+    </form>
     </div>
 
     <!-- Start Footer  -->
@@ -217,17 +219,6 @@
     <script src="{% static 'js/contact-form-script.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
 
-    <script>
-        document.getElementById('confirm-payment').addEventListener('click', function() {
-            const selectedTime = document.getElementById('delivery_time').value;
-            if (selectedTime) {
-                // Redirect to the order confirmation view with the selected delivery time as a query parameter
-                window.location.href = "{% url 'order_confirmation' %}?delivery_time=" + encodeURIComponent(selectedTime);
-            } else {
-                alert("Please select a delivery time.");
-            }
-        });
-    </script>
     
 </body>
 
