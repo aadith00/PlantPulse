@@ -376,39 +376,28 @@
                             <div class="card-body">
                                 <h4>Order History</h4>
                                 <hr>
-                                {% if pending_orders %}
-                                <ul class="list-group">
-                                    {% for order in pending_orders %}
-                                    <li class="list-group-item">
-                                        <div>
-                                            <span><strong>Order ID:</strong> {{ order.id }}</span>
-                                            <span class="float-right"><strong>Total Price:</strong> Rs. {{
-                                                order.total_price }}</span>
-                                            <span class="badge badge-info">{{ order.status }}</span>
+                                <div class="row">
+                                    {% if orders %}
+                                    {% for order in orders %}
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card">
+                                            <div class="card-header bg-info text-white">
+                                                <h5 class="mb-0">Order ID: {{ order.order_id }}</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <p><strong>Status:</strong> <span class="badge badge-info">{{ order.status }}</span></p>
+                                                <p><strong>Total Price:</strong> Rs. {{ order.total_price }}</p>
+                                                <p><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y" }}</p>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <span><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y"
-                                                }}</span>
-                                        </div>
-                                        {% if order.tracking_number %}
-                                        <div class="mt-2">
-                                            <strong>Tracking Number:</strong> {{ order.tracking_number }}
-                                            <a href="https://track.aftership.com/{{ order.tracking_number }}"
-                                                target="_blank" class="btn btn-outline-primary btn-sm ml-2">Track
-                                                Order</a>
-                                        </div>
-                                        {% else %}
-                                        <div class="mt-2 text-muted">No tracking information available.</div>
-                                        {% endif %}
-                                    </li>
+                                    </div>
                                     {% endfor %}
-                                </ul>
-                                {% else %}
-                                <p>No orders placed yet.</p>
-                                {% endif %}
+                                    {% else %}
+                                    <p>No orders placed yet.</p>
+                                    {% endif %}
+                                </div>
                             </div>
-                        </div>
-
+                        </div>                        
                     </div>
                 </div>
             </div>
