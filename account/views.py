@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect # type: ignore
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Customer, Farmer
-from shop.models import Order, Review
+from shop.models import Order, Product
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404

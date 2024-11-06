@@ -183,7 +183,21 @@
                             href="#account-address">Addresses</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list"
                             href="#account-orders">Order History</a>
+<<<<<<< HEAD
+
+                        {% if is_farmer %}
+                        <!-- Tab for Viewing My Products -->
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#my-products">
+                            My Products
+                        </a>
+                        <!-- Tab for Uploading Products -->
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#upload-product">
+                            Upload Product
+                        </a>
+                        {% endif %}
+=======
                         
+>>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -275,6 +289,19 @@
                                 <hr>
                                 <div class="row">
                                     {% if orders %}
+<<<<<<< HEAD
+                                    {% for order in orders %}
+                                    <div class="col-md-6 mb-4">
+                                        <div class="card">
+                                            <div class="card-header bg-info text-white">
+                                                <h5 class="mb-0">Order ID: {{ order.order_id }}</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <p><strong>Status:</strong> <span class="badge badge-info">{{
+                                                        order.status }}</span></p>
+                                                <p><strong>Total Price:</strong> Rs. {{ order.total_price }}</p>
+                                                <p><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y" }}</p>
+=======
                                         {% for order in orders %}
                                         <div class="col-md-6 mb-4">
                                             <div class="card">
@@ -288,6 +315,7 @@
                                                 </div>
 
                                                 <a href="{% url 'add_review' order.order_id %}" class="text-decoration-none">Rate</a>
+>>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
                                             </div>
                                         </div>
                                         {% endfor %}
@@ -297,12 +325,94 @@
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
+
+                        {% if is_farmer %}
+                        <!-- My Products Section -->
+                        <div class="tab-pane fade" id="my-products">
+                            <div class="card-body">
+                                <h4>My Products</h4>
+                                <hr>
+                                {% if customer_products %}
+                                <div class="row">
+                                    {% for product in customer_products %}
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <div class="card-header bg-success text-white">
+                                                <h5 class="mb-0">{{ product.title }}</h5>
+                                            </div>
+                                            <div class="card-body">
+                                                <p><strong>Description:</strong> {{ product.description }}</p>
+                                                <p><strong>Price:</strong> Rs. {{ product.price }}</p>
+                                                <p><strong>Stock:</strong> {{ product.stock_count }} available</p>
+                                                <p><strong>Shelf Life:</strong> {{ product.life }} days</p>
+                                                <p><strong>Manufactured On:</strong> {{ product.mfg_date|date:"M d, Y"
+                                                    }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% else %}
+                                <p>You have not uploaded any products yet.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="upload-product">
+                            <div class="card-body">
+                                <h4>Upload a New Product</h4>
+                                <hr>
+                                <form action="{% url 'upload_product' %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="form-label">Product Name</label>
+                                        <input type="text" class="form-control" name="title" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Description</label>
+                                        <textarea class="form-control" name="description"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Price</label>
+                                        <input type="number" class="form-control" name="price" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="stock_count">Stock Count</label>
+                                        <input type="number" class="form-control" name="stock_count" id="stock_count"
+                                            placeholder="Enter stock count">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="life">Shelf Life (days)</label>
+                                        <input type="number" class="form-control" name="life" id="life"
+                                            placeholder="Enter shelf life in days">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="mfg_date">Manufacturing Date</label>
+                                        <input type="date" class="form-control" name="mfg_date" id="mfg_date">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Product Image</label>
+                                        <input type="file" class="form-control" name="image">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary mt-3">Upload Product</button>
+                                </form>
+                            </div>
+                        </div>
+                        {% endif %}
+=======
+>>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
                     </div>
                 </div>
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+    </div>
+
+=======
     
+>>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
     <!-- Start Footer  -->
     <footer>
         <div class="footer-main">
