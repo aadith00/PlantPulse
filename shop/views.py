@@ -21,6 +21,7 @@ def shop_detail(request):
         "cart_items_count": cart_items_count
     }
 
+
     return render(request, 'shop-detail.html', context)
 
 def product_detail(request, pid):
@@ -209,3 +210,4 @@ def order_confirmation(request, order_id):
     }
 
     return render(request, 'order_confirmation.html', context)
+
