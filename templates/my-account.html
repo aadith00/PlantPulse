@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Site Metas -->
-    <title>ThewayShop - Ecommerce Bootstrap 4 HTML Template</title>
+    <title>PlantPulse</title>
     <meta name="keywords" content="">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -35,117 +35,28 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <style>
-        body {
-            background: #f5f5f5;
-            margin-top: 20px;
-        }
+    <style> .top-search {
+        margin-bottom: 20px; /* Adjust the value as needed */
+    }
+    
+    .all-title-box {
+        margin-top: 20px; /* Optional, in case you need more spacing */
+    }
 
-        .ui-w-80 {
-            width: 80px !important;
-            height: auto;
-        }
+    .list-group-item {
+        font-size: 16px; /* Adjust font size */
+        line-height: 1.6; /* Increase line height for readability */
+    }
 
-        .btn-default {
-            border-color: rgba(24, 28, 33, 0.1);
-            background: rgba(0, 0, 0, 0);
-            color: #4E5155;
-        }
-
-        label.btn {
-            margin-bottom: 0;
-        }
-
-        .btn-outline-primary {
-            border-color: #26B4FF;
-            background: transparent;
-            color: #26B4FF;
-        }
-
-        .btn {
-            cursor: pointer;
-        }
-
-        .text-light {
-            color: #babbbc !important;
-        }
-
-        .btn-facebook {
-            border-color: rgba(0, 0, 0, 0);
-            background: #3B5998;
-            color: #fff;
-        }
-
-        .btn-instagram {
-            border-color: rgba(0, 0, 0, 0);
-            background: #000;
-            color: #fff;
-        }
-
-        .card {
-            background-clip: padding-box;
-            box-shadow: 0 1px 4px rgba(24, 28, 33, 0.012);
-        }
-
-        .row-bordered {
-            overflow: hidden;
-        }
-
-        .account-settings-fileinput {
-            position: absolute;
-            visibility: hidden;
-            width: 1px;
-            height: 1px;
-            opacity: 0;
-        }
-
-        .account-settings-links .list-group-item.active {
-            font-weight: bold !important;
-        }
-
-        html:not(.dark-style) .account-settings-links .list-group-item.active {
-            background: transparent !important;
-        }
-
-        .account-settings-multiselect~.select2-container {
-            width: 100% !important;
-        }
-
-        .light-style .account-settings-links .list-group-item {
-            padding: 0.85rem 1.5rem;
-            border-color: rgba(24, 28, 33, 0.03) !important;
-        }
-
-        .light-style .account-settings-links .list-group-item.active {
-            color: #4e5155 !important;
-        }
-
-        .material-style .account-settings-links .list-group-item {
-            padding: 0.85rem 1.5rem;
-            border-color: rgba(24, 28, 33, 0.03) !important;
-        }
-
-        .material-style .account-settings-links .list-group-item.active {
-            color: #4e5155 !important;
-        }
-
-        .dark-style .account-settings-links .list-group-item {
-            padding: 0.85rem 1.5rem;
-            border-color: rgba(255, 255, 255, 0.03) !important;
-        }
-
-        .dark-style .account-settings-links .list-group-item.active {
-            color: #fff !important;
-        }
-
-        .light-style .account-settings-links .list-group-item.active {
-            color: #4E5155 !important;
-        }
-
-        .light-style .account-settings-links .list-group-item {
-            padding: 0.85rem 1.5rem;
-            border-color: rgba(24, 28, 33, 0.03) !important;
-        }
+    .list-group-item {
+        padding: 15px 20px; /* Adjust padding for more space inside items */
+        margin-bottom: 10px; /* Adds space between items */
+    }
+    
+    .list-group-item-action {
+        border-radius: 5px; /* Optional: Add rounded corners to make it look cleaner */
+    }
+    
     </style>
 
 </head>
@@ -157,30 +68,19 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="right-phone-box">
-                        <p>Call US :- <a href="#">+91 XXX XXX XXXX</a></p>
+                        <p>Call US :- <a href="#"> +91 XXX XXX XXXX</a></p>
                     </div>
                     <div class="our-link">
-                        {% if user.is_authenticated %}
                         <ul>
-                            <li><a><i class="fa fa-user s_color"></i> My Account</a></li>
-                            <li><a><i class="fas fa-location-arrow"></i> Our location</a></li>
+                            <li><i class="fa fa-user s_color"></i> My Account</a></li>
+                            <li><i class="fas fa-location-arrow"></i> Our location</a></li>
                             <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
                         </ul>
-                        {% else %}
-                        <ul>
-                            <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
-                            <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
-                        </ul>
-                        {% endif %}
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="login-box">
-                        {% if user.is_authenticated %}
-                        <a href="{% url 'auth' %}" class="btn btn-primary">Welcome {{ user.username }} </a>
-                        {% else %}
                         <a href="{% url 'auth' %}" class="btn btn-primary">Register / Sign In</a>
-                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -232,36 +132,46 @@
 
                         <li class="nav-item"><a class="nav-link" href="{% url 'gallery' %}">Gallery</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact Us</a></li>
-
-                        {% if user.is_authenticated %}
-                        <!-- Cart option before Logout -->
-                        <li class="side-menu">
-                            <a href="#">
-                                <i class="fa fa-shopping-bag"></i>
-                                <span class="badge cart-items-count">{{ request.session.cart_data_obj|length }}</span>
-                                <p>My Cart</p>
-                            </a>
-                        </li>
                         <li class="nav-item">
                             <a href="{% url 'logout' %}" class="btn btn-primary ml-3">Logout</a>
                         </li>
-                        {% endif %}
                     </ul>
                 </div>
+
+
         </nav>
         <!-- End Navigation -->
     </header>
     <!-- End Main Top -->
-    <div class="container-fluid bg-secondary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
-            <h1 class="font-weight-semi-bold text-uppercase mb-3">Account Settings</h1>
-            <div class="d-inline-flex">
-                <p class="m-0"><a href="{% url 'index' %}">Home</a></p>
-                <p class="m-0 px-2">-</p>
-                <p class="m-0">Profile</p>
+
+    <!-- Start Top Search -->
+    <div class="top-search" style="margin-bottom: 20px;">
+        <div class="container">
+            <div class="input-group">
+                <span class="input-group-addon"><i class="fa fa-search"></i></span>
+                <input type="text" class="form-control" placeholder="Search">
+                <span class="input-group-addon close-search"><i class="fa fa-times"></i></span>
             </div>
         </div>
     </div>
+    <!-- End Top Search -->
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Cart</h2>
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                        <li class="breadcrumb-item active">Cart</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+    
     <div class="container light-style flex-grow-1 container-p-y mb-3">
         <div class="card overflow-hidden">
             <div class="row no-gutters row-bordered row-border-light">
@@ -273,6 +183,7 @@
                             href="#account-address">Addresses</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list"
                             href="#account-orders">Order History</a>
+<<<<<<< HEAD
 
                         {% if is_farmer %}
                         <!-- Tab for Viewing My Products -->
@@ -284,6 +195,9 @@
                             Upload Product
                         </a>
                         {% endif %}
+=======
+                        
+>>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -294,25 +208,20 @@
                                 <h4>Account Information</h4>
                                 <hr>
                                 <div class="d-flex align-items-center mb-3">
-
                                     <img {% if customer.profile_picture %} src="{{ customer.profile_picture.url }}" {% endif %} alt="Profile Picture" class="rounded-circle"
                                         style="width: 80px; height: 80px; border: 2px solid #6c757d;">
-
-                                    <form action="{% url 'update_profile_picture' %}" method="post"
-                                        enctype="multipart/form-data" class="ml-3">
+                                    <form action="{% url 'update_profile_picture' %}" method="post" enctype="multipart/form-data" class="ml-3">
                                         {% csrf_token %}
                                         <label class="btn btn-outline-primary" style="cursor: pointer;">
                                             Upload new photo
-                                            <input type="file" name="profile_picture" style="display: none;"
-                                                onchange="this.form.submit()" required>
+                                            <input type="file" name="profile_picture" style="display: none;" onchange="this.form.submit()" required>
                                         </label>
                                     </form>
                                 </div>
                                 <hr>
                                 <div class="form-group">
                                     <label class="form-label">Username</label>
-                                    <input type="text" class="form-control" value="{{ customer.user.username }}"
-                                        readonly>
+                                    <input type="text" class="form-control" value="{{ customer.user.username }}" readonly>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Email</label>
@@ -322,25 +231,21 @@
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <label class="form-label">First Name</label>
-                                        <input type="text" class="form-control" name="first_name"
-                                            value="{{ customer.first_name }}">
+                                        <input type="text" class="form-control" name="first_name" value="{{ customer.first_name }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" name="last_name"
-                                            value="{{ customer.last_name }}">
+                                        <input type="text" class="form-control" name="last_name" value="{{ customer.last_name }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Phone Number</label>
-                                        <input type="text" class="form-control" name="phone_number"
-                                            value="{{ customer.phone_number }}">
+                                        <input type="text" class="form-control" name="phone_number" value="{{ customer.phone_number }}">
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
                                 </form>
-
                             </div>
                         </div>
-
+    
                         <!-- Address Section -->
                         <div class="tab-pane fade" id="account-address">
                             <div class="card-body">
@@ -350,13 +255,11 @@
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <label class="form-label">Address Line 1</label>
-                                        <input type="text" class="form-control" name="address"
-                                            value="{{ customer.address }}">
+                                        <input type="text" class="form-control" name="address" value="{{ customer.address }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Address Line 2</label>
-                                        <input type="text" class="form-control" name="address2"
-                                            value="{{ customer.address2 }}">
+                                        <input type="text" class="form-control" name="address2" value="{{ customer.address2 }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">City</label>
@@ -364,24 +267,21 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">State</label>
-                                        <input type="text" class="form-control" name="state"
-                                            value="{{ customer.state }}">
+                                        <input type="text" class="form-control" name="state" value="{{ customer.state }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Country</label>
-                                        <input type="text" class="form-control" name="country"
-                                            value="{{ customer.country }}">
+                                        <input type="text" class="form-control" name="country" value="{{ customer.country }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Zip Code</label>
-                                        <input type="text" class="form-control" name="zip_code"
-                                            value="{{ customer.zip_code }}">
+                                        <input type="text" class="form-control" name="zip_code" value="{{ customer.zip_code }}">
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-3">Save Address</button>
                                 </form>
                             </div>
                         </div>
-
+    
                         <!-- Order History and Tracking Section -->
                         <div class="tab-pane fade" id="account-orders">
                             <div class="card-body">
@@ -389,6 +289,7 @@
                                 <hr>
                                 <div class="row">
                                     {% if orders %}
+<<<<<<< HEAD
                                     {% for order in orders %}
                                     <div class="col-md-6 mb-4">
                                         <div class="card">
@@ -400,16 +301,31 @@
                                                         order.status }}</span></p>
                                                 <p><strong>Total Price:</strong> Rs. {{ order.total_price }}</p>
                                                 <p><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y" }}</p>
+=======
+                                        {% for order in orders %}
+                                        <div class="col-md-6 mb-4">
+                                            <div class="card">
+                                                <div class="card-header bg-info text-white">
+                                                    <h5 class="mb-0">Order ID: {{ order.order_id }}</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p><strong>Status:</strong> <span class="badge badge-info">{{ order.status }}</span></p>
+                                                    <p><strong>Total Price:</strong> Rs. {{ order.total_price }}</p>
+                                                    <p><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y" }}</p>
+                                                </div>
+
+                                                <a href="{% url 'add_review' order.order_id %}" class="text-decoration-none">Rate</a>
+>>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
                                             </div>
                                         </div>
-                                    </div>
-                                    {% endfor %}
+                                        {% endfor %}
                                     {% else %}
-                                    <p>No orders placed yet.</p>
+                                        <p>No orders placed yet.</p>
                                     {% endif %}
                                 </div>
                             </div>
                         </div>
+<<<<<<< HEAD
 
                         {% if is_farmer %}
                         <!-- My Products Section -->
@@ -484,13 +400,19 @@
                             </div>
                         </div>
                         {% endif %}
+=======
+>>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
                     </div>
                 </div>
             </div>
         </div>
     </div>
+<<<<<<< HEAD
     </div>
 
+=======
+    
+>>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
     <!-- Start Footer  -->
     <footer>
         <div class="footer-main">

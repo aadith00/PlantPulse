@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from tomatoes.models import Product
 import random
 
+
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     status = models.CharField(max_length=20, default='in_progress')  # in_progress, completed
@@ -11,6 +12,15 @@ class Cart(models.Model):
 
     def __str__(self):
         return f"Cart {self.id} for {self.user.username}"
+    
+class Review(models.Model):
+    customer = models.ForeignKey(User, on_delete=models.CASCADE)  # Linking review to the logged-in user
+    review_text = models.TextField()
+    rating = models.IntegerField()  # Assuming a 1-5 star rating
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Review by {self.customer.username} on {self.created_at}"
     
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
@@ -55,3 +65,9 @@ class ContactUs(models.Model):
     subject=models.TextField(max_length=255)
     message=models.TextField(max_length=555)
     status=models.BooleanField(default=True)
+
+
+class Review(models.Model):
+    order=models.ForeignKey(Order,on_delete=models.CASCADE)
+    rating=models.TextField(max_length=255)
+    review=models.TextField(max_length=255)

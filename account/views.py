@@ -2,7 +2,11 @@ from django.shortcuts import render, redirect # type: ignore
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from .models import Customer, Farmer
+<<<<<<< HEAD
 from shop.models import Order, Product
+=======
+from shop.models import Order, Review
+>>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
@@ -28,8 +32,27 @@ def account(request):
 
     return render(request, 'my-account.html', context)
 
-def wishlist(request):
-    return render(request, 'wishlist.html')
+
+
+# Add Review view
+def add_review(request,id):
+    if request.method == 'POST':
+        # form = ReviewForm(request.POST)
+        order=Order.objects.get(order_id=id)
+        rating = request.POST.get('rating', '').strip()
+        review = request.POST.get('review_text', '').strip()
+
+        review=Review.objects.create(
+            order=order,
+            rating=rating,
+            review=review,
+        )
+        review.save()
+        return redirect('my-account')
+    else:
+
+        return render(request, 'add_review.html',)
+
 
 def auth(request):
     return render(request, 'autho.html' )
