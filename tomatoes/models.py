@@ -49,7 +49,6 @@ class Product(models.Model):
     title = models.CharField(max_length=100, default="Fresh Tomato")
     image = models.ImageField(upload_to="Products", default="product.jpg")
     description = models.TextField(null=True, blank=True, default="This is the product")
-    variety = models.CharField(max_length=100, default="NA")
     price = models.DecimalField(max_digits=99999999999999, decimal_places=2, default="1.99")
     stock_count = models.CharField(max_length=100, default="10", null=True, blank=True)
     life = models.CharField(max_length=100, default="14", null=True, blank=True)
