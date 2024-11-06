@@ -43,8 +43,6 @@ def add_review(request,id):
         )
         review.save()
         return redirect('my-account')
-    # else:
-    #     return render(request, 'add_review.html')
     
 def review_page(request):
     return render(request, 'add_review.html')

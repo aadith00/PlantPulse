@@ -183,7 +183,6 @@
                             href="#account-address">Addresses</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list"
                             href="#account-orders">Order History</a>
-<<<<<<< HEAD
                             {% if is_farmer %}
                             <!-- Tab for Viewing My Products -->
                                                         <a class="list-group-item list-group-item-action" data-toggle="list" href="#my-products">
@@ -194,8 +193,6 @@
                                 Upload Product
                             </a>
                         {% endif %}
-=======
->>>>>>> 7d482358c1e49bab3153a2b12fa50408693d2bac
                         
                     </div>
                 </div>
@@ -295,14 +292,14 @@
                                                 <h5 class="mb-0">Order ID: {{ order.order_id }}</h5>
                                             </div>
                                             <div class="card-body">
-                                                <p><strong>Status:</strong> <span class="badge badge-info">{{
-                                                        order.status }}</span></p>
+                                                <p><strong>Status:</strong> <span class="badge badge-info">{{ order.status }}</span></p>
                                                 <p><strong>Total Price:</strong> Rs. {{ order.total_price }}</p>
                                                 <p><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y" }}</p>
-                                                <button type="submit" class="btn btn-primary mt-3" href="{% url 'review' %}">Add Review</button>
+                                                
+                                                <!-- Add Review button as a link -->
+                                                <a href="{% url 'review' %}" class="btn btn-primary mt-3">Add Review</a>
                                             </div>
-                                            
-                                        </div>
+                                        </div>                                        
                                         {% endfor %}
                                     {% else %}
                                         <p>No orders placed yet.</p>
