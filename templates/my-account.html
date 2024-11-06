@@ -183,21 +183,7 @@
                             href="#account-address">Addresses</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list"
                             href="#account-orders">Order History</a>
-<<<<<<< HEAD
-
-                        {% if is_farmer %}
-                        <!-- Tab for Viewing My Products -->
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#my-products">
-                            My Products
-                        </a>
-                        <!-- Tab for Uploading Products -->
-                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#upload-product">
-                            Upload Product
-                        </a>
-                        {% endif %}
-=======
                         
->>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -289,7 +275,6 @@
                                 <hr>
                                 <div class="row">
                                     {% if orders %}
-<<<<<<< HEAD
                                     {% for order in orders %}
                                     <div class="col-md-6 mb-4">
                                         <div class="card">
@@ -301,21 +286,6 @@
                                                         order.status }}</span></p>
                                                 <p><strong>Total Price:</strong> Rs. {{ order.total_price }}</p>
                                                 <p><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y" }}</p>
-=======
-                                        {% for order in orders %}
-                                        <div class="col-md-6 mb-4">
-                                            <div class="card">
-                                                <div class="card-header bg-info text-white">
-                                                    <h5 class="mb-0">Order ID: {{ order.order_id }}</h5>
-                                                </div>
-                                                <div class="card-body">
-                                                    <p><strong>Status:</strong> <span class="badge badge-info">{{ order.status }}</span></p>
-                                                    <p><strong>Total Price:</strong> Rs. {{ order.total_price }}</p>
-                                                    <p><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y" }}</p>
-                                                </div>
-
-                                                <a href="{% url 'add_review' order.order_id %}" class="text-decoration-none">Rate</a>
->>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
                                             </div>
                                         </div>
                                         {% endfor %}
@@ -325,7 +295,6 @@
                                 </div>
                             </div>
                         </div>
-<<<<<<< HEAD
 
                         {% if is_farmer %}
                         <!-- My Products Section -->
@@ -400,19 +369,13 @@
                             </div>
                         </div>
                         {% endif %}
-=======
->>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<<<<<<< HEAD
     </div>
 
-=======
-    
->>>>>>> ece678c62d309765f7a77cb7eafe726329886f2b
     <!-- Start Footer  -->
     <footer>
         <div class="footer-main">
