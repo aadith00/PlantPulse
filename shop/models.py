@@ -35,7 +35,6 @@ class Order(models.Model):
     def __str__(self):
         return f"Order {self.order_id} by {self.user.username} - Total: {self.total_price}"
     
-
 class ContactUs(models.Model):
     name=models.TextField(max_length=255)
     email=models.TextField(max_length=255)
