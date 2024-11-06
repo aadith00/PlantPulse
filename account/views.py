@@ -44,8 +44,9 @@ def add_review(request,id):
         review.save()
         return redirect('my-account')
     
-def review_page(request):
-    return render(request, 'add_review.html')
+def review_page(request, order_id):
+    # Use order_id to fetch or process order data as needed
+    return render(request, 'add_review.html', {'order_id': order_id})
 
 def auth(request):
     return render(request, 'autho.html' )

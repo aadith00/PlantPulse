@@ -12,5 +12,5 @@ urlpatterns = [
     path('remove-from-cart/<int:item_id>/', remove_from_cart, name='remove-from-cart'),
     path('checkout/', checkout, name='checkout'),
     path('payment/<int:id>', payment, name='payment'),
-    path('order_confirmation_user/<uuid:order_id>/', order_confirmation, name ='order_confirmation_user'),
+    path('order_confirmation_user/<str:order_id>/', order_confirmation, name ='order_confirmation_user'),
 ]

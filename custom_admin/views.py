@@ -6,7 +6,7 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from account.models import Farmer, Customer
 from tomatoes.models import Product
-from shop.models import Order
+from shop.models import Order, ContactUs
 from django.http import JsonResponse
 from django.contrib import messages
 from django.views.decorators.http import require_POST
@@ -25,38 +25,6 @@ def dashboard(request):
     }
     
     return render(request, 'dashboard.html', context)
-
-@login_required
-def add_product(request):
-    if request.method == 'POST':
-        # Code to create a new product
-        pass
-    return render(request, 'add_product.html')
-
-@login_required
-def update_product(request, product_id):
-    product = get_object_or_404(Product, pid=product_id)
-    if request.method == 'POST':
-        # Code to update the product
-        pass
-    return render(request, 'update_product.html', {'product': product})
-
-@login_required
-def delete_product(request, product_id):
-    product = get_object_or_404(Product, pid=product_id)
-    if request.method == 'POST':
-        product.delete()
-        return redirect('product_list')
-    return render(request, 'delete_product.html', {'product': product})
-
-@login_required
-def update_order_status(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    if request.method == 'POST':
-        order.status = request.POST['status']
-        order.save()
-        return redirect('order_list')
-    return render(request, 'update_order_status.html', {'order': order})
 
 def admin_logout(request):
     logout(request)
@@ -191,3 +159,11 @@ def delete_order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     order.delete()
     return JsonResponse({'message': 'Order deleted successfully'})
+
+def manage_products(request):
+    products = Product.objects.all()  # Fetch all products from the database
+    return render(request, 'manage_prod.html', {'products': products})
+
+def view_messages(request):
+    messages = ContactUs.objects.all()
+    return render(request, 'user_messages.html', {'messages': messages})
