@@ -165,9 +165,9 @@
                         <div class="col-lg-3 col-md-6 special-grid best-seller">
                             <div class="products-single fix">
                                 <div class="box-img-hover">
-                                    <img src="{{ p.image.url }}" class="img-fluid" alt="Image">
+                                    <img src="{{ p.image.url }}" class="img-fluid" alt="Image" >
                                 </div>
-                                <div class="why-text" style="text-align: center;"> <!-- Align text to center -->
+                                <div class="why-text" style="text-align: center;" > <!-- Align text to center -->
                                     <h4>{{ p.title }}</h4>
                                 </div>
                             </div>
@@ -252,7 +252,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                     <div class="shop-cat-box">
                         <img class="img-fluid" src="{{ p.image.url }}" alt="Image" />
-                        <a class="btn hvr-hover" href="#">{{ p.title }}</a>
+                        <a class="btn hvr-hover" href="{% url 'product-detail' p.pid %}">{{ p.title }}</a>
                     </div>
                 </div>
 

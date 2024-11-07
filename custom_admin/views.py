@@ -11,17 +11,43 @@ from django.http import JsonResponse
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.urls import reverse
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 @login_required
 def dashboard(request):
-    user_count = User.objects.count()  # Fetch the user count
-    order_count = Order.objects.count()  # Fetch the total orders count
-    total_sales = Order.objects.aggregate(total=Sum('total_price'))['total'] or 0  # Calculate total sales
-    
+    # Fetch the user count
+    user_count = User.objects.count()
+
+    # Fetch the total orders count
+    order_count = Order.objects.count()
+
+    # Calculate total sales
+    total_sales = Order.objects.aggregate(total=Sum('total_price'))['total'] or 0
+
+    # Get data for the last 4 weeks
+    today = timezone.now()
+    last_4_weeks = [today - timedelta(weeks=i) for i in range(4)]
+
+    # Get new users for the last 4 weeks
+    user_growth_data = []
+    user_growth_labels = []
+    for week_start in last_4_weeks[::-1]:  # Reverse to display the most recent week first
+        week_end = week_start + timedelta(weeks=1)
+        new_users_count = User.objects.filter(date_joined__gte=week_start, date_joined__lt=week_end).count()
+        user_growth_data.append(new_users_count)
+        user_growth_labels.append(f'Week {len(user_growth_labels) + 1}')
+
+    recent_orders = Order.objects.all()
+
+    # Pass the data to the template
     context = {
-        'user_count': user_count,  # Pass the user count to the template
-        'order_count': order_count,  # Pass the order count to the template
-        'total_sales': total_sales,  # Pass the total sales to the template
+        'recent_orders': recent_orders,
+        'user_count': user_count,
+        'order_count': order_count,
+        'total_sales': total_sales,
+        'user_growth_labels': user_growth_labels,  # Pass labels (e.g., 'Week 1', 'Week 2', ...)
+        'new_user_data': user_growth_data,  # Pass new user data for the weeks
     }
     
     return render(request, 'dashboard.html', context)
@@ -167,3 +193,10 @@ def manage_products(request):
 def view_messages(request):
     messages = ContactUs.objects.all()
     return render(request, 'user_messages.html', {'messages': messages})
+
+def view_recent_orders(request):
+    # Fetch all orders and slice the last 3
+    recent_orders = Order.objects.all()[-3:]
+    
+    # Pass the orders to the template
+    return render(request, 'dashboard.html', {'recent_orders': recent_orders})
