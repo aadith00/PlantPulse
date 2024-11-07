@@ -149,7 +149,7 @@
     <!-- End All Title Box -->
 <h4>Leave a Review</h4>
 <hr>
-<form action="{% url 'add-review' order.id %}" method="post">
+<form action="{% url 'add-review' order.order_id %}" method="post">
     {% csrf_token %}
     <!-- <div class="form-group">
         <label class="form-label">Product</label>

@@ -6,57 +6,51 @@ from django.contrib.auth import logout
 from django.shortcuts import redirect
 from account.models import Farmer, Customer
 from tomatoes.models import Product
-from shop.models import Order
+from shop.models import Order, ContactUs
 from django.http import JsonResponse
 from django.contrib import messages
 from django.views.decorators.http import require_POST
 from django.urls import reverse
+from datetime import datetime, timedelta
+from django.utils import timezone
 
 @login_required
 def dashboard(request):
-    user_count = User.objects.count()  # Fetch the user count
-    order_count = Order.objects.count()  # Fetch the total orders count
-    total_sales = Order.objects.aggregate(total=Sum('total_price'))['total'] or 0  # Calculate total sales
-    
+    # Fetch the user count
+    user_count = User.objects.count()
+
+    # Fetch the total orders count
+    order_count = Order.objects.count()
+
+    # Calculate total sales
+    total_sales = Order.objects.aggregate(total=Sum('total_price'))['total'] or 0
+
+    # Get data for the last 4 weeks
+    today = timezone.now()
+    last_4_weeks = [today - timedelta(weeks=i) for i in range(4)]
+
+    # Get new users for the last 4 weeks
+    user_growth_data = []
+    user_growth_labels = []
+    for week_start in last_4_weeks[::-1]:  # Reverse to display the most recent week first
+        week_end = week_start + timedelta(weeks=1)
+        new_users_count = User.objects.filter(date_joined__gte=week_start, date_joined__lt=week_end).count()
+        user_growth_data.append(new_users_count)
+        user_growth_labels.append(f'Week {len(user_growth_labels) + 1}')
+
+    recent_orders = Order.objects.all()
+
+    # Pass the data to the template
     context = {
-        'user_count': user_count,  # Pass the user count to the template
-        'order_count': order_count,  # Pass the order count to the template
-        'total_sales': total_sales,  # Pass the total sales to the template
+        'recent_orders': recent_orders,
+        'user_count': user_count,
+        'order_count': order_count,
+        'total_sales': total_sales,
+        'user_growth_labels': user_growth_labels,  # Pass labels (e.g., 'Week 1', 'Week 2', ...)
+        'new_user_data': user_growth_data,  # Pass new user data for the weeks
     }
     
     return render(request, 'dashboard.html', context)
-
-@login_required
-def add_product(request):
-    if request.method == 'POST':
-        # Code to create a new product
-        pass
-    return render(request, 'add_product.html')
-
-@login_required
-def update_product(request, product_id):
-    product = get_object_or_404(Product, pid=product_id)
-    if request.method == 'POST':
-        # Code to update the product
-        pass
-    return render(request, 'update_product.html', {'product': product})
-
-@login_required
-def delete_product(request, product_id):
-    product = get_object_or_404(Product, pid=product_id)
-    if request.method == 'POST':
-        product.delete()
-        return redirect('product_list')
-    return render(request, 'delete_product.html', {'product': product})
-
-@login_required
-def update_order_status(request, order_id):
-    order = get_object_or_404(Order, id=order_id)
-    if request.method == 'POST':
-        order.status = request.POST['status']
-        order.save()
-        return redirect('order_list')
-    return render(request, 'update_order_status.html', {'order': order})
 
 def admin_logout(request):
     logout(request)
@@ -191,3 +185,18 @@ def delete_order(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     order.delete()
     return JsonResponse({'message': 'Order deleted successfully'})
+
+def manage_products(request):
+    products = Product.objects.all()  # Fetch all products from the database
+    return render(request, 'manage_prod.html', {'products': products})
+
+def view_messages(request):
+    messages = ContactUs.objects.all()
+    return render(request, 'user_messages.html', {'messages': messages})
+
+def view_recent_orders(request):
+    # Fetch all orders and slice the last 3
+    recent_orders = Order.objects.all()[-3:]
+    
+    # Pass the orders to the template
+    return render(request, 'dashboard.html', {'recent_orders': recent_orders})

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,75 +8,119 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            background-color: #e9ecef; /* Light gray background for a softer look */
+            background-color: #e9ecef;
+            /* Light gray background for a softer look */
         }
+
         .sidebar {
             background-color: #343a40;
-            height: 100vh; /* Full height sidebar */
+            height: 100vh;
+            /* Full height sidebar */
             color: white;
-            position: fixed; /* Fixes the sidebar in place */
-            padding: 20px 0; /* Padding for the sidebar */
-            width: 250px; /* Fixed width for sidebar */
+            position: fixed;
+            /* Fixes the sidebar in place */
+            padding: 20px 0;
+            /* Padding for the sidebar */
+            width: 250px;
+            /* Fixed width for sidebar */
         }
+
         .sidebar a {
             color: #adb5bd;
             text-decoration: none;
         }
+
         .sidebar a:hover {
             color: white;
         }
+
         .content {
-            margin-left: 270px; /* Offset for the sidebar plus extra space */
-            padding: 20px; /* Padding for the content area */
-            min-height: 100vh; /* Ensures content extends to full height */
+            margin-left: 270px;
+            /* Offset for the sidebar plus extra space */
+            padding: 20px;
+            /* Padding for the content area */
+            min-height: 100vh;
+            /* Ensures content extends to full height */
         }
+
         .card {
             margin-top: 20px;
-            border-radius: 10px; /* Rounded corners for cards */
+            border-radius: 10px;
+            /* Rounded corners for cards */
         }
+
         .card-header {
-            background-color: #28a745; /* Green background for card headers */
-            color: white; /* White text color */
+            background-color: #28a745;
+            /* Green background for card headers */
+            color: white;
+            /* White text color */
             font-weight: bold;
-            border-top-left-radius: 10px; /* Rounded top corners */
-            border-top-right-radius: 10px; /* Rounded top corners */
+            border-top-left-radius: 10px;
+            /* Rounded top corners */
+            border-top-right-radius: 10px;
+            /* Rounded top corners */
         }
+
         .dashboard-header {
-            font-size: 2rem; /* Increased font size for the header */
+            font-size: 2rem;
+            /* Increased font size for the header */
             font-weight: 700;
-            margin-bottom: 20px; /* Spacing below the header */
-            color: #343a40; /* Dark text color */
+            margin-bottom: 20px;
+            /* Spacing below the header */
+            color: #343a40;
+            /* Dark text color */
         }
+
         .chart-container {
             position: relative;
-            height: 40vh; /* Fixed height for the charts */
-            width: 100%; /* Full width for charts */
+            height: 40vh;
+            /* Fixed height for the charts */
+            width: 100%;
+            /* Full width for charts */
         }
+
         .logout-btn {
             position: absolute;
-            bottom: 20px; /* Position it at the bottom */
-            width: 100%; /* Full width */
-            text-align: center; /* Center text */
+            bottom: 20px;
+            /* Position it at the bottom */
+            width: 100%;
+            /* Full width */
+            text-align: center;
+            /* Center text */
         }
+
         .logout-button {
-            background-color: #dc3545; /* Red background for logout button */
-            color: white; /* White text color */
-            border: none; /* No border */
-            border-radius: 5px; /* Rounded corners for the button */
-            padding: 10px; /* Padding for the button */
-            cursor: pointer; /* Pointer cursor on hover */
+            background-color: #dc3545;
+            /* Red background for logout button */
+            color: white;
+            /* White text color */
+            border: none;
+            /* No border */
+            border-radius: 5px;
+            /* Rounded corners for the button */
+            padding: 10px;
+            /* Padding for the button */
+            cursor: pointer;
+            /* Pointer cursor on hover */
         }
+
         .logout-button:hover {
-            background-color: #c82333; /* Darker red on hover */
+            background-color: #c82333;
+            /* Darker red on hover */
         }
+
         .table th {
-            background-color: #e9ecef; /* Light background for table headers */
+            background-color: #e9ecef;
+            /* Light background for table headers */
         }
+
         .badge-custom {
-            font-size: 0.8rem; /* Smaller badge font size */
+            font-size: 0.8rem;
+            /* Smaller badge font size */
         }
     </style>
 </head>
+
 <body>
     <div class="sidebar">
         <h2 class="text-center">Admin Panel</h2>
@@ -84,13 +129,20 @@
                 <a class="nav-link active" href="">Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'manage_users' %}" data-toggle="tooltip" title="Manage user accounts and roles">View Users</a>
+                <a class="nav-link" href="{% url 'manage_users' %}" data-toggle="tooltip"
+                    title="Manage user accounts and roles">View Users</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'manage_orders' %}" data-toggle="tooltip" title="View and manage orders">Orders</a>
+                <a class="nav-link" href="{% url 'manage_orders' %}" data-toggle="tooltip"
+                    title="View and manage orders">Orders</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="tooltip" title="Manage product listings">Products</a>
+                <a class="nav-link" href="{% url 'manage_products' %}" data-toggle="tooltip"
+                    title="Manage product listings">Products</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'view_messages' %}" data-toggle="tooltip"
+                    title="Manage product listings">Messages</a>
             </li>
             <li class="nav-item logout-btn">
                 <form action="{% url 'logout' %}" method="post">
@@ -139,10 +191,10 @@
         <div class="row mt-4">
             <div class="col-md-6">
                 <div class="card">
-                    <div class="card-header">Sales Over Time</div>
+                    <div class="card-header">Sales Over Time (Last 4 Weeks)</div>
                     <div class="card-body">
                         <div class="chart-container">
-                            <canvas id="salesChart"></canvas>
+                            <canvas id="salesChart" style="height: 300px;"></canvas>
                         </div>
                     </div>
                 </div>
@@ -152,7 +204,7 @@
                     <div class="card-header">User Growth</div>
                     <div class="card-body">
                         <div class="chart-container">
-                            <canvas id="userGrowthChart"></canvas>
+                            <canvas id="userGrowthChart" style="height: 300px;"></canvas> <!-- Set a fixed height -->
                         </div>
                     </div>
                 </div>
@@ -167,34 +219,28 @@
                     <thead>
                         <tr>
                             <th>Order ID</th>
-                            <th>Customer</th>
                             <th>Status</th>
-                            <th>Date</th>
-                            <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {% for order in recent_orders %}
                         <tr>
-                            <td>#1234</td>
-                            <td>John Doe</td>
-                            <td><span class="badge badge-warning badge-custom">Pending</span></td>
-                            <td>Oct 25, 2024</td>
-                            <td>₹500</td>
+                            <td>#{{ order.order_id }}</td>
+                            <td>
+                                {% if order.status == 'Pending' %}
+                                <span class="badge badge-warning badge-custom">Pending</span>
+                                {% elif order.status == 'Completed' %}
+                                <span class="badge badge-success badge-custom">Completed</span>
+                                {% elif order.status == 'Cancelled' %}
+                                <span class="badge badge-danger badge-custom">Cancelled</span>
+                                {% endif %}
+                            </td>
                         </tr>
+                        {% empty %}
                         <tr>
-                            <td>#1235</td>
-                            <td>Jane Smith</td>
-                            <td><span class="badge badge-success badge-custom">Completed</span></td>
-                            <td>Oct 24, 2024</td>
-                            <td>₹700</td>
+                            <td colspan="2" class="text-center">No recent orders.</td>
                         </tr>
-                        <tr>
-                            <td>#1236</td>
-                            <td>Emily Johnson</td>
-                            <td><span class="badge badge-danger badge-custom">Cancelled</span></td>
-                            <td>Oct 23, 2024</td>
-                            <td>₹450</td>
-                        </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
             </div>
@@ -213,15 +259,19 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Sales Over Time Chart
+        // Get the dynamic data passed from the Django view
+        const weekss = {{ weeks| safe }};  // Week labels passed from view
+        const saless = {{ sales| safe }};  // Sales data passed from view
+
+        // Sales Over Time Chart (Weekly)
         const salesCtx = document.getElementById('salesChart').getContext('2d');
         const salesChart = new Chart(salesCtx, {
             type: 'line',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: weekss,  // Dynamic weeks
                 datasets: [{
                     label: 'Sales (₹)',
-                    data: [3000, 2500, 4000, 2000, 5000, 3000, 7000],
+                    data: saless,  // Dynamic sales data
                     backgroundColor: 'rgba(40, 167, 69, 0.2)',
                     borderColor: 'rgba(40, 167, 69, 1)',
                     borderWidth: 2,
@@ -230,24 +280,35 @@
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                maintainAspectRatio: true,  // Maintain the aspect ratio
+                aspectRatio: 2,  // Adjust the aspect ratio (2:1)
                 scales: {
                     y: {
                         beginAtZero: true
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 45,  // Rotate labels to avoid overlap
+                            minRotation: 30
+                        }
                     }
                 }
             }
         });
+
+        // Get dynamic data passed from the Django view
+        const userGrowthLabels = {{ user_growth_labels| safe }};  // Labels for the weeks (e.g., 'Week 1', 'Week 2', ...)
+        const newUserData = {{ new_user_data| safe }};  // User data for the corresponding weeks
 
         // User Growth Chart
         const userCtx = document.getElementById('userGrowthChart').getContext('2d');
         const userGrowthChart = new Chart(userCtx, {
             type: 'bar',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: userGrowthLabels,  // Dynamic week labels
                 datasets: [{
                     label: 'New Users',
-                    data: [5, 8, 12, 10, 15, 18, 20],
+                    data: newUserData,  // Dynamic new users data
                     backgroundColor: 'rgba(23, 162, 184, 0.2)',
                     borderColor: 'rgba(23, 162, 184, 1)',
                     borderWidth: 2,
@@ -255,10 +316,20 @@
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: false,
+                maintainAspectRatio: true,  // Maintain the aspect ratio
+                aspectRatio: 2,  // Adjust aspect ratio (2:1)
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 5  // Adjust step size for clarity
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 45,  // Rotate labels to avoid overlap
+                            minRotation: 30
+                        }
                     }
                 }
             }
@@ -273,4 +344,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+
 </html>
