@@ -343,7 +343,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="login-box">
                         {% if user.is_authenticated %}
-                        <a href="{% url 'auth' %}" class="btn btn-primary">Welcome {{ user.username }} </a>
+                        <a href="{% url 'my-account' %}" class="btn btn-primary">Welcome {{ user.username }} </a>
                         {% else %}
                         <a href="{% url 'auth' %}" class="btn btn-primary">Register / Sign In</a>
                         {% endif %}
@@ -436,15 +436,6 @@
                 <h5 id="product-price">{{ p.price }} </h5>
                 <p> {{ p.description }}</p>
 
-                <div class="sizes">
-                    <!-- <p>Variety:</p> -->
-                    <select name="Size" id="size" class="size-option">
-                        <option value="xxl">XXL</option>
-                        <option value="xl">XL</option>
-                        <option value="medium">Medium</option>
-                        <option value="small">Small</option>
-                    </select>
-                </div>
 
                 <div class="quantity">
                     <input type="number" id="product-quantity" value="1" min="1">

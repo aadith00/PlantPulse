@@ -13,17 +13,25 @@ from django.views.decorators.http import require_POST
 from django.urls import reverse
 from datetime import datetime, timedelta
 from django.utils import timezone
+from django.db.models import Sum
+from django.db.models.functions import TruncDate
+from django.db.models import Count
 
 @login_required
 def dashboard(request):
     # Fetch the user count
     user_count = User.objects.count()
-
+    total_saless = Order.objects.aggregate(total=Sum('total_price'))['total'] or 0
     # Fetch the total orders count
     order_count = Order.objects.count()
 
     # Calculate total sales
-    total_sales = Order.objects.aggregate(total=Sum('total_price'))['total'] or 0
+    total_sales = (
+    Order.objects.annotate(date=TruncDate('created_at'))
+    .values('date')
+    .annotate(total=Sum('total_price'))
+    .order_by('date')
+)
 
     # Get data for the last 4 weeks
     today = timezone.now()
@@ -39,6 +47,12 @@ def dashboard(request):
         user_growth_labels.append(f'Week {len(user_growth_labels) + 1}')
 
     recent_orders = Order.objects.all()
+    daily_user_count = (
+    User.objects.annotate(date=TruncDate('date_joined'))
+    .values('date')
+    .annotate(count=Count('id'))
+    .order_by('date')
+)
 
     # Pass the data to the template
     context = {
@@ -46,8 +60,10 @@ def dashboard(request):
         'user_count': user_count,
         'order_count': order_count,
         'total_sales': total_sales,
+        'total_saless': total_saless,
         'user_growth_labels': user_growth_labels,  # Pass labels (e.g., 'Week 1', 'Week 2', ...)
-        'new_user_data': user_growth_data,  # Pass new user data for the weeks
+        'new_user_data': user_growth_data, 
+         'daily_user_count':daily_user_count, # Pass new user data for the weeks
     }
     
     return render(request, 'dashboard.html', context)
@@ -196,7 +212,37 @@ def view_messages(request):
 
 def view_recent_orders(request):
     # Fetch all orders and slice the last 3
-    recent_orders = Order.objects.all()[-3:]
+    recent_orders = Order.objects.order_by('-created_at')[:3]
     
     # Pass the orders to the template
     return render(request, 'dashboard.html', {'recent_orders': recent_orders})
+
+def update_order_status(request, order_id):
+    if request.method == "POST":
+        order = get_object_or_404(Order, id=order_id)
+        new_status = request.POST.get("status")
+        
+        if new_status in ["Pending", "Completed", "Cancelled"]:
+            order.status = new_status
+            order.save()
+            messages.success(request, f"Order #{order.id} status updated to {new_status}.")
+        else:
+            messages.error(request, "Invalid status selected.")
+
+    return redirect("manage_orders")  # Redirect to the orders management page
+
+def cancel_order(request, order_id):
+    # Get the order instance
+    order = get_object_or_404(Order, order_id=order_id)
+
+    # Ensure the order is in 'Pending' status before allowing cancellation
+    if order.status == "Pending":
+        # Update the status to 'Cancelled'
+        order.status = "Cancelled"
+        order.save()
+
+        # Redirect to the order history page or some confirmation page
+        return redirect('my-account')  # Redirect back to the order history page
+
+    # If the order status is not 'Pending', you can show an error or just redirect back
+    return redirect('my-account')  # Redirect back with an error message if necessary

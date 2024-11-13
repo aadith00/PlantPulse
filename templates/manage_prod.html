@@ -84,13 +84,20 @@
                 <a class="nav-link active" href="">Dashboard</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'manage_users' %}" data-toggle="tooltip" title="Manage user accounts and roles">View Users</a>
+                <a class="nav-link" href="{% url 'manage_users' %}" data-toggle="tooltip"
+                    title="Manage user accounts and roles">View Users</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'manage_orders' %}" data-toggle="tooltip" title="View and manage orders">Orders</a>
+                <a class="nav-link" href="{% url 'manage_orders' %}" data-toggle="tooltip"
+                    title="View and manage orders">Orders</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{ url 'manage_products' %}" data-toggle="tooltip" title="Manage product listings">Products</a>
+                <a class="nav-link" href="{% url 'manage_products' %}" data-toggle="tooltip"
+                    title="Manage product listings">Products</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'view_messages' %}" data-toggle="tooltip"
+                    title="Manage product listings">Messages</a>
             </li>
             <li class="nav-item logout-btn">
                 <form action="{% url 'logout' %}" method="post">

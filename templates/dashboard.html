@@ -5,6 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
@@ -118,6 +123,9 @@
             font-size: 0.8rem;
             /* Smaller badge font size */
         }
+
+
+        /* charts */
     </style>
 </head>
 
@@ -181,7 +189,7 @@
                 <div class="card bg-light">
                     <div class="card-header">Total Sales</div>
                     <div class="card-body">
-                        <h5 class="card-title">₹{{ total_sales|floatformat:2 }}</h5>
+                        <h5 class="card-title">₹{{ total_saless|floatformat:2 }}</h5>
                     </div>
                 </div>
             </div>
@@ -194,7 +202,13 @@
                     <div class="card-header">Sales Over Time (Last 4 Weeks)</div>
                     <div class="card-body">
                         <div class="chart-container">
-                            <canvas id="salesChart" style="height: 300px;"></canvas>
+                            <figure class="highcharts-figure">
+                                <div id="container"></div>
+                                <p class="highcharts-description">
+
+                                </p>
+                            </figure>
+                            <!-- <canvas id="userGrowthChart" style="height: 300px;"></canvas> Set a fixed height -->
                         </div>
                     </div>
                 </div>
@@ -204,7 +218,12 @@
                     <div class="card-header">User Growth</div>
                     <div class="card-body">
                         <div class="chart-container">
-                            <canvas id="userGrowthChart" style="height: 300px;"></canvas> <!-- Set a fixed height -->
+                            <figure class="highcharts-figure">
+                                <div id="container1"></div>
+                                <p class="highcharts-description">
+                                </p>
+                            </figure>
+                            <!-- <canvas id="userGrowthChart" style="height: 300px;"></canvas> Set a fixed height -->
                         </div>
                     </div>
                 </div>
@@ -256,91 +275,140 @@
         </div>
     </div>
 
+    <style>
+        .highcharts-figure,
+        .highcharts-data-table table {
+            min-width: 360px;
+            max-width: 800px;
+            margin: 1em auto;
+        }
+
+        .highcharts-data-table table {
+            font-family: Verdana, sans-serif;
+            border-collapse: collapse;
+            border: 1px solid #ebebeb;
+            margin: 10px auto;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .highcharts-data-table caption {
+            padding: 1em 0;
+            font-size: 1.2em;
+            color: #555;
+        }
+
+        .highcharts-data-table th {
+            font-weight: 600;
+            padding: 0.5em;
+        }
+
+        .highcharts-data-table td,
+        .highcharts-data-table th,
+        .highcharts-data-table caption {
+            padding: 0.5em;
+        }
+
+        .highcharts-data-table thead tr,
+        .highcharts-data-table tr:nth-child(even) {
+            background: #f8f8f8;
+        }
+
+        .highcharts-data-table tr:hover {
+            background: #f1f7ff;
+        }
+
+        .highcharts-description {
+            margin: 0.3rem 10px;
+        }
+    </style>
+
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Get the dynamic data passed from the Django view
-        const weekss = {{ weeks| safe }};  // Week labels passed from view
-        const saless = {{ sales| safe }};  // Sales data passed from view
-
-        // Sales Over Time Chart (Weekly)
-        const salesCtx = document.getElementById('salesChart').getContext('2d');
-        const salesChart = new Chart(salesCtx, {
-            type: 'line',
-            data: {
-                labels: weekss,  // Dynamic weeks
-                datasets: [{
-                    label: 'Sales (₹)',
-                    data: saless,  // Dynamic sales data
-                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
-                    borderColor: 'rgba(40, 167, 69, 1)',
-                    borderWidth: 2,
-                    fill: true,
-                }]
+        // Data retrieved https://en.wikipedia.org/wiki/List_of_cities_by_average_temperature
+        Highcharts.chart('container1', {
+            chart: {
+                type: 'line'
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,  // Maintain the aspect ratio
-                aspectRatio: 2,  // Adjust the aspect ratio (2:1)
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    },
-                    x: {
-                        ticks: {
-                            maxRotation: 45,  // Rotate labels to avoid overlap
-                            minRotation: 30
-                        }
-                    }
-                }
+            xAxis: {
+                categories: [
+                    {% for i in daily_user_count %}
+            "{{i.date}}",
+            {% endfor %}
+        ]
+    },
+            yAxis: {
+            title: {
+                text: 'Temperature (°C)'
             }
-        });
+        },
+            plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+            series: [{
+                name: 'Reggane',
+                data: [
+                    {% for i in daily_user_count %}
+            {{ i.count }},
+            {% endfor %}
+        ]
+    }, {
+                name: 'Tallinn',
+                data: [
 
-        // Get dynamic data passed from the Django view
-        const userGrowthLabels = {{ user_growth_labels| safe }};  // Labels for the weeks (e.g., 'Week 1', 'Week 2', ...)
-        const newUserData = {{ new_user_data| safe }};  // User data for the corresponding weeks
+                ]
+            }]
+});
 
-        // User Growth Chart
-        const userCtx = document.getElementById('userGrowthChart').getContext('2d');
-        const userGrowthChart = new Chart(userCtx, {
-            type: 'bar',
-            data: {
-                labels: userGrowthLabels,  // Dynamic week labels
-                datasets: [{
-                    label: 'New Users',
-                    data: newUserData,  // Dynamic new users data
-                    backgroundColor: 'rgba(23, 162, 184, 0.2)',
-                    borderColor: 'rgba(23, 162, 184, 1)',
-                    borderWidth: 2,
-                }]
+
+        // Data retrieved https://en.wikipedia.org/wiki/List_of_cities_by_average_temperature
+        Highcharts.chart('container', {
+            chart: {
+                type: 'line'
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: true,  // Maintain the aspect ratio
-                aspectRatio: 2,  // Adjust aspect ratio (2:1)
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            stepSize: 5  // Adjust step size for clarity
-                        }
-                    },
-                    x: {
-                        ticks: {
-                            maxRotation: 45,  // Rotate labels to avoid overlap
-                            minRotation: 30
-                        }
-                    }
-                }
+            title: {
+                text: ""
+            },
+            xAxis: {
+                categories: [
+                    {% for i in total_sales %}
+            "{{i.date}}",
+            {% endfor %}
+            
+        ]
+    },
+            yAxis: {
+        },
+            plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
             }
-        });
+        },
+            series: [{
+                name: 'Reggane',
+                data: [
+                    {% for i in total_sales %}
+            {{ i.total }},
+            {% endfor %}
+        ]
+    }, {
+                name: 'Tallinn',
+                data: [
+                ]
+            }]
+});
 
-        // Initialize tooltips
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

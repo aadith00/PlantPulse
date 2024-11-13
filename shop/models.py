@@ -48,6 +48,7 @@ class Order(models.Model):
             self.order_id = self.generate_unique_order_id()
         super().save(*args, **kwargs)
 
+
     def generate_unique_order_id(self):
         # Loop to ensure uniqueness in case of collisions
         while True:

@@ -63,7 +63,7 @@
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="login-box">
                         {% if user.is_authenticated %}
-                        <a href="{% url 'auth' %}" class="btn btn-primary">Welcome {{ user.username }} </a>
+                        <a href="{% url 'my-account' %}" class="btn btn-primary">Welcome {{ user.username }} </a>
                         {% else %}
                         <a href="{% url 'auth' %}" class="btn btn-primary">Register / Sign In</a>
                         {% endif %}
@@ -192,7 +192,7 @@
                             <h1 class="m-b-20"><strong>Welcome To <br> PlantPulse</strong></h1>
                             <p class="m-b-40">See how farmers utilize PlantPulse to diagnose plant diseases and discover
                                 insights that help enhance their experience and boost crop productivity over time.</p>
-                            <p><a class="btn hvr-hover" href="#">Shop New</a></p>
+                            <p><a class="btn hvr-hover" href="{% url 'shop-detail' %}">Shop New</a></p>
                         </div>
                     </div>
                 </div>
@@ -321,7 +321,7 @@
     <!-- End Products  -->
 
     <!-- Start Blog  -->
-    <div class="latest-blog">
+    <!-- <div class="latest-blog">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -383,7 +383,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- End Blog  -->
 
 

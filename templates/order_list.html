@@ -80,7 +80,7 @@
         <h2 class="text-center">Admin Panel</h2>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="{% url 'dashboard' %}">Dashboard</a>
+                <a class="nav-link active" href="">Dashboard</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'manage_users' %}" data-toggle="tooltip"
@@ -91,7 +91,12 @@
                     title="View and manage orders">Orders</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-toggle="tooltip" title="Manage product listings">Products</a>
+                <a class="nav-link" href="{% url 'manage_products' %}" data-toggle="tooltip"
+                    title="Manage product listings">Products</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'view_messages' %}" data-toggle="tooltip"
+                    title="Manage product listings">Messages</a>
             </li>
             <li class="nav-item logout-btn">
                 <form action="{% url 'logout' %}" method="post">
@@ -125,13 +130,15 @@
                     <tbody>
                         {% for order in orders %}
                         <tr id="order-row-{{ order.id }}">
-                            <td>#{{ order.order_id }}</td>
+                            <td>{{ order.order_id }}</td>
                             <td>{{ order.user.username }}</td>
                             <td>
-                                <span
-                                    class="badge {% if order.status == 'Pending' %}badge-warning{% elif order.status == 'Completed' %}badge-success{% else %}badge-danger{% endif %}">
-                                    {{ order.status }}
-                                </span>
+                                <select id="status-dropdown-{{ order.id }}" class="form-control form-control-sm">
+                                    <option value="Pending" {% if order.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                    <option value="Completed" {% if order.status == 'Completed' %}selected{% endif %}>Completed</option>
+                                    <option value="Cancelled" {% if order.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+                                </select>
+                                <button class="btn btn-primary btn-sm mt-1" onclick="saveStatus('{{ order.id }}')">Save</button>                                
                             </td>
                             <td>{{ order.created_at|date:"M d, Y" }}</td>
                             <td>₹{{ order.total_price|floatformat:2 }}</td>
@@ -228,6 +235,38 @@
                     });
                 }
             }
+
+            function saveStatus(orderId) {
+                // Get the selected status from the dropdown
+                const selectedStatus = $(`#status-dropdown-${orderId}`).val();
+                const url = "{% url 'update_order_status' 5 %}".replace('5', orderId); // Replace with the actual order ID in URL
+
+                // Send an AJAX POST request to update the status
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {
+                        'status': selectedStatus,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}'
+                    },
+                    success: function () {
+                        alert("Order status updated successfully.");
+                        // Optionally update the display in the UI without page refresh
+                        $(`#order-row-${orderId} .badge`).removeClass("badge-warning badge-success badge-danger");
+                        if (selectedStatus === "Pending") {
+                            $(`#order-row-${orderId} .badge`).addClass("badge-warning").text("Pending");
+                        } else if (selectedStatus === "Completed") {
+                            $(`#order-row-${orderId} .badge`).addClass("badge-success").text("Completed");
+                        } else {
+                            $(`#order-row-${orderId} .badge`).addClass("badge-danger").text("Cancelled");
+                        }
+                    },
+                    error: function () {
+                        alert("Failed to update the order status.");
+                    }
+                });
+            }
+
         </script>
     </div>
 </body>

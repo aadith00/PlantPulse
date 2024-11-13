@@ -15,5 +15,5 @@ urlpatterns = [
     path('update-profile-picture/', update_profile_picture, name='update_profile_picture'),
     path('upload-product/', upload_product, name='upload_product'),
     path('review/<str:order_id>', review_page, name='review'),
-    path('add-review/<str:order_id>', add_review, name='add-review')
+    path('add-review/<str:id>', add_review, name='add-review')
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

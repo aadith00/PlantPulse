@@ -35,28 +35,35 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <style> .top-search {
-        margin-bottom: 20px; /* Adjust the value as needed */
-    }
-    
-    .all-title-box {
-        margin-top: 20px; /* Optional, in case you need more spacing */
-    }
+    <style>
+        .top-search {
+            margin-bottom: 20px;
+            /* Adjust the value as needed */
+        }
 
-    .list-group-item {
-        font-size: 16px; /* Adjust font size */
-        line-height: 1.6; /* Increase line height for readability */
-    }
+        .all-title-box {
+            margin-top: 20px;
+            /* Optional, in case you need more spacing */
+        }
 
-    .list-group-item {
-        padding: 15px 20px; /* Adjust padding for more space inside items */
-        margin-bottom: 10px; /* Adds space between items */
-    }
-    
-    .list-group-item-action {
-        border-radius: 5px; /* Optional: Add rounded corners to make it look cleaner */
-    }
-    
+        .list-group-item {
+            font-size: 16px;
+            /* Adjust font size */
+            line-height: 1.6;
+            /* Increase line height for readability */
+        }
+
+        .list-group-item {
+            padding: 15px 20px;
+            /* Adjust padding for more space inside items */
+            margin-bottom: 10px;
+            /* Adds space between items */
+        }
+
+        .list-group-item-action {
+            border-radius: 5px;
+            /* Optional: Add rounded corners to make it look cleaner */
+        }
     </style>
 
 </head>
@@ -80,7 +87,11 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <div class="login-box">
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'my-account' %}" class="btn btn-primary">Welcome {{ user.username }} </a>
+                        {% else %}
                         <a href="{% url 'auth' %}" class="btn btn-primary">Register / Sign In</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -171,7 +182,7 @@
         </div>
     </div>
     <!-- End All Title Box -->
-    
+
     <div class="container light-style flex-grow-1 container-p-y mb-3">
         <div class="card overflow-hidden">
             <div class="row no-gutters row-bordered row-border-light">
@@ -183,17 +194,17 @@
                             href="#account-address">Addresses</a>
                         <a class="list-group-item list-group-item-action" data-toggle="list"
                             href="#account-orders">Order History</a>
-                            {% if is_farmer %}
-                            <!-- Tab for Viewing My Products -->
-                            <a class="list-group-item list-group-item-action" data-toggle="list" href="#my-products">
-                                My Products
-                            </a>
-                            <!-- Tab for Uploading Products -->
-                            <a class="list-group-item list-group-item-action" data-toggle="list" href="#upload-product">
-                                Upload Product
-                            </a>
+                        {% if is_farmer %}
+                        <!-- Tab for Viewing My Products -->
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#my-products">
+                            My Products
+                        </a>
+                        <!-- Tab for Uploading Products -->
+                        <a class="list-group-item list-group-item-action" data-toggle="list" href="#upload-product">
+                            Upload Product
+                        </a>
                         {% endif %}
-                        
+
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -206,18 +217,21 @@
                                 <div class="d-flex align-items-center mb-3">
                                     <img {% if customer.profile_picture %} src="{{ customer.profile_picture.url }}" {% endif %} alt="Profile Picture" class="rounded-circle"
                                         style="width: 80px; height: 80px; border: 2px solid #6c757d;">
-                                    <form action="{% url 'update_profile_picture' %}" method="post" enctype="multipart/form-data" class="ml-3">
+                                    <form action="{% url 'update_profile_picture' %}" method="post"
+                                        enctype="multipart/form-data" class="ml-3">
                                         {% csrf_token %}
                                         <label class="btn btn-outline-primary" style="cursor: pointer;">
                                             Upload new photo
-                                            <input type="file" name="profile_picture" style="display: none;" onchange="this.form.submit()" required>
+                                            <input type="file" name="profile_picture" style="display: none;"
+                                                onchange="this.form.submit()" required>
                                         </label>
                                     </form>
                                 </div>
                                 <hr>
                                 <div class="form-group">
                                     <label class="form-label">Username</label>
-                                    <input type="text" class="form-control" value="{{ customer.user.username }}" readonly>
+                                    <input type="text" class="form-control" value="{{ customer.user.username }}"
+                                        readonly>
                                 </div>
                                 <div class="form-group">
                                     <label class="form-label">Email</label>
@@ -227,21 +241,24 @@
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <label class="form-label">First Name</label>
-                                        <input type="text" class="form-control" name="first_name" value="{{ customer.first_name }}">
+                                        <input type="text" class="form-control" name="first_name"
+                                            value="{{ customer.first_name }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Last Name</label>
-                                        <input type="text" class="form-control" name="last_name" value="{{ customer.last_name }}">
+                                        <input type="text" class="form-control" name="last_name"
+                                            value="{{ customer.last_name }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Phone Number</label>
-                                        <input type="text" class="form-control" name="phone_number" value="{{ customer.phone_number }}">
+                                        <input type="text" class="form-control" name="phone_number"
+                                            value="{{ customer.phone_number }}">
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
                                 </form>
                             </div>
                         </div>
-    
+
                         <!-- Address Section -->
                         <div class="tab-pane fade" id="account-address">
                             <div class="card-body">
@@ -251,11 +268,13 @@
                                     {% csrf_token %}
                                     <div class="form-group">
                                         <label class="form-label">Address Line 1</label>
-                                        <input type="text" class="form-control" name="address" value="{{ customer.address }}">
+                                        <input type="text" class="form-control" name="address"
+                                            value="{{ customer.address }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Address Line 2</label>
-                                        <input type="text" class="form-control" name="address2" value="{{ customer.address2 }}">
+                                        <input type="text" class="form-control" name="address2"
+                                            value="{{ customer.address2 }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">City</label>
@@ -263,21 +282,24 @@
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">State</label>
-                                        <input type="text" class="form-control" name="state" value="{{ customer.state }}">
+                                        <input type="text" class="form-control" name="state"
+                                            value="{{ customer.state }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Country</label>
-                                        <input type="text" class="form-control" name="country" value="{{ customer.country }}">
+                                        <input type="text" class="form-control" name="country"
+                                            value="{{ customer.country }}">
                                     </div>
                                     <div class="form-group">
                                         <label class="form-label">Zip Code</label>
-                                        <input type="text" class="form-control" name="zip_code" value="{{ customer.zip_code }}">
+                                        <input type="text" class="form-control" name="zip_code"
+                                            value="{{ customer.zip_code }}">
                                     </div>
                                     <button type="submit" class="btn btn-primary mt-3">Save Address</button>
                                 </form>
                             </div>
                         </div>
-    
+
                         <!-- Order History and Tracking Section -->
                         <div class="tab-pane fade" id="account-orders">
                             <div class="card-body">
@@ -286,7 +308,7 @@
                                 <div class="row">
                                     {% if orders %}
                                     {% for order in orders %}
-                                    <div class="col-md-4 mb-4">
+                                    <div class="col-md-6 mb-4">
                                         <div class="card">
                                             <div class="card-header bg-info text-white">
                                                 <h5 class="mb-0">Order ID: {{ order.order_id }}</h5>
@@ -295,14 +317,24 @@
                                                 <p><strong>Status:</strong> <span class="badge badge-info">{{ order.status }}</span></p>
                                                 <p><strong>Total Price:</strong> Rs. {{ order.total_price }}</p>
                                                 <p><strong>Placed on:</strong> {{ order.created_at|date:"M d, Y" }}</p>
-                                                
-                                                <!-- Add Review button as a link -->
-                                                <a href="{% url 'review' order.order_id %}" class="btn btn-primary mt-3">Add Review</a>
+
+                                                <!-- Cancel Order Button -->
+                                                {% if order.status == "Pending" %}
+                                                <form action="{% url 'cancel_order' order.order_id %}" method="post">
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger mt-3">Cancel
+                                                        Order</button>
+                                                </form>
+                                                {% endif %}
+
+                                                <a href="{% url 'review' order.order_id %}"
+                                                    class="btn btn-primary mt-3">Add Review</a>
                                             </div>
-                                        </div>                                        
-                                        {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% endfor %}
                                     {% else %}
-                                        <p>No orders placed yet.</p>
+                                    <p>No orders placed yet.</p>
                                     {% endif %}
                                 </div>
                             </div>
