@@ -171,10 +171,8 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About Us</a></li>
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle"
-                                href="{% url 'shop-detail' %}"
-                                id="shopDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false">
+                            <a class="nav-link dropdown-toggle" href="{% url 'shop-detail' %}" id="shopDropdown"
+                                role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 SHOP
                             </a>
                             {% if user.is_authenticated %}
@@ -238,6 +236,29 @@
                         <h4>Prediction Result:</h4>
                         <p>The model predicts: <strong>{{ prediction }}</strong></p>
                     </div>
+
+                    <!-- Recommendations Section -->
+                    <div class="alert alert-info mt-4">
+                        <h4>Recommendations:</h4>
+                        <ul>
+                            {% if prediction == "Healthy" %}
+                            <li>Your plant is healthy! Maintain regular watering and care.</li>
+                            <li>Use preventive measures to avoid future diseases, such as proper spacing and pest
+                                control.</li>
+                            {% elif prediction == "Blight" %}
+                            <li>Consider using fungicides to manage the blight disease.</li>
+                            <li>Remove and dispose of infected leaves carefully.</li>
+                            <li>Improve air circulation around the plant by pruning or proper spacing.</li>
+                            {% elif prediction == "Septoria Leaf Spot" %}
+                            <li>Apply a fungicide containing copper or chlorothalonil.</li>
+                            <li>Avoid overhead watering to reduce leaf wetness.</li>
+                            <li>Clear away any fallen leaves and debris around the plant.</li>
+                            {% else %}
+                            <li>Consult an expert or agricultural specialist for further diagnosis.</li>
+                            <li>Practice good crop management techniques to prevent disease spread.</li>
+                            {% endif %}
+                        </ul>
+                    </div>
                     {% endif %}
                     {% else %}
                     <div class="alert alert-info">
@@ -260,45 +281,46 @@
     <!-- End Main Content -->
 
     <!-- Start Footer  -->
-<footer>
-    <div class="footer-main">
-        <div class="container">
-            <hr>
-            <div class="row">
-                <div class="col-lg-4 col-md-12 col-sm-12">
-                    <div class="footer-widget">
-                        <h4>About PlantPulse</h4>
-                        <p>PlantPulse offers a fresh, convenient marketplace where you can buy and sell quality
-                            tomatoes directly from trusted sources. Our platform connects farmers and buyers,
-                            ensuring access to fresh produce while supporting sustainable agriculture. Shopping for
-                            tomatoes with PlantPulse is quick, easy, and helps foster a healthier farming community.
-                        </p>
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <hr>
+                <div class="row">
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-widget">
+                            <h4>About PlantPulse</h4>
+                            <p>PlantPulse offers a fresh, convenient marketplace where you can buy and sell quality
+                                tomatoes directly from trusted sources. Our platform connects farmers and buyers,
+                                ensuring access to fresh produce while supporting sustainable agriculture. Shopping for
+                                tomatoes with PlantPulse is quick, easy, and helps foster a healthier farming community.
+                            </p>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-12 col-sm-12">
-                    <div class="footer-link-contact">
-                        <h4>Contact Us</h4>
-                        <ul>
-                            <li>
-                                <p><i class="fas fa-map-marker-alt"></i>Address: PlantPulse Technologies <br> Office
-                                    No. 12, 4th Floor <br>Tech Park One, Yerawada,<br>Pune, Maharashtra - 411006,
-                                    India </p>
-                            </li>
-                            <li>
-                                <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770"> +91-98765 43210</a></p>
-                            </li>
-                            <li>
-                                <p><i class="fas fa-envelope"></i>Email: <a
-                                        href="mailto:contactinfo@gmail.com">support@plantpulse.in</a></p>
-                            </li>
-                        </ul>
+                    <div class="col-lg-4 col-md-12 col-sm-12">
+                        <div class="footer-link-contact">
+                            <h4>Contact Us</h4>
+                            <ul>
+                                <li>
+                                    <p><i class="fas fa-map-marker-alt"></i>Address: PlantPulse Technologies <br> Office
+                                        No. 12, 4th Floor <br>Tech Park One, Yerawada,<br>Pune, Maharashtra - 411006,
+                                        India </p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770"> +91-98765
+                                            43210</a></p>
+                                </li>
+                                <li>
+                                    <p><i class="fas fa-envelope"></i>Email: <a
+                                            href="mailto:contactinfo@gmail.com">support@plantpulse.in</a></p>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</footer>
-<!-- End Footer  -->
+    </footer>
+    <!-- End Footer  -->
 
     <!-- Start copyright  -->
     <div class="footer-copyright">
