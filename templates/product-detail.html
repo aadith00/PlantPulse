@@ -310,10 +310,9 @@
         .page-wrapper {
             width: 100vw;
             height: 100vh;
-            overflow: auto; /* Scroll within container if content overflows */
+            overflow: auto;
+            /* Scroll within container if content overflows */
         }
-
-
     </style>
 
 </head>
@@ -423,7 +422,7 @@
         <!-- left side -->
         <div class="img-card">
             <img src="{{ p.image.url }}" alt="" id="featured-image">
-            
+
 
         </div>
 
@@ -432,26 +431,28 @@
             <!-- Product Information -->
             <div class="product-info">
                 <h3>{{ p.title }}</h3>
-                <h5>Price: Rs. </h5>
-                <h5 id="product-price">{{ p.price }} </h5>
-                <p> {{ p.description }}</p>
-
+                <h5>Price: Rs. {{ p.price }}</h5>
+                <p>{{ p.description }}</p>
 
                 <div class="quantity">
-                    <input type="number" id="product-quantity" value="1" min="1">
+                    <!-- Quantity Input Field -->
+                    <input type="number" id="product-quantity" value="1" min="1" max="{{ p.stock_count }}"
+                        oninput="validateQuantity(this)">
                     <br>
-                    <input type="hidden" value="{{ p.pid }}" id="product-id" name="">
-                    <input type="hidden" value="{{ p.title }}" id="product-title" name="">
+                    <input type="hidden" value="{{ p.pid }}" id="product-id" name="product-id">
+                    <input type="hidden" value="{{ p.title }}" id="product-title" name="product-title">
 
                     <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
 
+                    <!-- Conditional Buttons for Authenticated/Unauthenticated Users -->
                     {% if user.is_authenticated %}
-                    <button type="submit" id="add-to-cart-btn">Add to Cart</button>
+                    <button type="button" id="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
                     {% else %}
                     <a href="{% url 'auth' %}" class="btn btn-primary">Please sign in to add to cart</a>
                     {% endif %}
                 </div>
 
+                <!-- Product Details -->
                 <div>
                     <p>Delivery:</p>
                     <p>Free standard shipping on orders over Rs.35 before tax, plus free returns.</p>
@@ -472,12 +473,9 @@
                     <hr>
                 </div>
             </div>
-
-            
         </div>
-        
-    </section>
 
+    </section>
 
     <!-- Start Footer  -->
     <footer>
@@ -557,7 +555,8 @@
                                         India </p>
                                 </li>
                                 <li>
-                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770"> +91-98765 43210</a></p>
+                                    <p><i class="fas fa-phone-square"></i>Phone: <a href="tel:+1-888705770"> +91-98765
+                                            43210</a></p>
                                 </li>
                                 <li>
                                     <p><i class="fas fa-envelope"></i>Email: <a
@@ -597,6 +596,43 @@
     <script src="{% static 'js/contact-form-script.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
     <script src="{% static 'js/cart.js' %}"></script>
+
+    <script>
+        // Ensure the quantity entered does not exceed the available stock
+        function validateQuantity(input) {
+            const max = parseInt(input.max);
+            const value = parseInt(input.value);
+            if (value > max) {
+                input.value = max; // Reset to max if the input exceeds stock
+                alert(`Maximum available stock is ${max}.`);
+            }
+        }
+
+        function addToCart() {
+            const quantity = document.getElementById("product-quantity").value;
+            const productId = document.getElementById("product-id").value;
+            const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+            fetch("/add-to-cart/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken,
+                },
+                body: JSON.stringify({ product_id: productId, quantity: quantity }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert("Product added to cart!");
+                        location.reload();
+                    } else {
+                        alert(data.error);
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+        }
+    </script>
 </body>
 
 </html>

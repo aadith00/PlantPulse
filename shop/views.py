@@ -45,30 +45,54 @@ def product_detail(request, pid):
 def add_to_cart(request):
     if request.method == 'POST':
         product_id = request.POST.get('id')  # This is the pid
-        product_quantity = int(request.POST.get('quant'))
+        product_quantity = request.POST.get('quant')
 
+        # Check if quantity is provided
+        if not product_quantity:
+            return JsonResponse({'status': 'error', 'message': 'Quantity not provided.'}, status=400)
+
+        try:
+            product_quantity = int(product_quantity)
+        except ValueError:
+            return JsonResponse({'status': 'error', 'message': 'Invalid quantity format.'}, status=400)
+
+        # Get the product
         product = get_object_or_404(Product, pid=product_id)
 
-        cart = None
-        if Cart.objects.filter(user=request.user, status='in_progress').exists():
-            cart = Cart.objects.get(user=request.user, status='in_progress')
-        else:
-            cart =  Cart.objects.create(user=request.user, status='in_progress')
-    
-        if CartItem.objects.filter(cart=cart, product=product).exists(): 
-            cart_item = CartItem.objects.get(cart=cart, product=product )
+        # Check if stock_count is valid
+        try:
+            stock_count = int(product.stock_count)
+        except ValueError:
+            return JsonResponse({'status': 'error', 'message': 'Invalid stock count in the database.'}, status=500)
+
+        # Check stock availability
+        if product_quantity > stock_count:
+            return JsonResponse({'status': 'error', 'message': f'Only {stock_count} units available.'}, status=400)
+
+        # Get or create a cart
+        cart = Cart.objects.filter(user=request.user, status='in_progress').first()
+        if not cart:
+            cart = Cart.objects.create(user=request.user, status='in_progress')
+
+        # Add or update cart item
+        if CartItem.objects.filter(cart=cart, product=product).exists():
+            cart_item = CartItem.objects.get(cart=cart, product=product)
             cart_item.quantity += product_quantity
             cart_item.price = product.price
             cart_item.save()
         else:
-            CartItem.objects.create(cart=cart, product=product,quantity = product_quantity,price = product.price )
+            CartItem.objects.create(cart=cart, product=product, quantity=product_quantity, price=product.price)
+
+        # Update stock count
+        product.stock_count = stock_count - product_quantity
+        product.save()
 
         # Get total item count
         total_items = CartItem.objects.filter(cart=cart).count()
 
         return JsonResponse({'status': 'success', 'totalcartitems': total_items})
 
-    return JsonResponse({'status': 'error'}, status=400)
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=400)
 
 def cart(request):
     try:
