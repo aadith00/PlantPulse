@@ -241,18 +241,39 @@
                     <div class="alert alert-info mt-4">
                         <h4>Recommendations:</h4>
                         <ul>
-                            {% if prediction == "Healthy" %}
+                            {% if prediction == "Tomato___healthy" %}
                             <li>Your plant is healthy! Maintain regular watering and care.</li>
                             <li>Use preventive measures to avoid future diseases, such as proper spacing and pest
                                 control.</li>
-                            {% elif prediction == "Blight" %}
+                            {% elif prediction == "Tomato___late_blight" %}
                             <li>Consider using fungicides to manage the blight disease.</li>
                             <li>Remove and dispose of infected leaves carefully.</li>
                             <li>Improve air circulation around the plant by pruning or proper spacing.</li>
-                            {% elif prediction == "Septoria Leaf Spot" %}
+                            {% elif prediction == "Tomato___septoria_leaf_spot" %}
                             <li>Apply a fungicide containing copper or chlorothalonil.</li>
                             <li>Avoid overhead watering to reduce leaf wetness.</li>
                             <li>Clear away any fallen leaves and debris around the plant.</li>
+                            {% elif prediction == "Tomato___early_blight" %}
+                            <li>Use systemic fungicides like metalaxyl or mefenoxam.</li>
+                            <li>Utilize drip irrigation to keep leaves dry.</li>
+                            {% elif prediction == "Tomato___bacterial_spot" %}
+                            <li>Use disease-free seeds and resistant varieties.</li>
+                            <li>Practice crop rotation with non-host plants.</li>
+                            {% elif prediction == "Tomato___spider_mites" %}
+                            <li>Spray water on plants to dislodge mites and increase humidity.</li>
+                            <li>Avoid broad-spectrum insecticides that harm beneficial insects.</li>
+                            {% elif prediction == "Tomato___leaf_curl" %}
+                            <li>Control whiteflies with neem oil or insecticidal soaps.</li>
+                            <li>Maintain healthy soil with organic matter and nutrients.</li>
+                            {% elif prediction == "Tomato___leaf_mold" %}
+                            <li>Improve ventilation and avoid overcrowding plants.</li>
+                            <li>Water plants early in the day to promote leaf drying.</li>
+                            {% elif prediction == "Tomato___mosaic_virus" %}
+                            <li>Use certified disease-free seeds and resistant varieties.</li>
+                            <li>Disinfect tools and hands after handling plants.</li>
+                            {% elif prediction == "Tomato___target_spot" %}
+                            <li>Ensure proper plant spacing and ventilation.</li>
+                            <li>Remove and destroy affected leaves and fruits.</li>
                             {% else %}
                             <li>Consult an expert or agricultural specialist for further diagnosis.</li>
                             <li>Practice good crop management techniques to prevent disease spread.</li>
